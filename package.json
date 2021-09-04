@@ -1,0 +1,31 @@
+{
+  "name": "shopify-rest-types",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "^0.0.155",
+    "@types/node": "^16.7.10",
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "axios": "^0.21.2",
+    "fx-style": "^1.1.9",
+    "jsdom": "^17.0.0",
+    "next": "^11.1.2",
+    "quicktype-core": "^6.0.70",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.4.2"
+  },
+  "scripts": {
+    "dev": "next --port 3000",
+    "build": "next build",
+    "build:start": "next build --profile && next start",
+    "start": "next start",
+    "export": "next build && next export"
+  },
+  "dependencies": {
+    "@types/jsdom": "^16.2.13",
+    "json-to-ts": "^1.7.0"
+  }
+}
