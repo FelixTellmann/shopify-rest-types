@@ -6,16 +6,16 @@ import path from "path";
 import { JSDOM } from "jsdom";
 
 type IndexFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
-
-export const Index: IndexFunction = async (req, res) => {
+let test = 0;
+async function getPageContent(url: any, name = "", category = "") {
   const result = await axios({
     method: "GET",
-    url: "https://shopify.dev/api/admin/rest/reference/products/product",
+    url: url,
   });
 
   const { document, location } = new JSDOM(result.data).window;
-  const dataTable = document.querySelector('[data-version="2021-07"] .api-properties');
-  const dataRows = dataTable.querySelectorAll("tr");
+  const dataTable = document?.querySelector('[data-version="2021-07"] .api-properties');
+  const dataRows = dataTable?.querySelectorAll("tr") || [];
   const properties = {};
 
   dataRows.forEach((rowNode) => {
@@ -89,16 +89,14 @@ export const Index: IndexFunction = async (req, res) => {
         ((method === "POST" && inputLength > bodyLength) || method === "GET")
       ) {
         requestBody = input;
-        requestResponse = response.replace(/HTTP\/1\.1 2\d\d.*?\n/i, "");
+        requestResponse = response
+          .replace(/HTTP\/1\.1 2\d\d.*?\n/i, "")
+          .replace(/^[^{\s}[\]].*?\n/gim, "");
       }
     });
-    console.log(queryParams);
-    console.log(method);
-    console.log(endpoint);
-    console.log(requestBody);
-    console.log(requestResponse);
-
     returnData.push({
+      name,
+      category,
       method,
       endpoint,
       queryParams,
@@ -107,40 +105,72 @@ export const Index: IndexFunction = async (req, res) => {
     });
   });
 
-  const json = {
-    application_charges: [
-      {
-        id: 675931192,
-        name: "iPod Cleaning",
-        api_client_id: 755357713,
-        price: "5.00",
-        status: "accepted",
-        return_url: "http://google.com",
-        test: null,
-        created_at: "2021-07-01T13:58:02-04:00",
-        updated_at: "2021-07-01T13:58:02-04:00",
-        charge_type: null,
-        decorated_return_url: "http://google.com?charge_id=675931192",
-      },
-      {
-        id: 1017262346,
-        name: "Create me a logo",
-        api_client_id: 755357713,
-        price: "123.00",
-        status: "accepted",
-        return_url: "http://google.com",
-        test: null,
-        created_at: "2021-07-01T13:58:02-04:00",
-        updated_at: "2021-07-01T13:58:02-04:00",
-        charge_type: "brokered_service",
-        decorated_return_url: "http://google.com?charge_id=1017262346",
-      },
-    ],
-  };
+  console.log(url, test++);
+  return { returnData, properties };
+}
 
-  console.log(JsonToTS(json, { rootName: "Test" }));
-  // fs.writeFileSync(`${path.join(process.cwd(), "")}\\Person.ts`, quickt.lines.join("\n"));
-  res.status(200).send(JSON.stringify({ returnData, properties }, null, 2));
+async function getCategoryPages(url: any, category = "") {
+  const categories = [];
+  if (url) {
+    const referencePage = await axios({
+      method: "GET",
+      url: url,
+    });
+
+    const { document, location } = new JSDOM(referencePage.data).window;
+
+    const links = document.querySelectorAll(".article--docs > ul a");
+    links.forEach((link: HTMLAnchorElement) => {
+      if (link.textContent.trim() !== "Shopify Query Language") {
+        if (`${link.href}` === "/api/admin/rest/reference/orders/order") {
+          categories.push({
+            name: link.textContent.trim(),
+            url: "http://localhost:63342/shopify-rest-types/order.html?_ijt=q9984ahg9i53k486puatc8nq7u",
+            category,
+          });
+          return;
+        }
+
+        categories.push({
+          name: link.textContent.trim(),
+          url: `https://shopify.dev${link.href}`,
+          category,
+        });
+      }
+    });
+  }
+
+  return categories.length ? categories : [{ name: category, url }];
+}
+
+export const Index: IndexFunction = async (req, res) => {
+  const categories = await getCategoryPages("https://shopify.dev/api/admin/rest/reference");
+
+  let result = [];
+  if (Array.isArray(categories)) {
+    result = await Promise.all(categories.map(({ name, url }) => getCategoryPages(url, name)));
+  }
+
+  const promiseArray = result.reduce((acc, arr) => {
+    acc = [...acc, ...arr.map(({ name, url, category }) => getPageContent(url, name, category))];
+    return acc;
+  }, []);
+
+  console.log(promiseArray.length);
+
+  const data = await Promise.allSettled(promiseArray);
+
+  /*const data = await getPageContent(
+    "https://shopify.dev/api/admin/rest/reference/orders/order",
+    "Order",
+    "Orders"
+  );*/
+
+  /*console.log(JsonToTS(json, { rootName: "Test" }));*!/*/
+  fs.writeFileSync(`${path.join(process.cwd(), "data")}\\shopify.json`, JSON.stringify(data), {
+    encoding: "utf-8",
+  });
+  res.status(200).send(JSON.stringify(data, null, 2));
 };
 
 export default Index;

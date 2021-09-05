@@ -8,5 +8,15 @@ module.exports = {
   rules: {
     "sort-keys-fix/sort-keys-fix": 0,
     "import/no-anonymous-default-export": 0,
+    "max-len": [
+      2,
+      {
+        code: 300,
+        ignoreComments: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+        ignoreUrls: true,
+      },
+    ],
   },
 };

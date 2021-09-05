@@ -26,6 +26,10 @@
   },
   "dependencies": {
     "@types/jsdom": "^16.2.13",
-    "json-to-ts": "^1.7.0"
+    "json-to-ts": "^1.7.0",
+    "querystring": "^0.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
