@@ -3,6 +3,7 @@ import { titleCase } from "./titleCase";
 type createRequestFunction = (input: { body: string; bodyType: string; endpoint: string; method: string; name: string; query: string; queryType: string; returnType: string; type: string; withBody: boolean; withQuery: boolean }) => string;
 
 export const createRequest: createRequestFunction = ({ name, method, endpoint, withQuery, query, withBody, body, type, bodyType, returnType, queryType }) => {
+  console.log({ name, method, endpoint, withQuery, query, withBody, body, type, bodyType, returnType, queryType });
   const withVariable = /({[\w\d_]+})/i.test(endpoint);
   const variable = endpoint.replace(/^.*?{([\w\d_]+)}.*$/im, "$1");
   const endpointWithVariable = endpoint.replace(/({[\w\d_]+})/i, `\${${variable}}`);
@@ -12,14 +13,14 @@ ${withQuery ? '\nconst qs = (obj) => `?${Object.keys(obj).map((key) => `${encode
 
 type ${titleCase(method.toLowerCase()) + titleCase(name)}Function = (
   shop: string, 
-  accessToken: string,${withQuery ? `\n  query?: ${query},` : ""}${withBody ? `\n  body?: ${body},` : ""}
+  accessToken: string,${withVariable ? `\n  ${variable}: string | number,` : ""}${withQuery ? `\n  query?: ${query},` : ""}${withBody ? `\n  body?: ${body},` : ""}
 ) => Promise<${type}>
 
-export const ${method.toLowerCase() + titleCase(name)}: ${titleCase(method.toLowerCase()) + titleCase(name)}Function = async (shop, accessToken${withQuery ? ", query" : ""}) => {  
+export const ${method.toLowerCase() + titleCase(name)}: ${titleCase(method.toLowerCase()) + titleCase(name)}Function = async (shop, accessToken${withVariable ? `, ${variable}` : ""}${withQuery ? ", query" : ""}${withBody ? ", body" : ""}) => {  
   try {
     const { data } = await axios({
       method: "${method}",
-      url: \`https://$\{shop}${endpoint}${withQuery ? `$\{query ? qs(query) : ""}` : ""}\`,
+      url: \`https://$\{shop}${withVariable ? endpointWithVariable : endpoint}${withQuery ? `$\{query ? qs(query) : ""}` : ""}\`,
       headers: {
         "X-Shopify-Access-Token": accessToken,
         "Content-Type": "application/json",

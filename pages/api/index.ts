@@ -57,9 +57,7 @@ async function getPageContent(url: any, name = "", category = "") {
 
     queryRows.forEach((queryRow) => {
       queryParams.push({
-        [queryRow.querySelector("td").textContent.trim()]: queryRow
-          .querySelector("td + td")
-          .textContent.trim(),
+        [queryRow.querySelector("td").textContent.trim()]: queryRow.querySelector("td + td").textContent.trim(),
       });
     });
 
@@ -82,16 +80,9 @@ async function getPageContent(url: any, name = "", category = "") {
       const requestResponseLength = requestResponse.split("\n").length;
       const isSuccessReponse = /HTTP\/1\.1 2\d\d/i.test(response);
 
-      if (
-        !hasError &&
-        isSuccessReponse &&
-        responseLength >= requestResponseLength &&
-        ((method === "POST" && inputLength > bodyLength) || method === "GET")
-      ) {
+      if (!hasError && isSuccessReponse && responseLength >= requestResponseLength && ((method === "POST" && inputLength > bodyLength) || method === "GET")) {
         requestBody = input;
-        requestResponse = response
-          .replace(/HTTP\/1\.1 2\d\d.*?\n/i, "")
-          .replace(/^[^{\s}[\]].*?\n/gim, "");
+        requestResponse = response.replace(/HTTP\/1\.1 2\d\d.*?\n/i, "").replace(/^[^{\s}[\]].*?\n/gim, "");
       }
     });
     returnData.push({
@@ -158,7 +149,9 @@ export const Index: IndexFunction = async (req, res) => {
 
   console.log(promiseArray.length);
 
-  const data = await Promise.allSettled(promiseArray);
+  const data = await Promise.all(promiseArray).catch((e) => {
+    console.log(e);
+  });
 
   /*const data = await getPageContent(
     "https://shopify.dev/api/admin/rest/reference/orders/order",
