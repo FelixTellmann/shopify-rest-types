@@ -7,12 +7,20 @@ import { titleCase } from "../../lib/titleCase";
 
 type GenerateTypesFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
-function cleanTypes(arr: string[], properties: { [T: string]: string[] }, type: "query" | "input" | "return") {
+function cleanTypes(arr: string[], properties: { [T: string]: string[] }, type: "query" | "input" | "return", name: string) {
   const returnArr = arr.join("\n\n").split("\n");
 
+
+
   const cleanedArr = returnArr.map((line) => {
+    const includesTitle = new RegExp(`([^:]*:[^:]*?|[^:]*interface[^:]*|[^:]*type[^:]*)${titleCase(name)}([^:]*?)`, "gi")
+    line = line.replace(includesTitle,`$1${titleCase(name)}$2`);
+
     if (/^interface/.test(line)) {
-      return line.replace(/^interface\s*([\w\d_]+)\s*{/gim, "export type $1 = {");
+      if (includesTitle.test(line)) {
+        return line.replace(/^interface\s*([\w\d_]+)\s*{/gim, "export type $1 = {");
+      }
+      return line.replace(/^interface\s*([\w\d_]+)\s*{/gim, "type $1 = {");
     }
 
     if (/([\w\d]):\s/gi.test(line)) {
@@ -55,8 +63,8 @@ function cleanTypes(arr: string[], properties: { [T: string]: string[] }, type: 
 }
 
 export const GenerateTypes: GenerateTypesFunction = async (req, res) => {
-  const { name, category, method, endpoint, queryParams, requestBody, requestResponse } = data[47].value.returnData[1];
-  const properties = data[47].value.properties;
+  const { name, category, method, endpoint, queryParams, requestBody, requestResponse } = data[39].returnData[0];
+  const properties = data[39].properties;
 
   console.log(queryParams);
   const withBody = !!requestBody;
@@ -67,9 +75,9 @@ export const GenerateTypes: GenerateTypesFunction = async (req, res) => {
   const query = `${titleCase(method.toLowerCase()) + titleCase(name)}Query`;
   const type = `${titleCase(method.toLowerCase()) + titleCase(name)}Return`;
 
-  const bodyType = withBody ? cleanTypes(JsonToTS(requestResponse, { rootName: body }), properties, "input") : "";
-  const queryType = withQuery ? cleanTypes(JsonToTS(queryParams, { rootName: query }), properties, "query") : "";
-  const returnType = withReturn ? cleanTypes(JsonToTS(requestResponse, { rootName: type }), properties, "return") : "";
+  const bodyType = withBody ? cleanTypes(JsonToTS(requestResponse, { rootName: body }), properties, "input", name) : "";
+  const queryType = withQuery ? cleanTypes(JsonToTS(queryParams, { rootName: query }), properties, "query", name) : "";
+  const returnType = withReturn ? cleanTypes(JsonToTS(requestResponse, { rootName: type }), properties, "return", name) : "";
 
   const types = createRequest({
     name: name,

@@ -8,31 +8,14 @@ export const createRequest: createRequestFunction = ({ name, method, endpoint, w
   const variable = endpoint.replace(/^.*?{([\w\d_]+)}.*$/im, "$1");
   const endpointWithVariable = endpoint.replace(/({[\w\d_]+})/i, `\${${variable}}`);
 
-  return `import axios from "axios";
-${withQuery ? '\nconst qs = (obj) => `?${Object.keys(obj).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`).join("&")}`;' : ""}
+  return `import { ShopifyRest } from "lib/shopify/rest/_api";
 
-type ${titleCase(method.toLowerCase()) + titleCase(name)}Function = (
-  shop: string, 
-  accessToken: string,${withVariable ? `\n  ${variable}: string | number,` : ""}${withQuery ? `\n  query?: ${query},` : ""}${withBody ? `\n  body?: ${body},` : ""}
-) => Promise<${type}>
-
-export const ${method.toLowerCase() + titleCase(name)}: ${titleCase(method.toLowerCase()) + titleCase(name)}Function = async (shop, accessToken${withVariable ? `, ${variable}` : ""}${withQuery ? ", query" : ""}${withBody ? ", body" : ""}) => {  
-  try {
-    const { data } = await axios({
-      method: "${method}",
-      url: \`https://$\{shop}${withVariable ? endpointWithVariable : endpoint}${withQuery ? `$\{query ? qs(query) : ""}` : ""}\`,
-      headers: {
-        "X-Shopify-Access-Token": accessToken,
-        "Content-Type": "application/json",
-      },${withBody ? "\n      data: body" : ""}
-    });
-      
-    return data;
-  } catch (err) {
-    console.log(err)
-    return null;
-  }
-};
+export const ${method.toLowerCase() + titleCase(name)} = ShopifyRest<
+  ${type},
+  ${withBody ? body : "never"},
+  ${withVariable ? variable : "never"},
+  ${withQuery ? query : "never"},
+>("${method}", \`${endpoint}\`);
 
 ${withQuery ? queryType : ""}
 ${withBody ? bodyType : ""}
