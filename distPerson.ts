@@ -25,11 +25,7 @@ export class Convert {
 
 function invalidValue(typ: any, val: any, key: any = ""): never {
   if (key) {
-    throw Error(
-      `Invalid value for key "${key}". Expected type ${JSON.stringify(
-        typ
-      )} but got ${JSON.stringify(val)}`
-    );
+    throw Error(`Invalid value for key "${key}". Expected type ${JSON.stringify(typ)} but got ${JSON.stringify(val)}`);
   }
   throw Error(`Invalid value ${JSON.stringify(val)} for type ${JSON.stringify(typ)}`);
 }
@@ -121,13 +117,7 @@ function transform(val: any, typ: any, getProps: any, key: any = ""): any {
   }
   if (Array.isArray(typ)) return transformEnum(typ, val);
   if (typeof typ === "object") {
-    return typ.hasOwnProperty("unionMembers")
-      ? transformUnion(typ.unionMembers, val)
-      : typ.hasOwnProperty("arrayItems")
-      ? transformArray(typ.arrayItems, val)
-      : typ.hasOwnProperty("props")
-      ? transformObject(getProps(typ), typ.additional, val)
-      : invalidValue(typ, val);
+    return typ.hasOwnProperty("unionMembers") ? transformUnion(typ.unionMembers, val) : typ.hasOwnProperty("arrayItems") ? transformArray(typ.arrayItems, val) : typ.hasOwnProperty("props") ? transformObject(getProps(typ), typ.additional, val) : invalidValue(typ, val);
   }
   // Numbers can be parsed by Date but shouldn't be.
   if (typ === Date && typeof val !== "number") return transformDate(val);

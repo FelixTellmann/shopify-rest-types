@@ -4376,9 +4376,6 @@
             "type": "The metafield's information type. See the full list of types."
           },
           {
-            "value_type\n                  deprecated": "The metafield's information type.\n                    \n                        string: Show only metafields with string value types\n                        integer: Show only metafields with integer value types\n                        json_string: Show only metafields with json_string value types"
-          },
-          {
             "fields": "comma-separated list of fields to include in the response"
           }
         ],
@@ -4885,7 +4882,7 @@
   {
     "returnData": [
       {
-        "name": "Asset",
+        "name": "Assets",
         "category": "Online store APIs",
         "method": "GET",
         "endpoint": "/admin/api/2021-07/themes/{theme_id}/assets.json",
@@ -11920,9 +11917,6 @@
             "currency": "The currency of the refund that's issued when the order is canceled. Required for multi-currency orders whenever the amount\n                                    property is provided."
           },
           {
-            "restock\n                                  deprecated": "Whether to restock refunded items back to your store's inventory."
-          },
-          {
             "reason": "The reason for the order cancellation. Valid values: customer, inventory, fraud,\n                                    declined, and other.)"
           },
           {
@@ -14449,9 +14443,7 @@
         "method": "POST",
         "endpoint": "/admin/api/2021-07/orders/{order_id}/refunds.json",
         "queryParams": [
-          {
-            "restock\n                  deprecated": "Whether to add the line items back to the store inventory. Use restock_type for refund line items instead."
-          },
+
           {
             "notify": "Whether to send a refund notification to the customer."
           },
@@ -22985,44 +22977,6 @@
   },
   {
     "returnData": [
-      {
-        "name": "FulfillmentService",
-        "category": "Shipping and fulfillment APIs",
-        "method": "GET",
-        "endpoint": "GET\n            /fetch_tracking_numbers",
-        "queryParams": [
-          {
-            "order_names": "The fulfillment names we require tracking numbers for (i.e. #1001.1)"
-          },
-          {
-            "shop": "The shop's myshopify url"
-          }
-        ],
-        "requestBody": "",
-        "requestResponse": ""
-      },
-      {
-        "name": "FulfillmentService",
-        "category": "Shipping and fulfillment APIs",
-        "method": "GET",
-        "endpoint": "GET\n            /fetch_stock",
-        "queryParams": [
-          {
-            "max_retries": "The maximum amount of times Shopify will send the request for inventory levels."
-          },
-          {
-            "shop": "The shop's myshopify url."
-          },
-          {
-            "sku": "The SKU for the Product Variant we need stock levels for."
-          },
-          {
-            "timestamp": "The Unix timestamp from when the inventory request was made."
-          }
-        ],
-        "requestBody": "",
-        "requestResponse": ""
-      },
       {
         "name": "FulfillmentService",
         "category": "Shipping and fulfillment APIs",

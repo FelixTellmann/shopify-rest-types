@@ -1,8 +1,13 @@
+import fs from "fs";
+import path from "path";
+import rimraf from "rimraf";
+
 import { clean } from "fx-style/build/src/clean";
 import type { NextApiRequest, NextApiResponse } from "next";
 import data from "data/shopify.json";
 import { createRequest } from "../../lib/createRequest";
 import JsonToTS from "json-to-ts";
+import { lowerCaseFirstLetter } from "../../lib/lowerCaseFirstLetter";
 import { titleCase } from "../../lib/titleCase";
 
 type GenerateTypesFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
@@ -61,37 +66,135 @@ function cleanTypes(arr: string[], properties: { [T: string]: string[] }, type: 
 }
 
 export const GenerateTypes: GenerateTypesFunction = async (req, res) => {
-  const { name, category, method, endpoint, queryParams, requestBody, requestResponse } = data[21].returnData[1];
-  const properties = data[21].properties;
+  rimraf.sync(path.join(process.cwd(), "dist"));
 
-  console.log(queryParams);
-  const withBody = !!requestBody;
-  const withQuery = !!queryParams.length;
-  const withReturn = !!requestResponse;
+  data.forEach((group) => {
+    const properties = group.properties;
+    group.returnData.forEach(({ name, category, method, endpoint, queryParams, requestBody, requestResponse }) => {
+      try {
+        name = lowerCaseFirstLetter(
+          name
+            .split(" ")
+            .map((split) => titleCase(split))
+            .join("")
+        );
 
-  const body = `${titleCase(method.toLowerCase()) + titleCase(name)}Input`;
-  const query = `${titleCase(method.toLowerCase()) + titleCase(name)}Query`;
-  const type = `${titleCase(method.toLowerCase()) + titleCase(name)}Return`;
+        category = lowerCaseFirstLetter(
+          category
+            .split(" ")
+            .map((split) => titleCase(split))
+            .join("")
+        );
 
-  const bodyType = withBody ? cleanTypes(JsonToTS(requestResponse, { rootName: body }), properties, "input", name) : "";
-  const queryType = withQuery ? cleanTypes(JsonToTS(queryParams, { rootName: query }), properties, "query", name) : "";
-  const returnType = withReturn ? cleanTypes(JsonToTS(requestResponse, { rootName: type }), properties, "return", name) : "";
+        if (/\/admin\/api\/2021-07\//gi.test(endpoint) && name !== "assets") {
+          // console.log(endpoint);
+          let withId = false;
+          const test = endpoint
+            .replace(/(\/admin\/api\/2021-07\/|\.json)/gi, "")
+            .split("?")[0]
+            .split("/")
+            .reverse()
+            .reduce((acc, part, i) => {
+              if (acc[1].some((p) => part.toLowerCase().includes(p))) {
+                return acc;
+              }
+              if (/{[\w\d_]*_id}/gi.test(part)) {
+                withId = true;
+                const specialized = titleCase(part.replace(/[{}]/gi, "")).split("_")[0];
+                acc[1].push(specialized.toLowerCase());
 
-  const types = createRequest({
-    name: name,
-    method,
-    endpoint,
-    withBody,
-    withQuery,
-    body,
-    bodyType: bodyType,
-    query,
-    queryType: queryType,
-    type,
-    returnType: returnType,
+                part = `By${specialized}Id`;
+              }
+
+              acc[0].push(part);
+              console.log(acc[1]);
+              return acc;
+            }, [[], []])[0]
+            .join("");
+
+          console.log((withId ? name : "") + test);
+          name = lowerCaseFirstLetter(
+            endpoint
+              .replace(/(\/admin\/api\/2021-07\/|\.json)/gi, "")
+              .split("?")[0]
+              .split("/")
+              .map((part) => {
+                if (/{[\w\d_]*_id}/gi.test(part)) {
+                  part = `By${titleCase(part.replace(/[{}]/gi, ""))}`;
+                }
+                part = part
+                  .split("_")
+                  .map((p) => titleCase(p))
+                  .join("");
+                return titleCase(part);
+              })
+              .join("")
+          );
+        }
+
+        const withBody = !!requestBody;
+        const withQuery = !!queryParams.length;
+        const withReturn = !!requestResponse;
+
+        const body = `${titleCase(method.toLowerCase()) + titleCase(name)}Input`;
+        const query = `${titleCase(method.toLowerCase()) + titleCase(name)}Query`;
+        const type = `${titleCase(method.toLowerCase()) + titleCase(name)}Return`;
+
+        const bodyType = withBody ? cleanTypes(JsonToTS(requestResponse, { rootName: body }), properties, "input", name) : "";
+        const queryType = withQuery ? cleanTypes(JsonToTS(queryParams, { rootName: query }), properties, "query", name) : "";
+        const returnType = withReturn ? cleanTypes(JsonToTS(requestResponse, { rootName: type }), properties, "return", name) : "";
+
+        const types = createRequest({
+          name: name,
+          method,
+          endpoint,
+          withBody,
+          withQuery,
+          body,
+          bodyType: bodyType,
+          query,
+          queryType: queryType,
+          type,
+          returnType: returnType,
+        });
+
+        const categoryName = category.replace(/APIs/gi, "").trim();
+
+        if (!fs.existsSync(path.join(process.cwd(), "dist"))) {
+          fs.mkdirSync(path.join(process.cwd(), "dist"));
+        }
+
+        if (categoryName) {
+          if (!fs.existsSync(path.join(process.cwd(), "dist", lowerCaseFirstLetter(categoryName)))) {
+            fs.mkdirSync(path.join(process.cwd(), "dist", lowerCaseFirstLetter(categoryName)));
+          }
+          const file = fs.existsSync(`${path.join(process.cwd(), "dist", lowerCaseFirstLetter(categoryName))}\\${method.toLowerCase() + titleCase(name)}.ts`);
+          if (file) {
+            console.log(endpoint);
+            console.log(`${path.join(process.cwd(), "dist", lowerCaseFirstLetter(categoryName))}\\${method.toLowerCase() + titleCase(name)}.ts`);
+          }
+
+          fs.writeFileSync(`${path.join(process.cwd(), "dist", lowerCaseFirstLetter(categoryName))}\\${method.toLowerCase() + titleCase(name)}.ts`, types);
+        }
+
+        if (!categoryName) {
+          if (!fs.existsSync(path.join(process.cwd(), "dist", lowerCaseFirstLetter(name)))) {
+            fs.mkdirSync(path.join(process.cwd(), "dist", lowerCaseFirstLetter(name)));
+          }
+          const file = fs.existsSync(`${path.join(process.cwd(), "dist", lowerCaseFirstLetter(name))}\\${method.toLowerCase() + titleCase(name)}.ts`);
+          if (file) {
+            console.log(`${path.join(process.cwd(), "dist", lowerCaseFirstLetter(name))}\\${method.toLowerCase() + titleCase(name)}.ts`);
+          }
+
+          fs.writeFileSync(`${path.join(process.cwd(), "dist", lowerCaseFirstLetter(name))}\\${method.toLowerCase() + titleCase(name)}.ts`, types);
+        }
+      } catch (err) {
+        console.log(group.index, name, category, method);
+        console.log(err.message);
+      }
+    });
   });
 
-  console.log(types);
   res.status(200).json({ name: "John Doe" });
 };
 
