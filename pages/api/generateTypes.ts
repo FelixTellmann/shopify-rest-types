@@ -10,11 +10,9 @@ type GenerateTypesFunction = (req: NextApiRequest, res: NextApiResponse) => Prom
 function cleanTypes(arr: string[], properties: { [T: string]: string[] }, type: "query" | "input" | "return", name: string) {
   const returnArr = arr.join("\n\n").split("\n");
 
-
-
   const cleanedArr = returnArr.map((line) => {
-    const includesTitle = new RegExp(`([^:]*:[^:]*?|[^:]*interface[^:]*|[^:]*type[^:]*)${titleCase(name)}([^:]*?)`, "gi")
-    line = line.replace(includesTitle,`$1${titleCase(name)}$2`);
+    const includesTitle = new RegExp(`([^:]*:[^:]*?|[^:]*interface[^:]*|[^:]*type[^:]*)${titleCase(name)}([^:]*?)`, "gi");
+    line = line.replace(includesTitle, `$1${titleCase(name)}$2`);
 
     if (/^interface/.test(line)) {
       if (includesTitle.test(line)) {
@@ -63,8 +61,8 @@ function cleanTypes(arr: string[], properties: { [T: string]: string[] }, type: 
 }
 
 export const GenerateTypes: GenerateTypesFunction = async (req, res) => {
-  const { name, category, method, endpoint, queryParams, requestBody, requestResponse } = data[39].returnData[0];
-  const properties = data[39].properties;
+  const { name, category, method, endpoint, queryParams, requestBody, requestResponse } = data[21].returnData[1];
+  const properties = data[21].properties;
 
   console.log(queryParams);
   const withBody = !!requestBody;

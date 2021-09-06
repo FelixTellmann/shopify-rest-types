@@ -13,7 +13,7 @@ export const createRequest: createRequestFunction = ({ name, method, endpoint, w
 export const ${method.toLowerCase() + titleCase(name)} = ShopifyRest<
   ${type},
   ${withBody ? body : "never"},
-  ${withVariable ? variable : "never"},
+  ${withVariable ? "string | number" : "never"},
   ${withQuery ? query : "never"},
 >("${method}", \`${endpoint}\`);
 

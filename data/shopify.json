@@ -5177,7 +5177,8 @@
         "endpoint": "/admin/api/2021-07/themes/{theme_id}/assets.json",
         "queryParams": [
           {
-            "fields": "Show only certain fields, specified by a comma-separated list of field names"
+            "fields": "Show only certain fields, specified by a comma-separated list of field names",
+            "asset[key]":  "string vlaue"
           }
         ],
         "requestBody": "",
