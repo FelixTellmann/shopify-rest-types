@@ -68,9 +68,15 @@ function cleanTypes(arr: string[], properties: { [T: string]: string[] }, type: 
 export const GenerateTypes: GenerateTypesFunction = async (req, res) => {
   rimraf.sync(path.join(process.cwd(), "dist"));
 
-  data.forEach((group) => {
+  data.forEach((group,i) => {
+   /* if (i !== 19) {
+        return;
+    }*/
     const properties = group.properties;
-    group.returnData.forEach(({ name, category, method, endpoint, queryParams, requestBody, requestResponse }) => {
+    group.returnData.forEach(({ name, category, method, endpoint, queryParams, requestBody, requestResponse }, i) => {
+      /*if (i !== 0) {
+          return
+      }*/
       try {
         name = lowerCaseFirstLetter(
           name
