@@ -1,11 +1,13 @@
 import { FC } from "react";
 
-type IndexProps = {};
+type indexProps = {};
 
-export const Index: FC<IndexProps> = (props) => {
-  return <>
-    <div>Index</div>
-  </>;
+const Index: FC<indexProps> = ({}) => {
+  return (
+    <>
+      <div className="p-2 mt-4 text-green-900 bg-red-200">hello</div>
+    </>
+  );
 };
 
 export default Index;

@@ -1,5 +1,14 @@
 {
+  "extends": "./node_modules/fx-style/tsconfig-google.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@graphql/*": [
+        "./graphql/*"
+      ]
+    },
+    "downlevelIteration": true,
     "target": "es5",
     "lib": [
       "dom",
@@ -11,18 +20,19 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": "."
+    "jsx": "preserve"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "**/*.svg"
   ],
   "exclude": [
     "node_modules"

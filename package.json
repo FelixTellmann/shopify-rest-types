@@ -1,36 +1,40 @@
 {
-  "name": "shopify-rest-types",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "flex",
+  "version": "0.0.1",
   "license": "MIT",
-  "devDependencies": {
-    "@types/chrome": "^0.0.155",
-    "@types/node": "^16.7.10",
-    "@types/react": "^17.0.19",
-    "@types/react-dom": "^17.0.9",
-    "axios": "^0.21.2",
-    "fx-style": "^1.1.9",
-    "jsdom": "^17.0.0",
-    "next": "^11.1.2",
-    "quicktype-core": "^6.0.70",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "typescript": "^4.4.2"
-  },
   "scripts": {
-    "dev": "next --port 3000",
-    "build": "next build",
+    "dev": "rimraf .next && next --port 3000",
+    "build": "rimraf .next && next build",
     "build:start": "next build --profile && next start",
     "start": "next start",
     "export": "next build && next export"
   },
-  "dependencies": {
-    "@types/jsdom": "^16.2.13",
-    "json-to-ts": "^1.7.0",
-    "querystring": "^0.2.1",
-    "rimraf": "^3.0.2"
-  },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "mysql2": "^2.3.3-rc.0",
+    "next": "^12.0.3",
+    "next-seo": "^4.24.0",
+    "node-forge": "^0.10.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/jit": "^0.1.18",
+    "@types/chrome": "^0.0.141",
+    "@types/node": "^15.6.0",
+    "@types/react": "^17.0.6",
+    "@types/react-dom": "^17.0.5",
+    "@types/tailwindcss": "^2.0.3",
+    "@types/proposal-relative-indexing-method": "^0.1.0",
+    "autoprefixer": "^10.2.5",
+    "clsx": "^1.1.1",
+    "fx-style": "^1.1.9",
+    "postcss": "^8.3.0",
+    "sass": "^1.43.4",
+    "tailwindcss": "^2.2.19",
+    "typescript": "^4.4.4"
   }
 }
