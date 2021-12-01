@@ -1,3 +1,5 @@
+import axios from "axios";
+import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ReadShopifyDevData = {
@@ -10,6 +12,11 @@ type ReadShopifyDevFunction = (
 ) => Promise<void>;
 
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
+  const shopify = await axios({
+    url: SHOPIFY.api.rest.url,
+    method: "GET",
+  });
+
   res.status(200).json({ name: "John Doe" });
 };
 
