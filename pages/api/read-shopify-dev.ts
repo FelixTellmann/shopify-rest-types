@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
+import JSDOM from "jsdom";
 
 type ReadShopifyDevData = {
   name?: string;
@@ -16,6 +17,10 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
     url: SHOPIFY.api.rest.url,
     method: "GET",
   });
+
+  const { document, location } = new JSDOM(shopify.data).window;
+
+  console.log(document);
 
   res.status(200).json({ name: "John Doe" });
 };
