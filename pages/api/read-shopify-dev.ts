@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
-import JSDOM from "jsdom";
+import { JSDOM } from "jsdom";
 
 type ReadShopifyDevData = {
   name?: string;
@@ -14,13 +14,20 @@ type ReadShopifyDevFunction = (
 
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
   const shopify = await axios({
-    url: SHOPIFY.api.rest.url,
+    url: `https://shopify.dev/api/admin-rest/2021-10/resources/product`,
     method: "GET",
   });
 
-  const { document, location } = new JSDOM(shopify.data).window;
+  const window = new JSDOM(shopify.data).window;
+  const { document, location } = window;
 
-  console.log(document);
+  document
+    .querySelectorAll("script")
+    .forEach((node) => {
+      if (node.textContent.includes("window.RailsData")) {
+        console.log(JSON.parse(node.textContent.replace(/^[^{]*/, "").replace(/[^}]*$/, "")));
+      }
+    });
 
   res.status(200).json({ name: "John Doe" });
 };
