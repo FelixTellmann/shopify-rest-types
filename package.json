@@ -13,6 +13,7 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
+    "@shopify/shopify-api": "^2.0.0",
     "mysql2": "^2.3.3-rc.0",
     "next": "^12.0.3",
     "next-seo": "^4.24.0",
@@ -25,10 +26,10 @@
     "@tailwindcss/jit": "^0.1.18",
     "@types/chrome": "^0.0.141",
     "@types/node": "^15.6.0",
+    "@types/proposal-relative-indexing-method": "^0.1.0",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
     "@types/tailwindcss": "^2.0.3",
-    "@types/proposal-relative-indexing-method": "^0.1.0",
     "autoprefixer": "^10.2.5",
     "clsx": "^1.1.1",
     "fx-style": "^1.1.9",
