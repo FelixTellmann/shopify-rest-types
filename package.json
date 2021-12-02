@@ -36,7 +36,7 @@
     "@types/tailwindcss": "^2.0.3",
     "autoprefixer": "^10.2.5",
     "clsx": "^1.1.1",
-    "fx-style": "^1.1.9",
+    "fx-style": "^1.2.0",
     "postcss": "^8.3.0",
     "sass": "^1.43.4",
     "tailwindcss": "^2.2.19",
