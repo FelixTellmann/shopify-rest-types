@@ -1,0 +1,4 @@
+GET http://localhost:3000/api/read-shopify-dev
+Accept: application/json
+
+###
