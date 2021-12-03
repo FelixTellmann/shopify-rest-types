@@ -1,12 +1,68 @@
 import { getApiRoute } from "_server/get-api-route";
-import { asTypes } from "_utils/json-to-ts";
+import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
-import { SpecialProduct } from "dist/test";
-import * as fs from "fs";
-import JsonToTS from "json-to-ts";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
+
+const getSingularKey = (key: string) => {
+  switch (key) {
+    case "access_scopes": {
+      return "access_scope";
+    }
+    case "application_charges": {
+      return "application_charge";
+    }
+    case "recurring_application_charges": {
+      return "recurring_application_charge";
+    }
+    case "usage_charges": {
+      return "usage_charge";
+    }
+    case "discount_codes": {
+      return "discount_code";
+    }
+    case "price_rules": {
+      return "price_rule";
+    }
+    case "articles": {
+      return "article";
+    }
+    case "pages": {
+      return "page";
+    }
+    case "themes": {
+      return "theme";
+    }
+    case "images": {
+      return "image";
+    }
+    case "shipping_rates": {
+      return "shipping_rate";
+    }
+    case "fulfillment_services": {
+      return "fulfillment_service";
+    }
+    case "disputes": {
+      return "dispute";
+    }
+    case "shipping_zones": {
+      return "shipping_zone";
+    }
+    case "currencies": {
+      return "currency";
+    }
+    case "policies": {
+      return "policy";
+    }
+    case "countries": {
+      return "country";
+    }
+    default: {
+      return key.replace(/e?s$/, "");
+    }
+  }
+};
 
 /**
  * Identifying Shopify API Patterns
@@ -19,76 +75,172 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
  * Post - need body input (Product)
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
-  const navlinks = ["carrierservice"] ||
-  SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
+  const navlinks =
+    /*["article"] ||*/
+    SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
   const returnArray = [];
 
   for (let i = 0; i < navlinks.length; i++) {
     console.log(i, navlinks[i]);
     const apiData = await getApiRoute({ version: "2021-10", endpoint: navlinks[i] });
     const api = apiData.api.rest_resource;
+    const component = api.components[0];
+    const name = component.name;
+    const props = component.properties;
+    const params = component.properties;
+    const required = component.required;
+    const readOnly = props.filter(({ readOnly }) => readOnly).map(({ name }) => name);
+    const example = props.reduce((acc, { name, example }) => ({ ...acc, [name]: example }), {});
+    const properties = props.map(({ name, description }) => ({
+      name,
+      comment: stripHtml(description),
+    }));
 
-    const paths = api.paths.map(({ "x-examples": examples }) =>
-      examples
-        .filter(({ response, status }) => {
-          if (!/^2/.test(status)) {
-            return false;
-          }
-          try {
-            JSON.parse(response.body);
-            return response.body !== "{}";
-          } catch (err) {
-            return false;
-          }
-        })
-        .map(({ response }) => JSON.parse(response.body))
+    const paths = api.paths.map(
+      ({ url, action, "x-examples": examples, parameters, description }) => ({
+        body: examples
+          .filter(({ request }) => {
+            try {
+              JSON.parse(request.body);
+              return request.body !== "{}";
+            } catch (err) {
+              return false;
+            }
+          })
+          .map(({ request }) => JSON.parse(request.body)),
+        requireBody: examples.some(({ request }) => request.body && request.body !== "{}"),
+        query: parameters
+          .filter((params) => params.in === "query")
+          .map(({ name, description }) => ({
+            name,
+            comment: stripHtml(description),
+          })),
+        path: parameters
+          .filter((params) => params.in === "path")
+          .map(({ name, description }) => ({
+            name,
+            comment: stripHtml(description),
+          })),
+        action,
+        comment: stripHtml(description),
+        url,
+        examples: examples
+          .filter(({ response, status }) => {
+            if (!/^2/.test(status)) {
+              return false;
+            }
+            try {
+              JSON.parse(response.body);
+              return response.body !== "{}";
+            } catch (err) {
+              return false;
+            }
+          })
+          .map(({ response }) => JSON.parse(response.body)),
+      })
     );
 
-    const primaryModelArray = paths.flat();
-
-    returnArray.push(...primaryModelArray);
-  }
-
-  const data = returnArray
-    .sort((obj) => {})
-    .reduce(
-      (acc, obj) => {
-        Object.entries(obj).forEach(([key, val]) => {
-          if (acc[key] && typeof val === "object" && !Array.isArray(acc[key])) {
-            acc[key] = { ...acc[key], ...val };
-            return acc;
+    const primaryResponsesExamples = paths.reduce((acc, { examples }) => {
+      examples.forEach((example) => {
+        Object.entries(example).forEach(([key, val]) => {
+          if (Array.isArray(val)) {
+            key = key.replace(/e?s$/, "");
           }
+          const keyParts = key.split("_");
 
-          if (acc[key] && typeof val === "object" && Array.isArray(acc[key])) {
-            acc[key].push(val);
-            return acc;
-          }
-
-          const found = returnArray.find((obj) => {
-            const otherKey = Object.keys(obj)[0];
-            return (
-              otherKey.includes(key) &&
-              otherKey.length > key.length &&
-              otherKey.length - key.length <= 2
-            );
-          });
-
-          if (found && Array.isArray(Object.entries(found)[0][1])) {
-            acc[Object.entries(found)[0][0]] = Object.entries(found)[0][1];
-            acc[Object.entries(found)[0][0]].push(val);
-          }
-
-          if (!acc[key] && typeof val === "object") {
-            acc[key] = val;
-            return acc;
+          if (keyParts.every((part) => new RegExp(part, "gi").test(name))) {
+            if (Array.isArray(val)) {
+              acc = [...acc, ...val];
+            } else {
+              acc.push(val);
+            }
           }
         });
-        return acc;
-      },
-      {}
-    );
+      });
 
-  res.status(200).json(data);
+      return acc;
+    }, []);
+
+    const repeatedResponsesExamples = paths
+      .sort((a, b) => {
+        const aArray = a.examples.some((example) =>
+          Object.entries(example).some(([key, val]) => Array.isArray(val))
+        );
+        const bArray = b.examples.some((example) =>
+          Object.entries(example).some(([key, val]) => Array.isArray(val))
+        );
+        if (aArray === bArray) {
+          return 0;
+        }
+        if (bArray) {
+          return -1;
+        }
+        return 1;
+      })
+      .reduce(
+        (acc, { examples }) => {
+          examples.forEach((example) => {
+            // console.log(Object.keys(example));
+            Object.entries(example).forEach(([key, val]) => {
+              if (Array.isArray(val)) {
+                key = getSingularKey(key);
+                const accKeys = Object.keys(acc);
+                const accIndex = accKeys.findIndex((accKey) =>
+                  new RegExp(`^${key}$`, "gi").test(accKey)
+                );
+                if (accIndex !== -1) {
+                  acc[accKeys[accIndex]] = [...acc[accKeys[accIndex]], ...val];
+                  return acc;
+                }
+                acc[key] = val;
+                return acc;
+              }
+              const accKeys = Object.keys(acc);
+              const accIndex = accKeys.findIndex((accKey) =>
+                new RegExp(`^${key}$`, "gi").test(accKey)
+              );
+              if (accIndex !== -1) {
+                acc[accKeys[accIndex]] = [...acc[accKeys[accIndex]], val];
+                return acc;
+              }
+              acc[key] = [val];
+              return acc;
+            });
+          });
+
+          return acc;
+        },
+        {}
+      );
+
+    returnArray.push(repeatedResponsesExamples);
+  }
+
+  const masterTypes = returnArray.reduce(
+    (acc, obj) => {
+      Object.entries(obj).forEach(([key, val]) => {
+        if (Object.keys(acc).includes(key) && Array.isArray(val)) {
+          if (key === "checkout") {
+            acc["sales_channel_checkout"] = val;
+            return;
+          }
+          if (key === "transaction") {
+            acc["shopify_payments_transaction"] = val;
+            return;
+          }
+
+          acc[key] = [...acc[key], ...val];
+          return;
+        }
+
+        acc[key] = val;
+      });
+      return acc;
+    },
+    {}
+  );
+
+  res.status(200).json(masterTypes);
 };
 
 export default ReadShopifyDev;
