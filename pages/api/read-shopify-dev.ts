@@ -1,6 +1,8 @@
 import { getApiRoute } from "_server/get-api-route";
+import { asTypes, writeTypesToFile } from "_utils/json-to-ts";
 import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
+import JsonToTS from "json-to-ts";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
@@ -39,6 +41,9 @@ const getSingularKey = (key: string) => {
     }
     case "shipping_rates": {
       return "shipping_rate";
+    }
+    case "provinces": {
+      return "province";
     }
     case "fulfillment_services": {
       return "fulfillment_service";
@@ -240,6 +245,9 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
     {}
   );
 
+  const types = asTypes(JsonToTS(masterTypes, { rootName: "masterTypes" }));
+
+  writeTypesToFile({ path: "dist/masterTypes.ts", types });
   res.status(200).json(masterTypes);
 };
 
