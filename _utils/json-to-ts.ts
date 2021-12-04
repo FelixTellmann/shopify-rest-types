@@ -6,9 +6,9 @@ export const asTypes = (strings: string[]) => {
 
 export const writeTypesToFile = ({ path, types }: { path: string; types: string | string[] }) => {
   if (Array.isArray(types)) {
-    fs.writeFileSync(path, types.join("\n\n"), { encoding: "utf-8" });
+    fs.writeFileSync(path, `export ${types.join("\n\n")}`, { encoding: "utf-8" });
   }
   if (typeof types === "string") {
-    fs.writeFileSync(path, types, { encoding: "utf-8" });
+    fs.writeFileSync(path, `export ${types}`, { encoding: "utf-8" });
   }
 };

@@ -253,7 +253,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
 
     const types = asTypes(JsonToTS(masterTypes, { rootName: "masterTypes" }));
 
-    writeTypesToFile({ path: `dist/${version}.ts`, types });
+    // writeTypesToFile({ path: `types/${version}/root-types.ts`, types });
   }
 
   res.status(200).json("success");

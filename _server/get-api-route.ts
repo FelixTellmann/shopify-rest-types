@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiTypes } from "dist/apiTypes";
+import { ApiTypes } from "types/apiTypes";
 import { JSDOM } from "jsdom";
 
 export const getApiRoute = async ({

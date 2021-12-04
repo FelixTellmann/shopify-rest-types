@@ -1,0 +1,4 @@
+GET http://localhost:3000/api/generate-mastertypes
+Accept: application/json
+
+###
