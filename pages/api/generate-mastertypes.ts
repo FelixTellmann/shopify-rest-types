@@ -1,6 +1,6 @@
 import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
-import { summarizeTypes } from "_utils/summarize-types";
+import { sumPathTypes } from "_utils/summarize-types";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -8,6 +8,9 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
 
 export const getSingularKey = (key: string) => {
   switch (key) {
+    case "rules": {
+      return "rule";
+    }
     case "access_scopes": {
       return "access_scope";
     }
@@ -97,8 +100,14 @@ export const getSingularKey = (key: string) => {
  * Post - need body input (Product)
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
-  const navlinks = ["product"] ||
-  SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
+  const navlinks = [
+    "assignedfulfillmentorder",
+    "cancellationrequest",
+    "fulfillment",
+    "fulfillmentorder",
+    "customcollection",
+    "collection",
+  ] || SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
     const version = SHOPIFY.api.rest.versions[i];
@@ -153,23 +162,15 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
               if (!/^2/.test(status)) {
                 return false;
               }
-              switch (request_path) {
-                /* FFS issue with Shopify & their consistency*/
-                case "/admin/api/2022-01/comments/653537639/restore.json":
-                case "/admin/api/2022-01/comments/653537639/remove.json":
-                case "/admin/api/2022-01/comments/653537639/not_spam.json":
-                case "/admin/api/2022-01/comments/653537639/approve.json":
-                case "/admin/api/2022-01/comments/653537639/spam.json": {
-                  return false;
-                }
-              }
 
               try {
                 JSON.parse(response.body);
-                if (Object.keys(JSON.parse(response.body)).length > 1) {
-                  console.log(request_path);
+                if (response.body === "{}") {
+                  return false;
                 }
-                return response.body !== "{}";
+                return !Object.values(JSON.parse(response.body)).some(
+                  (obj) => typeof obj !== "object"
+                );
               } catch (err) {
                 return false;
               }
@@ -255,36 +256,36 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
           {}
         );
 
-      console.log(paths);
-
-      returnArray.push(repeatedResponsesExamples);
+      returnArray.push({ paths, repeatedResponsesExamples });
     }
 
-    const masterTypes = returnArray.reduce(
-      (acc, obj) => {
-        Object.entries(obj).forEach(([key, val]) => {
-          if (Object.keys(acc).includes(key) && Array.isArray(val)) {
+    /*const masterTypes = returnArray.reduce(
+      (acc, { repeatedResponsesExamples, paths }) => {
+        acc.paths = paths;
+        Object.entries(repeatedResponsesExamples).forEach(([key, val]) => {
+          if (Object.keys(acc.examples).includes(key) && Array.isArray(val)) {
             if (key === "checkout") {
-              acc["sales_channel_checkout"] = val;
+              acc.examples["sales_channel_checkout"] = val;
               return;
             }
             if (key === "transaction") {
-              acc["shopify_payments_transaction"] = val;
+              acc.examples["shopify_payments_transaction"] = val;
               return;
             }
 
-            acc[key] = [...acc[key], ...val];
+            acc.examples[key] = [...acc.examples[key], ...val];
             return;
           }
 
-          acc[key] = val;
+          acc.examples[key] = val;
         });
         return acc;
       },
-      {}
+      { examples: {}, paths: undefined }
     );
-
-    const typeValidation = summarizeTypes(masterTypes);
+    console.log(masterTypes);*/
+    console.log(returnArray[0]);
+    const typeValidation = sumPathTypes(returnArray);
 
     res.status(200).json(typeValidation);
     return;

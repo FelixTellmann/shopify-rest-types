@@ -1,6 +1,7 @@
 import { isIsoDate } from "_utils/date-manipultation";
 import { capitalizeFirstLetter } from "_utils/string-manipulation";
 import { getSingularKey } from "pages/api/generate-mastertypes";
+import { root } from "postcss";
 
 const getType = (input) => {
   if (Array.isArray(input)) {
@@ -147,93 +148,100 @@ const percentageConfirmed = (arr: any[], minQuantity = 6): number => {
   return (count / relevantData.length) * 100;
 };
 
-const rootObject = {};
-
-export const summarizeTypes = (input, parentKey = "", root = true) => {
-  const type = getType(input);
-  switch (type) {
-    case "string":
-    case "null":
-    case "undefined":
-    case "number":
-    case "bigint":
-    case "Date":
-    case "boolean": {
-      return type;
-    }
-
-    case "object": {
-      if (root) {
-        Object.entries(input).forEach(([key, val]) => {
-          if (!rootObject[typeName(key)]) {
-            rootObject[typeName(key)] = summarizeTypes(val, key, true);
-          }
-        });
-      }
-
-      if (!root) {
-        if (!rootObject[typeName(parentKey)]) {
-          const newRootObject = {};
-          Object.entries(input).forEach(([key, val]) => {
-            newRootObject[key] = [summarizeTypes(val, key, false)];
-          });
-          rootObject[typeName(parentKey)] = newRootObject;
-          return `${typeName(parentKey)}`;
-        }
-
-        if (rootObject[typeName(parentKey)]) {
-          Object.entries(input).forEach(([key, val]) => {
-            if (rootObject[typeName(parentKey)][key]) {
-              if (Array.isArray(rootObject[typeName(parentKey)][key])) {
-                rootObject[typeName(parentKey)][key].push(summarizeTypes(val, key, false));
+const findOverlappingObjects = (rootObject: {}) => {
+  const returnObject = {};
+  const mappedObject = Object.entries(rootObject);
+  mappedObject.forEach(([key, value], index) => {
+    if (getType(value) === "object") {
+      Object.entries(returnObject).find(([k, v], i, arr) => {
+        if (getType(v) === "object") {
+          const sameCount = Object.keys(value).reduce(
+            (acc, valKey) => {
+              if (v[valKey] !== undefined) {
+                acc += 1;
               }
-            }
-            if (!rootObject[typeName(parentKey)][key]) {
-              rootObject[typeName(parentKey)][key] = [summarizeTypes(val, key, false)];
-            }
-          });
-          return `${typeName(parentKey)}`;
+              return acc;
+            },
+            0
+          );
+          if (sameCount / arr.length > 0.85) {
+            console.log("saaaaaaaaaaaaaame");
+          }
         }
+      });
+      returnObject[key] = value;
+    }
+  });
+};
+
+export const sumPathTypes = (endpoints) => {
+  const rootObject = {};
+  const summarizeTypes = (input, parentKey = "", root = true) => {
+    const type = getType(input);
+    switch (type) {
+      case "string":
+      case "null":
+      case "undefined":
+      case "number":
+      case "bigint":
+      case "Date":
+      case "boolean": {
+        return type;
       }
 
-      break;
-    }
-
-    case "array": {
-      const repeatedType = getRepeatedType(input);
-      switch (repeatedType) {
-        case "string":
-        case "null":
-        case "undefined":
-        case "number":
-        case "bigint":
-        case "Date":
-        case "boolean": {
-          return repeatedType;
+      case "object": {
+        if (root) {
+          Object.entries(input).forEach(([key, val]) => {
+            if (!rootObject[typeName(key)]) {
+              rootObject[typeName(key)] = summarizeTypes(val, key, true);
+            }
+          });
         }
 
-        case "object": {
-          input = input.filter((obj) => getType(obj) === "object");
-          if (root) {
-            const repeatableObjects = {};
-            input.forEach((obj) => {
-              Object.entries(obj).forEach(([key, val]) => {
-                if (repeatableObjects[key]) {
-                  if (Array.isArray(repeatableObjects[key])) {
-                    repeatableObjects[key].push(summarizeTypes(val, key, false));
-                  }
-                  repeatableObjects[key].push(summarizeTypes(val, key, false));
-                }
-                if (!repeatableObjects[key]) {
-                  repeatableObjects[key] = [summarizeTypes(val, key, false)];
-                }
-              });
+        if (!root) {
+          if (!rootObject[typeName(parentKey)]) {
+            const newRootObject = {};
+            Object.entries(input).forEach(([key, val]) => {
+              newRootObject[key] = [summarizeTypes(val, key, false)];
             });
-            return repeatableObjects;
+            rootObject[typeName(parentKey)] = newRootObject;
+            return `${typeName(parentKey)}`;
           }
 
-          if (!root) {
-            if (!rootObject[typeName(parentKey)]) {
+          if (rootObject[typeName(parentKey)]) {
+            Object.entries(input).forEach(([key, val]) => {
+              if (rootObject[typeName(parentKey)][key]) {
+                if (Array.isArray(rootObject[typeName(parentKey)][key])) {
+                  rootObject[typeName(parentKey)][key].push(summarizeTypes(val, key, false));
+                }
+              }
+              if (!rootObject[typeName(parentKey)][key]) {
+                rootObject[typeName(parentKey)][key] = [summarizeTypes(val, key, false)];
+              }
+            });
+            return `${typeName(parentKey)}`;
+          }
+        }
+
+        break;
+      }
+
+      case "array": {
+        const repeatedType = getRepeatedType(input);
+        switch (repeatedType) {
+          case "string":
+          case "null":
+          case "undefined":
+          case "number":
+          case "bigint":
+          case "Date":
+          case "boolean": {
+            return repeatedType;
+          }
+
+          case "object": {
+            input = input.filter((obj) => getType(obj) === "object");
+            if (root) {
               const repeatableObjects = {};
               input.forEach((obj) => {
                 Object.entries(obj).forEach(([key, val]) => {
@@ -241,46 +249,73 @@ export const summarizeTypes = (input, parentKey = "", root = true) => {
                     if (Array.isArray(repeatableObjects[key])) {
                       repeatableObjects[key].push(summarizeTypes(val, key, false));
                     }
+                    repeatableObjects[key].push(summarizeTypes(val, key, false));
                   }
                   if (!repeatableObjects[key]) {
                     repeatableObjects[key] = [summarizeTypes(val, key, false)];
                   }
                 });
               });
-              rootObject[typeName(parentKey)] = repeatableObjects;
-              return `${typeName(parentKey)}[]`;
+              return repeatableObjects;
             }
 
-            if (rootObject[typeName(parentKey)]) {
-              input.forEach((obj) => {
-                Object.entries(obj).forEach(([key, val]) => {
-                  if (rootObject[typeName(parentKey)][key]) {
-                    if (Array.isArray(rootObject[typeName(parentKey)][key])) {
-                      rootObject[typeName(parentKey)][key].push(summarizeTypes(val, key, false));
+            if (!root) {
+              if (!rootObject[typeName(parentKey)]) {
+                const repeatableObjects = {};
+                input.forEach((obj) => {
+                  Object.entries(obj).forEach(([key, val]) => {
+                    if (repeatableObjects[key]) {
+                      if (Array.isArray(repeatableObjects[key])) {
+                        repeatableObjects[key].push(summarizeTypes(val, key, false));
+                      }
                     }
-                  }
-                  if (!rootObject[typeName(parentKey)][key]) {
-                    rootObject[typeName(parentKey)][key] = [summarizeTypes(val, key, false)];
-                  }
+                    if (!repeatableObjects[key]) {
+                      repeatableObjects[key] = [summarizeTypes(val, key, false)];
+                    }
+                  });
                 });
-              });
-              return `${typeName(parentKey)}[]`;
+                rootObject[typeName(parentKey)] = repeatableObjects;
+                return `${typeName(parentKey)}[]`;
+              }
+
+              if (rootObject[typeName(parentKey)]) {
+                input.forEach((obj) => {
+                  Object.entries(obj).forEach(([key, val]) => {
+                    if (rootObject[typeName(parentKey)][key]) {
+                      if (Array.isArray(rootObject[typeName(parentKey)][key])) {
+                        rootObject[typeName(parentKey)][key].push(summarizeTypes(val, key, false));
+                      }
+                    }
+                    if (!rootObject[typeName(parentKey)][key]) {
+                      rootObject[typeName(parentKey)][key] = [summarizeTypes(val, key, false)];
+                    }
+                  });
+                });
+                return `${typeName(parentKey)}[]`;
+              }
             }
           }
         }
       }
     }
-  }
 
-  if (!root) {
-    return "undefined";
-  }
+    if (!root) {
+      return "undefined";
+    }
+
+    // console.log(rootObject);
+    return rootObject;
+  };
+
+  endpoints.forEach(({ paths, repeatedResponsesExamples }) => {
+    return summarizeTypes(repeatedResponsesExamples);
+  });
 
   Object.keys(rootObject).forEach((parentKey) => {
     if (getType(rootObject[parentKey]) === "object") {
       Object.keys(rootObject[parentKey]).forEach((key) => {
         if (Array.isArray(rootObject[parentKey][key])) {
-          if (percentageConfirmed(rootObject[parentKey][key], 1) > 75) {
+          if (percentageConfirmed(rootObject[parentKey][key], 0) > 75) {
             rootObject[parentKey][key] = getHighestType(rootObject[parentKey][key]);
           }
         }
@@ -288,6 +323,7 @@ export const summarizeTypes = (input, parentKey = "", root = true) => {
     }
   });
 
-  // console.log(rootObject);
+  findOverlappingObjects(rootObject);
+
   return rootObject;
 };
