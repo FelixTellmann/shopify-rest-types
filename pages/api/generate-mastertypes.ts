@@ -97,9 +97,8 @@ export const getSingularKey = (key: string) => {
  * Post - need body input (Product)
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
-  const navlinks = SHOPIFY.api.rest.nav
-    .map(({ children }) => children.map(({ key }) => key))
-    .flat();
+  const navlinks = ["product"] ||
+  SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
     const version = SHOPIFY.api.rest.versions[i];
@@ -255,6 +254,8 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
           },
           {}
         );
+
+      console.log(paths);
 
       returnArray.push(repeatedResponsesExamples);
     }
