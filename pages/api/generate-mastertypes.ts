@@ -1,13 +1,12 @@
 import { getApiRoute } from "_server/get-api-route";
-import { asTypes, writeTypesToFile } from "_utils/json-to-ts";
 import { stripHtml } from "_utils/string-manipulation";
+import { summarizeTypes } from "_utils/summarize-types";
 import { SHOPIFY } from "config/shopify";
-import JsonToTS from "json-to-ts";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
-const getSingularKey = (key: string) => {
+export const getSingularKey = (key: string) => {
   switch (key) {
     case "access_scopes": {
       return "access_scope";
@@ -26,6 +25,12 @@ const getSingularKey = (key: string) => {
     }
     case "price_rules": {
       return "price_rule";
+    }
+    case "origin_addresses": {
+      return "origin_address";
+    }
+    case "origin_address": {
+      return "origin_address";
     }
     case "articles": {
       return "article";
@@ -57,14 +62,23 @@ const getSingularKey = (key: string) => {
     case "currencies": {
       return "currency";
     }
+    case "Status": {
+      return "Status";
+    }
     case "policies": {
       return "policy";
+    }
+    case "properties": {
+      return "property";
     }
     case "countries": {
       return "country";
     }
     case "carrier_services": {
       return "carrier_service";
+    }
+    case "presentment_prices": {
+      return "presentment_price";
     }
     default: {
       return key.replace(/e?s$/, "");
@@ -136,18 +150,35 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
           comment: stripHtml(description),
           url,
           examples: examples
-            .filter(({ response, status }) => {
+            .filter(({ response, status, request_path }) => {
               if (!/^2/.test(status)) {
                 return false;
               }
+              switch (request_path) {
+                /* FFS issue with Shopify & their consistency*/
+                case "/admin/api/2022-01/comments/653537639/restore.json":
+                case "/admin/api/2022-01/comments/653537639/remove.json":
+                case "/admin/api/2022-01/comments/653537639/not_spam.json":
+                case "/admin/api/2022-01/comments/653537639/approve.json":
+                case "/admin/api/2022-01/comments/653537639/spam.json": {
+                  return false;
+                }
+              }
+
               try {
                 JSON.parse(response.body);
+                if (Object.keys(JSON.parse(response.body)).length > 1) {
+                  console.log(request_path);
+                }
                 return response.body !== "{}";
               } catch (err) {
                 return false;
               }
             })
-            .map(({ response }) => JSON.parse(response.body)),
+            .map(({ request_path, response }) => ({
+              path: request_path,
+              example: JSON.parse(response.body),
+            })),
         })
       );
 
@@ -174,10 +205,10 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
 
       const repeatedResponsesExamples = paths
         .sort((a, b) => {
-          const aArray = a.examples.some((example) =>
+          const aArray = a.examples.some(({ example }) =>
             Object.entries(example).some(([key, val]) => Array.isArray(val))
           );
-          const bArray = b.examples.some((example) =>
+          const bArray = b.examples.some(({ example }) =>
             Object.entries(example).some(([key, val]) => Array.isArray(val))
           );
           if (aArray === bArray) {
@@ -190,7 +221,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         })
         .reduce(
           (acc, { examples }) => {
-            examples.forEach((example) => {
+            examples.forEach(({ example }) => {
               // console.log(Object.keys(example));
               Object.entries(example).forEach(([key, val]) => {
                 if (Array.isArray(val)) {
@@ -206,6 +237,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
                   acc[key] = val;
                   return acc;
                 }
+
                 const accKeys = Object.keys(acc);
                 const accIndex = accKeys.findIndex((accKey) =>
                   new RegExp(`^${key}$`, "gi").test(accKey)
@@ -251,7 +283,12 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
       {}
     );
 
-    const types = asTypes(JsonToTS(masterTypes, { rootName: "masterTypes" }));
+    const typeValidation = summarizeTypes(masterTypes);
+
+    res.status(200).json(typeValidation);
+    return;
+
+    /*const types = asTypes(JsonToTS(masterTypes, { rootName: "masterTypes" }));*/
 
     // writeTypesToFile({ path: `types/${version}/root-types.ts`, types });
   }

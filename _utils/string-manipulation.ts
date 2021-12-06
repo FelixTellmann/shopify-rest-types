@@ -4,3 +4,17 @@ export const stripHtml = (str: string) => {
   }
   return "";
 };
+
+export const capitalizeFirstLetter = (string) => {
+  if (string) {
+    return string[0].toUpperCase() + string.slice(1);
+  }
+  return string;
+};
+
+export const lowerCaseFirstLetter = (string) => {
+  if (string) {
+    return string[0].toLowerCase() + string.slice(1);
+  }
+  return string;
+};
