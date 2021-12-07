@@ -30,6 +30,12 @@ export const getSingularKey = (key: string) => {
     case "origin_addresses": {
       return "origin_address";
     }
+    case "default_addresses": {
+      return "default_address";
+    }
+    case "default_address": {
+      return "default_address";
+    }
     case "origin_address": {
       return "origin_address";
     }
