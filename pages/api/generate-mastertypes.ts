@@ -1,93 +1,11 @@
+import { sumPathTypes } from "_server/generate-types/summarize-types";
 import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
-import { sumPathTypes } from "_utils/summarize-types";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getSingularKey } from "../../_server/generate-types/get-singular-key";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
-
-export const getSingularKey = (key: string) => {
-  switch (key) {
-    case "rules": {
-      return "rule";
-    }
-    case "access_scopes": {
-      return "access_scope";
-    }
-    case "application_charges": {
-      return "application_charge";
-    }
-    case "recurring_application_charges": {
-      return "recurring_application_charge";
-    }
-    case "usage_charges": {
-      return "usage_charge";
-    }
-    case "discount_codes": {
-      return "discount_code";
-    }
-    case "price_rules": {
-      return "price_rule";
-    }
-    case "origin_addresses": {
-      return "origin_address";
-    }
-    case "origin_address": {
-      return "origin_address";
-    }
-    case "articles": {
-      return "article";
-    }
-    case "pages": {
-      return "page";
-    }
-    case "themes": {
-      return "theme";
-    }
-    case "images": {
-      return "image";
-    }
-    case "shipping_rates": {
-      return "shipping_rate";
-    }
-    case "provinces": {
-      return "province";
-    }
-    case "fulfillment_services": {
-      return "fulfillment_service";
-    }
-    case "disputes": {
-      return "dispute";
-    }
-    case "shipping_zones": {
-      return "shipping_zone";
-    }
-    case "currencies": {
-      return "currency";
-    }
-    case "Status": {
-      return "Status";
-    }
-    case "policies": {
-      return "policy";
-    }
-    case "properties": {
-      return "property";
-    }
-    case "countries": {
-      return "country";
-    }
-    case "carrier_services": {
-      return "carrier_service";
-    }
-    case "presentment_prices": {
-      return "presentment_price";
-    }
-    default: {
-      return key.replace(/e?s$/, "");
-    }
-  }
-};
 
 /**
  * Identifying Shopify API Patterns
@@ -100,14 +18,14 @@ export const getSingularKey = (key: string) => {
  * Post - need body input (Product)
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
-  const navlinks = [
+  const navlinks = /*[
     "assignedfulfillmentorder",
     "cancellationrequest",
     "fulfillment",
     "fulfillmentorder",
     "customcollection",
     "collection",
-  ] || SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
+  ] ||*/ SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
     const version = SHOPIFY.api.rest.versions[i];
@@ -284,7 +202,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
       { examples: {}, paths: undefined }
     );
     console.log(masterTypes);*/
-    console.log(returnArray[0]);
+
     const typeValidation = sumPathTypes(returnArray);
 
     res.status(200).json(typeValidation);
