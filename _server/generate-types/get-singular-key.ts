@@ -9,6 +9,12 @@ export const getSingularKey = (key: string) => {
     case "address": {
       return "address";
     }
+    case "billing_address": {
+      return "billing_address";
+    }
+    case "shipping_address": {
+      return "shipping_address";
+    }
     case "application_charges": {
       return "application_charge";
     }

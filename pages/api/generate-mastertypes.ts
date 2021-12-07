@@ -3,6 +3,8 @@ import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { cleanUpRootObjects } from "../../_server/generate-types/clean-up-root-objects";
+import { findOverlappingObjects } from "../../_server/generate-types/find-overlapping-objects";
 import { getSingularKey } from "../../_server/generate-types/get-singular-key";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
@@ -18,24 +20,20 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
  * Post - need body input (Product)
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
-  const navlinks = /*[
-    "assignedfulfillmentorder",
-    "cancellationrequest",
-    "fulfillment",
-    "fulfillmentorder",
-    "customcollection",
-    "collection",
-  ] ||*/ SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
+  const navlinks =
+    /*["product", "product-variant"] ||*/
+    SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
     const version = SHOPIFY.api.rest.versions[i];
-    const returnArray = [];
+    const routeArray = [];
 
     for (let i = 0; i < navlinks.length; i++) {
       console.log(i, navlinks[i]);
       const apiData = await getApiRoute({ version, endpoint: navlinks[i] });
       const api = apiData.api.rest_resource;
       const component = api.components[0];
+
       const name = component.name;
       const props = component.properties;
       const params = component.properties;
@@ -100,27 +98,6 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         })
       );
 
-      const primaryResponsesExamples = paths.reduce((acc, { examples }) => {
-        examples.forEach((example) => {
-          Object.entries(example).forEach(([key, val]) => {
-            if (Array.isArray(val)) {
-              key = key.replace(/e?s$/, "");
-            }
-            const keyParts = key.split("_");
-
-            if (keyParts.every((part) => new RegExp(part, "gi").test(name))) {
-              if (Array.isArray(val)) {
-                acc = [...acc, ...val];
-              } else {
-                acc.push(val);
-              }
-            }
-          });
-        });
-
-        return acc;
-      }, []);
-
       const repeatedResponsesExamples = paths
         .sort((a, b) => {
           const aArray = a.examples.some(({ example }) =>
@@ -174,41 +151,34 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
           {}
         );
 
-      returnArray.push({ paths, repeatedResponsesExamples });
+      routeArray.push({
+        paths,
+        name,
+        props,
+        example,
+        params,
+        required,
+        readOnly,
+        properties,
+        repeatedResponsesExamples,
+      });
     }
 
-    /*const masterTypes = returnArray.reduce(
-      (acc, { repeatedResponsesExamples, paths }) => {
-        acc.paths = paths;
-        Object.entries(repeatedResponsesExamples).forEach(([key, val]) => {
-          if (Object.keys(acc.examples).includes(key) && Array.isArray(val)) {
-            if (key === "checkout") {
-              acc.examples["sales_channel_checkout"] = val;
-              return;
-            }
-            if (key === "transaction") {
-              acc.examples["shopify_payments_transaction"] = val;
-              return;
-            }
-
-            acc.examples[key] = [...acc.examples[key], ...val];
-            return;
-          }
-
-          acc.examples[key] = val;
-        });
-        return acc;
-      },
-      { examples: {}, paths: undefined }
+    const { masterTypes, replacements } = findOverlappingObjects(
+      cleanUpRootObjects(sumPathTypes(routeArray))
     );
-    console.log(masterTypes);*/
 
-    const typeValidation = sumPathTypes(returnArray);
+    routeArray.forEach((route) => {
+      if (!masterTypes[route.name]) {
+        console.log(route.name);
+      }
+      if (Object.values(replacements).find((r) => r.includes(route.name))) {
+        console.log(route.name, "replacement");
+      }
+    });
 
-    res.status(200).json(typeValidation);
+    res.status(200).json(masterTypes);
     return;
-
-    /*const types = asTypes(JsonToTS(masterTypes, { rootName: "masterTypes" }));*/
 
     // writeTypesToFile({ path: `types/${version}/root-types.ts`, types });
   }

@@ -1,11 +1,9 @@
-import { findOverlappingObjects } from "./find-overlapping-objects";
-import { getHighestType, percentageConfirmed } from "./get-highest-type";
 import { getRepeatedType } from "./get-repeated-type";
 import { getType } from "./get-type";
 import { typeName } from "./type-name";
 
 export const sumPathTypes = (endpoints) => {
-  const rootObject = {};
+  const rootObject: unknown = {};
   const summarizeTypes = (input, parentKey = "", root = true) => {
     const type = getType(input);
     switch (type) {
@@ -137,21 +135,9 @@ export const sumPathTypes = (endpoints) => {
     return rootObject;
   };
 
-  endpoints.forEach(({ paths, repeatedResponsesExamples }) => {
-    return summarizeTypes(repeatedResponsesExamples);
+  endpoints.forEach(({ repeatedResponsesExamples }) => {
+    summarizeTypes(repeatedResponsesExamples);
   });
 
-  Object.keys(rootObject).forEach((parentKey) => {
-    if (getType(rootObject[parentKey]) === "object") {
-      Object.keys(rootObject[parentKey]).forEach((key) => {
-        if (Array.isArray(rootObject[parentKey][key])) {
-          if (percentageConfirmed(rootObject[parentKey][key], 0) > 75) {
-            rootObject[parentKey][key] = getHighestType(rootObject[parentKey][key]);
-          }
-        }
-      });
-    }
-  });
-
-  return findOverlappingObjects(rootObject);
+  return rootObject;
 };

@@ -1,6 +1,6 @@
 import { getType } from "./get-type";
 
-export const findOverlappingObjects = (rootObject: {}) => {
+export const findOverlappingObjects = (rootObject) => {
   const returnObject = {};
   const mappedObject = Object.entries(rootObject);
   const replacements: { [T: string]: string[] } = {};
@@ -59,11 +59,11 @@ export const findOverlappingObjects = (rootObject: {}) => {
         );
 
         if (
-          sameCount / bKeys.length >= 0.7 &&
+          sameCount / bKeys.length >= 0.75 &&
           sameCount === aKeys.length &&
           bKeys.length > 4 &&
-          aKeys.length - bKeys.length < 3 &&
-          aKeys.length - bKeys.length > -3
+          aKeys.length - bKeys.length < 2 &&
+          aKeys.length - bKeys.length > -2
         ) {
           /*= =============== All of keys are in object ================ */
           console.log("B Larger than A - All aKeys already in B", keyA, keyB);
@@ -77,11 +77,11 @@ export const findOverlappingObjects = (rootObject: {}) => {
         }
 
         if (
-          sameCount / bKeys.length >= 0.7 &&
+          sameCount / bKeys.length >= 0.75 &&
           sameCount < aKeys.length &&
           bKeys.length > 4 &&
-          aKeys.length - bKeys.length < 3 &&
-          aKeys.length - bKeys.length > -3
+          aKeys.length - bKeys.length < 2 &&
+          aKeys.length - bKeys.length > -2
         ) {
           console.log("A Merge to B POSSIBLE MERGE", keyA, keyB);
           found = true;
@@ -122,5 +122,5 @@ export const findOverlappingObjects = (rootObject: {}) => {
     });
   });
 
-  return [JSON.parse(objectString), replacements];
+  return { masterTypes: JSON.parse(objectString), replacements };
 };
