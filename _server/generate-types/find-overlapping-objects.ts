@@ -101,7 +101,7 @@ export const findOverlappingObjects = (rootObject) => {
               {}
             ),
           };
-          console.log(returnObject[keyB]);
+          // console.log(returnObject[keyB]);
           return;
         }
       });

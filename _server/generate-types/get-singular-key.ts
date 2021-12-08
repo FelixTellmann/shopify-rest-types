@@ -12,6 +12,9 @@ export const getSingularKey = (key: string) => {
     case "billing_address": {
       return "billing_address";
     }
+    case "customer_address": {
+      return "customer_address";
+    }
     case "shipping_address": {
       return "shipping_address";
     }
@@ -29,6 +32,9 @@ export const getSingularKey = (key: string) => {
     }
     case "price_rules": {
       return "price_rule";
+    }
+    case "deprecated_api_calls": {
+      return "deprecated_api_calls";
     }
     case "tax_lines": {
       return "tax_line";

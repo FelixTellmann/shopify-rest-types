@@ -1,11 +1,13 @@
+import { cleanUpRootObjects } from "_server/generate-types/clean-up-root-objects";
+import { findOverlappingObjects } from "_server/generate-types/find-overlapping-objects";
+import { getCorrectName } from "_server/generate-types/get-correct-name";
+import { getSingularKey } from "_server/generate-types/get-singular-key";
+import { getType } from "_server/generate-types/get-type";
 import { sumPathTypes } from "_server/generate-types/summarize-types";
 import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { cleanUpRootObjects } from "../../_server/generate-types/clean-up-root-objects";
-import { findOverlappingObjects } from "../../_server/generate-types/find-overlapping-objects";
-import { getSingularKey } from "../../_server/generate-types/get-singular-key";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
@@ -20,9 +22,13 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
  * Post - need body input (Product)
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
-  const navlinks =
-    /*["product", "product-variant"] ||*/
-    SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
+  const navlinks = /*[
+    "product",
+    "product-image",
+    "product-variant",
+    "collection",
+    "smartcollection",
+  ] ||*/ SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
     const version = SHOPIFY.api.rest.versions[i];
@@ -34,14 +40,17 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
       const api = apiData.api.rest_resource;
       const component = api.components[0];
 
+      const apiName = getCorrectName(component.name);
       const name = component.name;
       const props = component.properties;
       const params = component.properties;
       const required = component.required;
       const readOnly = props.filter(({ readOnly }) => readOnly).map(({ name }) => name);
       const example = props.reduce((acc, { name, example }) => ({ ...acc, [name]: example }), {});
-      const properties = props.map(({ name, description }) => ({
+      const properties = props.map(({ name, description, type, example }) => ({
         name,
+        type,
+        exampleType: getType(example),
         comment: stripHtml(description),
       }));
 
@@ -84,17 +93,41 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
                 if (response.body === "{}") {
                   return false;
                 }
-                return !Object.values(JSON.parse(response.body)).some(
+                /* deactivated to test multi object returns */
+                /*return !Object.values(JSON.parse(response.body)).some(
                   (obj) => typeof obj !== "object"
-                );
+                );*/
+                return true;
               } catch (err) {
                 return false;
               }
             })
-            .map(({ request_path, response }) => ({
-              path: request_path,
-              example: JSON.parse(response.body),
-            })),
+            .map(({ request_path, response }) => {
+              if (
+                request_path === "/admin/api/2021-10/shopify_payments/balance/transactions.json"
+              ) {
+                const returnData = Object.entries(JSON.parse(response.body)).reduce(
+                  (acc, [key, val]) => {
+                    if (key === "transactions") {
+                      acc["shopify_payment_transactions"] = val;
+                      return acc;
+                    }
+                    acc[key] = val;
+                    return acc;
+                  },
+                  {}
+                );
+
+                return {
+                  path: request_path,
+                  example: returnData,
+                };
+              }
+              return {
+                path: request_path,
+                example: JSON.parse(response.body),
+              };
+            }),
         })
       );
 
@@ -152,9 +185,9 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         );
 
       routeArray.push({
+        apiName,
         paths,
         name,
-        props,
         example,
         params,
         required,
@@ -169,13 +202,32 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
     );
 
     routeArray.forEach((route) => {
-      if (!masterTypes[route.name]) {
-        console.log(route.name);
+      if (masterTypes[route.apiName]) {
+        route.properties.forEach(({ name, type, exampleType, comment }) => {
+          if (masterTypes[route.apiName][name]) {
+            if (Array.isArray(masterTypes[route.apiName][name]) && (type || exampleType)) {
+              masterTypes[route.apiName][name] = type ? type.replace("x-") : exampleType;
+            }
+            masterTypes[route.apiName][name] = {
+              type: masterTypes[route.apiName][name],
+              readOnly: route?.readOnly?.includes(name) || false,
+              required: route?.required?.includes(name) || false,
+              comment: comment.trim(),
+            };
+          } else {
+            console.log("ERROR MISSING TYPE");
+          }
+        });
       }
-      if (Object.values(replacements).find((r) => r.includes(route.name))) {
-        console.log(route.name, "replacement");
+      if (!masterTypes[route.apiName]) {
+        console.log(route.apiName);
+      }
+      if (Object.values(replacements).find((r) => r.includes(route.apiName))) {
+        console.log(route.apiName, "replacement");
       }
     });
+
+    console.log(routeArray);
 
     res.status(200).json(masterTypes);
     return;
