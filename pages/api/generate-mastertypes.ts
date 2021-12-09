@@ -24,10 +24,10 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
   const navlinks = /*[
     "product",
-    "product-image",
+    /!*    "product-image",
     "product-variant",
     "collection",
-    "smartcollection",
+    "smartcollection",*!/
   ] ||*/ SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
@@ -206,7 +206,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         route.properties.forEach(({ name, type, exampleType, comment }) => {
           if (masterTypes[route.apiName][name]) {
             if (Array.isArray(masterTypes[route.apiName][name]) && (type || exampleType)) {
-              masterTypes[route.apiName][name] = type ? type.replace("x-") : exampleType;
+              masterTypes[route.apiName][name] = exampleType ? exampleType : type.replace("x-", "");
             }
             masterTypes[route.apiName][name] = {
               type: masterTypes[route.apiName][name],
@@ -215,7 +215,12 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
               comment: comment.trim(),
             };
           } else {
-            console.log("ERROR MISSING TYPE");
+            masterTypes[route.apiName][name] = {
+              type: exampleType ? exampleType : type.replace("x-", ""),
+              readOnly: route?.readOnly?.includes(name) || false,
+              required: route?.required?.includes(name) || false,
+              comment: comment.trim(),
+            };
           }
         });
       }
@@ -226,8 +231,6 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         console.log(route.apiName, "replacement");
       }
     });
-
-    console.log(routeArray);
 
     res.status(200).json(masterTypes);
     return;

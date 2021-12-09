@@ -1,6 +1,7 @@
 export const SHOPIFY = {
   api: {
     rest: {
+      fixedTypes: ["admin_graphql_api_id", "updated_at"],
       url: `https://shopify.dev/api/admin-rest`,
       versions: [/*"2022-01" */ "2021-10" /*, "2021-07", "2021-04"*/],
       nav: [
