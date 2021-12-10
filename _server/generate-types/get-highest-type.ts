@@ -1,5 +1,7 @@
 export const getHighestType = (arr: any[]) => {
-  const relevantData = arr.filter((item) => item !== "null" && item !== "undefined");
+  const relevantData = arr.filter(
+    (item) => item !== "null" && item !== "undefined" && item !== "object"
+  );
 
   const ranked = relevantData.reduce(
     (acc, item) => {
@@ -23,7 +25,9 @@ export const getHighestType = (arr: any[]) => {
 export const percentageConfirmed = (arr: any[], minQuantity = 6): number => {
   if (!Array.isArray(arr)) return 0;
   if (arr.length <= minQuantity) return 0;
-  const relevantData = arr.filter((item) => item !== "null" && item !== "undefined");
+  const relevantData = arr.filter(
+    (item) => item !== "null" && item !== "undefined" && item !== "object"
+  );
 
   const ranked = relevantData.reduce(
     (acc, item) => {

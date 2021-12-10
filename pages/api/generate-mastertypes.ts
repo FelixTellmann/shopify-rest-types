@@ -1,8 +1,10 @@
 import { cleanUpRootObjects } from "_server/generate-types/clean-up-root-objects";
 import { findOverlappingObjects } from "_server/generate-types/find-overlapping-objects";
 import { getCorrectName } from "_server/generate-types/get-correct-name";
+import { getManualTypes } from "_server/generate-types/get-manual-types";
 import { getSingularKey } from "_server/generate-types/get-singular-key";
-import { getType } from "_server/generate-types/get-type";
+import { getType, getTypeAsString } from "_server/generate-types/get-type";
+import { getTypeByName } from "_server/generate-types/get-type-by-name";
 import { sumPathTypes } from "_server/generate-types/summarize-types";
 import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
@@ -23,11 +25,7 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
   const navlinks = /*[
-    "product",
-    /!*    "product-image",
-    "product-variant",
-    "collection",
-    "smartcollection",*!/
+    "refund" /!*"product-image", "product-variant", "collection", "smartcollection"*!/,
   ] ||*/ SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
@@ -50,8 +48,9 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
       const properties = props.map(({ name, description, type, example }) => ({
         name,
         type,
-        exampleType: getType(example),
+        exampleType: getTypeAsString(example),
         comment: stripHtml(description),
+        example,
       }));
 
       const paths = api.paths.map(
@@ -197,16 +196,46 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
       });
     }
 
-    const { masterTypes, replacements } = findOverlappingObjects(
-      cleanUpRootObjects(sumPathTypes(routeArray))
-    );
+    const summarizedTypes = sumPathTypes(routeArray);
+    //     res.status(200).json({ summarizedTypes });
+    // return;
+    const cleanedRoot = cleanUpRootObjects(summarizedTypes);
 
+    const { masterTypes, replacements } = findOverlappingObjects(cleanedRoot);
+
+    /*    res.status(200).json({ summarizedTypes, cleanedRoot, masterTypes });
+    return;*/
+    masterTypes["AppliedDiscount"] = {
+      title: "string",
+      value: "string",
+      amount: "string",
+      applicable: "boolean",
+      value_type: "string",
+      description: "string",
+      application_type: "string",
+      non_applicable_reason: "string",
+    };
+
+    /* TODO: Continue from here! NB object, array, object[] need to be reduced to its actual models*/
     routeArray.forEach((route) => {
       if (masterTypes[route.apiName]) {
-        route.properties.forEach(({ name, type, exampleType, comment }) => {
+        route.properties.forEach(({ name, type, exampleType, comment, example }) => {
+          if (exampleType === "array") {
+            console.log("aaaaa", { example, name });
+          }
           if (masterTypes[route.apiName][name]) {
             if (Array.isArray(masterTypes[route.apiName][name]) && (type || exampleType)) {
-              masterTypes[route.apiName][name] = exampleType ? exampleType : type.replace("x-", "");
+              masterTypes[route.apiName][name] = getTypeByName(name)
+                ? getTypeByName(name)
+                : exampleType
+                ? exampleType === "object"
+                  ? example
+                  : exampleType === "array"
+                  ? example
+                  : exampleType === "object[]"
+                  ? example
+                  : exampleType
+                : type.replace("x-", "");
             }
             masterTypes[route.apiName][name] = {
               type: masterTypes[route.apiName][name],
@@ -215,8 +244,25 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
               comment: comment.trim(),
             };
           } else {
+            console.log(exampleType, type);
+            if (exampleType === "object" || exampleType === "array") {
+              console.log({ example, name });
+            }
+            if (type?.includes("object")) {
+              console.log(type, name);
+            }
             masterTypes[route.apiName][name] = {
-              type: exampleType ? exampleType : type.replace("x-", ""),
+              type: getTypeByName(name)
+                ? getTypeByName(name)
+                : exampleType
+                ? exampleType === "object"
+                  ? example
+                  : exampleType === "array"
+                  ? example
+                  : exampleType === "object[]"
+                  ? example
+                  : exampleType
+                : type.replace("x-", ""),
               readOnly: route?.readOnly?.includes(name) || false,
               required: route?.required?.includes(name) || false,
               comment: comment.trim(),
@@ -231,6 +277,30 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         console.log(route.apiName, "replacement");
       }
     });
+
+    const subTypes = {};
+
+    for (const key in masterTypes) {
+      for (const subKey in masterTypes[key]) {
+        if (!subTypes[subKey]) {
+          if (!Array.isArray(masterTypes[key][subKey])) {
+            subTypes[subKey] = masterTypes[key][subKey];
+          }
+        }
+      }
+    }
+
+    for (const key in masterTypes) {
+      for (const subKey in masterTypes[key]) {
+        if (Array.isArray(masterTypes[key][subKey])) {
+          if (subTypes[subKey]) {
+            masterTypes[key][subKey] = subTypes[subKey];
+          } else {
+            masterTypes[key][subKey] = getManualTypes(subKey);
+          }
+        }
+      }
+    }
 
     res.status(200).json(masterTypes);
     return;

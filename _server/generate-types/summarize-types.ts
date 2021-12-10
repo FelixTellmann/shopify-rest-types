@@ -20,6 +20,29 @@ export const sumPathTypes = (endpoints) => {
       case "object": {
         if (root) {
           Object.entries(input).forEach(([key, val]) => {
+            if (rootObject[typeName(key)]) {
+              if (Array.isArray(val) && getRepeatedType(val) !== "object") {
+                console.log(val, rootObject[typeName(key)], "asd");
+              }
+              if (Array.isArray(val) && getRepeatedType(val) === "object") {
+                val.forEach((obj) => {
+                  Object.entries(obj).forEach(([childKey, childVal]) => {
+                    if (rootObject[typeName(key)][childKey]) {
+                      if (Array.isArray(rootObject[typeName(key)][childKey])) {
+                        rootObject[typeName(key)][childKey].push(
+                          summarizeTypes(childVal, childKey, false)
+                        );
+                      }
+                    }
+                    if (!rootObject[typeName(key)][childKey]) {
+                      rootObject[typeName(key)][childKey] = [
+                        summarizeTypes(childVal, childKey, false),
+                      ];
+                    }
+                  });
+                });
+              }
+            }
             if (!rootObject[typeName(key)]) {
               rootObject[typeName(key)] = summarizeTypes(val, key, true);
             }
@@ -64,7 +87,12 @@ export const sumPathTypes = (endpoints) => {
           case "bigint":
           case "Date":
           case "boolean": {
-            return repeatedType;
+            return `${repeatedType}[]`;
+          }
+
+          case "array": {
+            console.log({ parentKey }, input);
+            return "undefined";
           }
 
           case "object": {
@@ -122,6 +150,11 @@ export const sumPathTypes = (endpoints) => {
                 return `${typeName(parentKey)}[]`;
               }
             }
+            break;
+          }
+
+          default: {
+            console.log({ repeatedType });
           }
         }
       }
@@ -131,7 +164,6 @@ export const sumPathTypes = (endpoints) => {
       return "undefined";
     }
 
-    // console.log(rootObject);
     return rootObject;
   };
 
