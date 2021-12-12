@@ -35,7 +35,7 @@ export const getRepeatedType = (arr) => {
     return "boolean";
   }
 
-  console.log(arr);
+  console.log({ getRepeatedType: arr });
 
   if (arr.some((itm) => getType(itm) === "array")) {
     return "array";

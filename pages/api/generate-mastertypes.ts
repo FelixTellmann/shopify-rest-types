@@ -3,13 +3,14 @@ import { findOverlappingObjects } from "_server/generate-types/find-overlapping-
 import { getCorrectName } from "_server/generate-types/get-correct-name";
 import { getManualTypes } from "_server/generate-types/get-manual-types";
 import { getSingularKey } from "_server/generate-types/get-singular-key";
-import { getType, getTypeAsString } from "_server/generate-types/get-type";
+import { getTypeAsString } from "_server/generate-types/get-type";
 import { getTypeByName } from "_server/generate-types/get-type-by-name";
 import { sumPathTypes } from "_server/generate-types/summarize-types";
 import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { nameToSnakeCase } from "../../_server/generate-types/name-to-snake-case";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
@@ -25,16 +26,26 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
   const navlinks = /*[
-    "refund" /!*"product-image", "product-variant", "collection", "smartcollection"*!/,
+    "product",
+    "product-image",
+    "product-variant",
+    "collection",
+    "smartcollection",
   ] ||*/ SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
+
+  const requestArray = [];
 
   for (let i = 0; i < SHOPIFY.api.rest.versions.length; i++) {
     const version = SHOPIFY.api.rest.versions[i];
     const routeArray = [];
-
     for (let i = 0; i < navlinks.length; i++) {
+      requestArray.push(getApiRoute({ version, endpoint: navlinks[i] }));
+    }
+
+    const apiEndpoints = await Promise.all(requestArray);
+
+    apiEndpoints.forEach((apiData) => {
       console.log(i, navlinks[i]);
-      const apiData = await getApiRoute({ version, endpoint: navlinks[i] });
       const api = apiData.api.rest_resource;
       const component = api.components[0];
 
@@ -52,7 +63,6 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         comment: stripHtml(description),
         example,
       }));
-
       const paths = api.paths.map(
         ({ url, action, "x-examples": examples, parameters, description }) => ({
           body: examples
@@ -183,6 +193,18 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
           {}
         );
 
+      // console.log({ name: nameToSnakeCase(name), keys: Object.keys(repeatedResponsesExamples) });
+
+      if (repeatedResponsesExamples[nameToSnakeCase(name)]) {
+        repeatedResponsesExamples[nameToSnakeCase(name)].push(example);
+      } else {
+        console.log(
+          `needs Fixing: ${name} - ${nameToSnakeCase(name)} - keys: ${Object.keys(
+            repeatedResponsesExamples
+          )}}`
+        );
+      }
+
       routeArray.push({
         apiName,
         paths,
@@ -194,7 +216,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         properties,
         repeatedResponsesExamples,
       });
-    }
+    });
 
     const summarizedTypes = sumPathTypes(routeArray);
     //     res.status(200).json({ summarizedTypes });
@@ -220,47 +242,56 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
     routeArray.forEach((route) => {
       if (masterTypes[route.apiName]) {
         route.properties.forEach(({ name, type, exampleType, comment, example }) => {
-          if (exampleType === "array") {
-            console.log("aaaaa", { example, name });
-          }
           if (masterTypes[route.apiName][name]) {
-            if (Array.isArray(masterTypes[route.apiName][name]) && (type || exampleType)) {
-              masterTypes[route.apiName][name] = getTypeByName(name)
-                ? getTypeByName(name)
-                : exampleType
-                ? exampleType === "object"
-                  ? example
-                  : exampleType === "array"
-                  ? example
-                  : exampleType === "object[]"
-                  ? example
+            if (!masterTypes[route.apiName][name]["type"]) {
+              if (Array.isArray(masterTypes[route.apiName][name]) && (type || exampleType)) {
+                if (exampleType.includes("object")) {
+                  console.log(route.apiName, name, example, "a", masterTypes[route.apiName][name]);
+                }
+                /* masterTypes[route.apiName][name] = getTypeByName(name)
+                  ? getTypeByName(name)
                   : exampleType
-                : type.replace("x-", "");
+                  ? exampleType === "object"
+                    ? example
+                    : exampleType === "array"
+                    ? example
+                    : exampleType === "object[]"
+                    ? example
+                    : exampleType
+                  : type.replace("x-", "");*/
+                masterTypes[route.apiName][name] = getTypeByName(name)
+                  ? getTypeByName(name)
+                  : exampleType
+                  ? exampleType === "object"
+                    ? exampleType
+                    : exampleType === "array"
+                    ? exampleType
+                    : exampleType === "object[]"
+                    ? exampleType
+                    : exampleType
+                  : type.replace("x-", "");
+              }
+              masterTypes[route.apiName][name] = {
+                type: masterTypes[route.apiName][name],
+                readOnly: route?.readOnly?.includes(name) || false,
+                required: route?.required?.includes(name) || false,
+                comment: comment.trim(),
+              };
             }
-            masterTypes[route.apiName][name] = {
-              type: masterTypes[route.apiName][name],
-              readOnly: route?.readOnly?.includes(name) || false,
-              required: route?.required?.includes(name) || false,
-              comment: comment.trim(),
-            };
           } else {
-            console.log(exampleType, type);
-            if (exampleType === "object" || exampleType === "array") {
-              console.log({ example, name });
-            }
-            if (type?.includes("object")) {
-              console.log(type, name);
+            if (exampleType.includes("object")) {
+              console.log(route.apiName, name, example, "b");
             }
             masterTypes[route.apiName][name] = {
               type: getTypeByName(name)
                 ? getTypeByName(name)
                 : exampleType
                 ? exampleType === "object"
-                  ? example
+                  ? exampleType
                   : exampleType === "array"
-                  ? example
+                  ? exampleType
                   : exampleType === "object[]"
-                  ? example
+                  ? exampleType
                   : exampleType
                 : type.replace("x-", ""),
               readOnly: route?.readOnly?.includes(name) || false,

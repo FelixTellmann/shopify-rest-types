@@ -21,9 +21,6 @@ export const sumPathTypes = (endpoints) => {
         if (root) {
           Object.entries(input).forEach(([key, val]) => {
             if (rootObject[typeName(key)]) {
-              if (Array.isArray(val) && getRepeatedType(val) !== "object") {
-                console.log(val, rootObject[typeName(key)], "asd");
-              }
               if (Array.isArray(val) && getRepeatedType(val) === "object") {
                 val.forEach((obj) => {
                   Object.entries(obj).forEach(([childKey, childVal]) => {
@@ -66,7 +63,10 @@ export const sumPathTypes = (endpoints) => {
                   rootObject[typeName(parentKey)][key].push(summarizeTypes(val, key, false));
                 }
               }
-              if (!rootObject[typeName(parentKey)][key]) {
+              if (
+                !rootObject[typeName(parentKey)][key] &&
+                getType(rootObject[typeName(parentKey)]) === "object"
+              ) {
                 rootObject[typeName(parentKey)][key] = [summarizeTypes(val, key, false)];
               }
             });
@@ -91,7 +91,7 @@ export const sumPathTypes = (endpoints) => {
           }
 
           case "array": {
-            console.log({ parentKey }, input);
+            // console.log({ parentKey }, input);
             return "undefined";
           }
 

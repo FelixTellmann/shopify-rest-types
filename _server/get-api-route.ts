@@ -13,7 +13,7 @@ export const getApiRoute = async ({
     url: `https://shopify.dev/api/admin-rest/${version}/resources/${endpoint}`,
     method: "GET",
   });
-
+  console.log({ endpoint });
   const { document } = new JSDOM(shopify.data).window;
 
   let scriptNode;

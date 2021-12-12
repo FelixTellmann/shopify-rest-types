@@ -6,6 +6,9 @@ export const getTypeByName = (name: any) => {
     case "applied_discounts": {
       return "AppliedDiscount[]";
     }
+    case "phone": {
+      return "string";
+    }
 
     default: {
       return "";

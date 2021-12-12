@@ -12,6 +12,9 @@ export const getSingularKey = (key: string) => {
     case "shipping_lines": {
       return "shipping_line";
     }
+    case "duties": {
+      return "duty";
+    }
     case "note_attributes": {
       return "note_attribute";
     }
