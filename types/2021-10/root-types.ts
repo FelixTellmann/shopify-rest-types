@@ -8,7 +8,6 @@ export type Blog = {
   /** The date and time when changes were last made to the blog's properties. Note that this is not updated when creating, modifying or deleting articles in the blog. The API returns this value in ISO 8601 format.  */
   updated_at?: Date;
   /** Indicates whether readers can post comments to the blog and if comments are moderated or not. Possible values are:
-
   no (default): Readers cannot post comments to blog articles.
   moderate: Readers can post comments to blog articles, but comments must be moderated before they appear.
   yes: Readers can post comments to blog articles without moderation.  */
@@ -25,7 +24,6 @@ export type Blog = {
   tags?: string;
   admin_graphql_api_id?: string;
   /** Attaches additional metadata to a store's resources:
-
   key (required): Identifier for the metafield (maximum of 30 characters).
   namespace (required): Container for a set of metadata. Namespaces help distinguish between metadata you created and metadata created by another individual with a similar namespace (maximum of 20 characters).
   value (required): Information to be stored as metadata.
@@ -57,13 +55,11 @@ export type Page = {
   template_suffix?: string;
   admin_graphql_api_id?: string;
   /** Additional information attached to the Page object. It has the following properties:
-
   key: An identifier for the metafield. (maximum: 30 characters)
   namespace: A container for a set of metadata. Namespaces help distinguish between metadata created by different apps. (maximum: 20 characters)
   value: The information to be stored as metadata.
   value_type: The information type that's being stored. Valid values: string or integer.
   description (optional): Additional information about the metafield.
-
   For more information on attaching metadata to Shopify resources, see the Metafield resource.  */
   metafield?: Metafield;
 };
@@ -92,12 +88,10 @@ export type Risk = {
   source?: string;
   /** For internal use only. A number between 0 and 1 that's assigned to the order.
   The closer the score is to 1, the more likely it is that the order is fraudulent.
-
   Note
   There is no guarantee of stability in risk scores. Scores are not probabilities. The relationship between scores and the probability of fraud can vary over time and between risk providers.  */
   score?: string;
   /** The recommended action given to the merchant. Valid values:
-
   cancel: There is a high level of risk that this order is fraudulent. The merchant should cancel the order.
   investigate: There is a medium level of risk that this order is fraudulent. The merchant should investigate the order.
   accept: There is a low level of risk that this order is fraudulent. The order risk found no indication of fraud.  */
@@ -137,7 +131,6 @@ export type User = {
   /** The description the user has written for themselves.  */
   bio?: string;
   /** The permissions granted to the user's staff account. Valid values:
-
   applications: The user can authorize the installation of applications.
   billing_application_charges: The user can approve application charges.
   billing_charges: The user can view and export billing charges.
@@ -178,7 +171,6 @@ export type User = {
   /** The user's preferred locale. Locale values use the format language or language-COUNTRY, where language is a two-letter language code, and COUNTRY is a two-letter country code. For example: en or en-US  */
   locale?: string;
   /** The type of account the user has. Valid values:
-
   regular: The user's account can access the Shopify admin.
   restricted: The user's account cannot access the Shopify admin.
   invited: The user has not yet accepted the invitation to create staff.
@@ -192,10 +184,6 @@ export type Rule = {
   column?: string;
   relation?: string;
   condition?: string;
-};
-
-export type Type = {
-  type?: string;
 };
 
 export type Date = {
@@ -328,7 +316,6 @@ export type Order = {
   /** Whether the customer consented to receive email updates from the shop.  */
   buyer_accepts_marketing?: boolean;
   /** The reason why the order was canceled. Valid values:
-
   customer: The customer canceled the order.
   fraud: The order was fraudulent.
   inventory: Items in the order were not in inventory.
@@ -343,7 +330,6 @@ export type Order = {
   /** A unique value when referencing the checkout that's associated with the order.  */
   checkout_token?: string;
   /** Information about the browser that the customer used when they placed their order:
-
   accept_language: The languages and locales that the browser understands.
   browser_height: The browser screen height in pixels, if available.
   browser_ip: The browser IP address.
@@ -385,12 +371,9 @@ export type Order = {
   /** The ID of the Shopify POS device that created the checkout.  */
   device_id?: number;
   /** A list of discounts applied to the order. Each discount object includes the following properties:
-
   amount: The amount that's deducted from the order total. When you create an order, this value is the percentage or monetary amount to deduct. After the order is created, this property returns the calculated amount.
   code: When the associated discount application is of type code, this property returns the discount code that was entered at checkout. Otherwise this property returns the title of the discount that was applied.
-
   type: The type of discount. Default value: fixed_amount. Valid values:
-
   fixed_amount: Applies amount as a unit of the store's currency. For example, if amount is 30 and the store's currency is USD, then 30 USD is deducted from the order total when the discount is applied.
   percentage: Applies a discount of amount as a percentage of the order total.
   shipping: Applies a free shipping discount on orders that have a shipping rate less than or equal to amount. For example, if amount is 30, then the discount will give the customer free shipping for any shipping rate that is less than or equal to $30.  */
@@ -403,7 +386,6 @@ export type Order = {
   to any changes.  */
   estimated_taxes?: boolean;
   /** The status of payments associated with the order. Can only be set when the order is created. Valid values:
-
   pending: The payments are pending. Payment might fail in this state. Check again to confirm whether the payments have been paid successfully.
   authorized: The payments have been authorized.
   partially_paid: The order has been partially paid.
@@ -413,7 +395,6 @@ export type Order = {
   voided: The payments have been voided.  */
   financial_status?: string;
   /** The order's status in terms of fulfilled line items. Valid values:
-
   fulfilled: Every line item in the order has been fulfilled.
   null: None of the line items in the order have been fulfilled.
   partial: At least one line item in the order has been fulfilled.
@@ -453,7 +434,6 @@ export type Order = {
   in the past to match when the original order was created.  */
   processed_at?: Date;
   /** How the payment was processed. It has the following valid values:
-
   checkout: The order was processed using the Shopify checkout.
   direct: The order was processed using a direct payment provider.
   manual: The order was processed using a manual payment method.
@@ -477,12 +457,10 @@ export type Order = {
   /** Tags attached to the order, formatted as a string of comma-separated values. Tags are additional short descriptors, commonly used for filtering and searching. Each individual tag is limited to 40 characters in length.  */
   tags?: string;
   /** An array of tax line objects, each of which details a tax applicable to the order. Each object has the following properties:
-
   price: The amount of tax to be charged in the shop currency.
   rate: The rate of tax to be applied.
   title: The name of the tax.
   channel_liable: Whether the channel that submitted the tax line is liable for remitting. A value of null indicates unknown liability for the tax line.
-
   When creating an order through the API, tax lines can be specified on the order or the line items but not both. Tax lines specified on the order are split across the taxable line items in the created order.  */
   tax_lines?: TaxLine[];
   /** Whether taxes are included in the order subtotal.  */
@@ -527,67 +505,36 @@ export type Order = {
   /** Information about the customer. The order might not have a customer and apps should not depend on the existence of a customer object. This value might be null if the order was created through Shopify POS. For more information about the customer object, see the Customer resource.  */
   customer?: Customer;
   /** An ordered list of stacked discount applications.
-
   The discount_applications property includes 3 types: discount_code, manual, and script. All 3 types share a common structure and have some type specific attributes.
-
-
-
   allocation_method: The method by which the discount application value has been allocated to entitled lines. Valid values:
-
   across: The value is spread across all entitled lines.
   each: The value is applied onto every entitled line.
   one: The value is applied onto a single line.
-
   Caution
   As of version 2020-07, across is returned instead of one as the meaning is the same for explicit discounts.
-
-
-
-
   code: The discount code that was used to apply the discount. Available only for discount code applications.
-
-
   description: The description of the discount application, as defined by the merchant or the Shopify Script. Available only for manual and script discount applications.
-
-
   target_selection: The lines on the order, of the type defined by target_type, that the discount is allocated over. Valid values:
-
   all: The discount is allocated onto all lines,
   entitled: The discount is allocated only onto lines it is entitled for.
   explicit: The discount is allocated onto explicitly selected lines.
-
-
-
   target_type: The type of line on the order that the discount is applicable on. Valid values:
-
   line_item: The discount applies to line items.
   shipping_line: The discount applies to shipping lines.
-
-
-
   title: The title of the discount application, as defined by the merchant. Available only for manual discount applications.
-
   type: The discount application type. Valid values:
-
   automatic: The discount was applied automatically, such as by a Buy X Get Y automatic discount.
   discount_code: The discount was applied by a discount code.
   manual: The discount was manually applied by the merchant (for example, by using an app or creating a draft order).
   script: The discount was applied by a Shopify Script.
-
-
-
   value: The value of the discount application as a decimal. This represents the intention of the discount application. For example, if the intent was to apply a 20% discount, then the value will be 20.0. If the intent was to apply a $15 discount, then the value will be 15.0.
-
-
   value_type: The type of the value. Valid values:
-
   fixed_amount: A fixed amount discount value in the currency of the order.
   percentage: A percentage discount value.  */
   discount_applications?: DiscountApplication[];
   /** An array of fulfillments associated with the order. For more information, see the Fulfillment API.  */
   fulfillments?: Fulfillment[];
   /** A list of line item objects, each containing information about an item in the order. Each object has the following properties:
-
   fulfillable_quantity: The amount available to fulfill, calculated as follows: quantity - max(refunded_quantity, fulfilled_quantity) - pending_fulfilled_quantity - open_fulfilled_quantity
   fulfillment_service: The service provider that's fulfilling the item. Valid values: manual, or the name of the provider, such as amazon or shipwire.
   fulfillment_status: How far along an order is in terms line items fulfilled. Valid values: null, fulfilled, partial, and not_eligible.
@@ -607,32 +554,22 @@ export type Order = {
   gift_card: Whether the item is a gift card. If true, then the item is not taxed or considered for shipping charges.
   properties:
   An array of custom information for the item that has been added to the cart. Often used to provide product customization options.
-
   taxable: Whether the item was taxable.
   tax_lines: A list of tax line objects, each of which details a tax applied to the item.
-
   title: The name of the tax.
   price: The amount added to the order for this tax in the shop currency.
   price_set: The amount added to the order for this tax in shop and presentment currencies.
   rate: The tax rate applied to the order to calculate the tax price.
   channel_liable: Whether the channel that submitted the tax line is liable for remitting. A value of null indicates unknown liability for the tax line.
-
-
   tip_payment_gateway: The payment gateway used to tender the tip, such as shopify_payments. Present only on tips.
   tip_payment_method: The payment method used to tender the tip, such as Visa. Present only on tips.
   total_discount: The total amount of the discount allocated to the line item in the shop currency. This field must be explicitly set using draft orders, Shopify scripts, or the API. Instead of using this field, Shopify recommends using discount_allocations, which provides the same information.
   total_discount_set: The total amount allocated to the line item in the presentment currency. Instead of using this field, Shopify recommends using discount_allocations, which provides the same information.
-
   discount_allocations: An ordered list of amounts allocated by discount applications. Each discount allocation is associated with a particular discount application.
-
   amount: The discount amount allocated to the line in the shop currency.
   discount_application_index: The index of the associated discount application in the order's discount_applications list.
   amount_set: The discount amount allocated to the line item in shop and presentment currencies.
-
-
-
   origin_location: The location of the line item’s fulfillment origin.
-
   id: The location ID of the line item’s fulfillment origin. Used by Shopify to calculate applicable taxes. This is not the ID of the location where the order was placed. You can use the FulfillmentOrder resource to determine the location an item will be sourced from.
   country_code: The two-letter code (ISO 3166-1 format) for the country of the item's supplier.
   province_code: The two-letter abbreviation for the region of the item's supplier.
@@ -641,12 +578,9 @@ export type Order = {
   address2: The suite number of the item's supplier.
   city: The city of the item's supplier.
   zip: The zip of the item's supplier.
-
-
   duties: A list of duty objects, each containing information about a duty on the line item.  */
   line_items?: LineItem[];
   /** An object containing information about the payment. It has the following properties:
-
   avs_result_code: The response code from the address verification system (AVS). The code is a single letter. See  this chart for the codes and their definitions.
   credit_card_bin: The issuer identification number (IIN), formerly known as the bank identification number (BIN), of the customer's credit card. This is made up of the first few digits of the credit card number.
   credit_card_company: The name of the company who issued the customer's credit card.
@@ -659,7 +593,6 @@ export type Order = {
   address1: The street address of the shipping address.  address2: An optional additional field for the street address of the shipping address.  city: The city, town, or village of the shipping address.  company: The company of the person associated with the shipping address.  country: The name of the country of the shipping address.  country_code: The two-letter code (ISO 3166-1 format) for the country of the shipping address.  first_name: The first name of the person associated with the shipping address.  last_name: The last name of the person associated with the shipping address.  latitude: The latitude of the shipping address.  longitude: The longitude of the shipping address.  name: The full name of the person associated with the payment method.  phone: The phone number at the shipping address.  province: The name of the region (for example, province, state, or prefecture) of the shipping address.  province_code: The two-letter abbreviation of the region of the shipping address.  zip: The postal code (for example, zip, postcode, or Eircode) of the shipping address.  */
   shipping_address?: ShippingAddress;
   /** An array of objects, each of which details a shipping method used. Each object has the following properties:
-
   code: A reference to the shipping method.
   discounted_price: The price of the shipping method after line-level discounts have been applied. Doesn't reflect cart-level or order-level discounts.
   discounted_price_set: The price of the shipping method in both shop and presentment currencies after line-level discounts have been applied.
@@ -672,14 +605,12 @@ export type Order = {
   requested_fulfillment_service_id: A reference to the fulfillment service that is being requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service; null otherwise.  */
   shipping_lines?: ShippingLine[];
   /** The terms and conditions under which a payment should be processed.
-
   amount: The amount that is owed according to the payment terms.
   currency: The presentment currency for the payment.
   payment_terms_name: The name of the selected payment terms template for the order.
   payment_terms_type: The type of selected payment terms template for the order.
   due_in_days: The number of days between the invoice date and due date that is defined in the selected payment terms template.
   payment_schedules: An array of schedules associated to the payment terms.
-
   amount: The amount that is owed according to the payment terms.
   currency: The presentment currency for the payment.
   issued_at: The date and time when the payment terms were initiated.
@@ -690,7 +621,9 @@ export type Order = {
   status_url?: string;
 };
 
-export type Error = {};
+export type Error = {
+  [T: string]: unknown;
+};
 
 export type Event = {
   /** The ID of the event.  */
@@ -700,7 +633,6 @@ export type Event = {
   /** The date and time (ISO 8601 format) when the event was created.  */
   created_at?: Date;
   /** The type of the resource that generated the event. Valid values:
-
   Article
   Blog
   Collection
@@ -783,7 +715,6 @@ export type Theme = {
   /** The date and time ( ISO 8601 format) when the theme was last updated.  */
   updated_at?: Date;
   /** Specifies how the theme is being used within the shop. Valid values:
-
   main: The theme is published. Customers see it when they visit the online store.
   unpublished: The theme is unpublished. Customers can't see it.
   demo: The theme is installed on the store as a demo. The theme can't be published until the merchant buys the full version.  */
@@ -836,7 +767,6 @@ export type Refund = {
   /** The unique identifier of the user who performed the refund.  */
   user_id?: number;
   /** A list of order adjustments attached to the refund. Order adjustments are generated to account for refunded shipping costs and differences between calculated and actual refund amounts. Each entry has the following properties:
-
   id: The unique identifier for the order adjustment.
   order_id: The unique identifier for the order that the order adjustment is associated with.
   refund_id: The unique identifier for the refund that the order adjustment is associated with.
@@ -850,19 +780,15 @@ export type Refund = {
   /** A list of transactions involved in the refund. A single order can have multiple transactions associated with it. For more information,  see the Transaction resource.  */
   transactions?: Transaction[];
   /** A list of refunded line items. Each entry has the following properties:
-
   id: The unique identifier of the line item in the refund.
   line_item: A line item being returned.
   line_item_id: The ID of the related line item in the order.
   quantity: The quantity of the associated line item that was returned.
   restock_type: How this refund line item affects inventory levels. Valid values:
-
   no_restock: Refunding these items won't affect inventory. The number of fulfillable units for this line item will remain unchanged. For example, a refund payment can be issued but no items will be returned or made available for sale again.
   cancel: The items have not yet been fulfilled. The canceled quantity will be added back to the available count. The number of fulfillable units for this line item will decrease.
   return: The items were already delivered, and will be returned to the merchant. The returned quantity will be added back to the available count. The number of fulfillable units for this line item will remain unchanged.
   legacy_restock: The deprecated restock property was used for this refund. These items were made available for sale again. This value is not accepted when creating new refunds.
-
-
   location_id: The unique identifier of the location where the items will be restocked. Required when restock_type has the value return or cancel.
   subtotal: The subtotal of the refund line item.
   total_tax: The total tax on the refund line item.
@@ -875,10 +801,8 @@ export type Refund = {
   shipping?: Shipping;
   currency?: string;
   /** A list of refunded duties. Each entry has the following properties:
-
   duty_id: The unique identifier of the duty.
   refund_type: Specifies how you want the duty refunded. Valid values:
-
   FULL: Refunds all the duties associated with a duty ID. You do not need to include refund line items if you are using the full refund type.
   PROPORTIONAL: Refunds duties in proportion to the line item quantity that you want to refund. If you choose the proportional refund type, then you must also pass the refund line items to calculate the portion of duties to refund.  */
   refund_duties?: RefundDuty[];
@@ -915,19 +839,12 @@ export type Amount = {
   amount?: string;
 };
 
-export type Reason = {
-  reason?: string;
-};
-
 export type Payout = {
   /** The unique identifier of the payout  */
   id?: number;
   /** The transfer status of the payout. The value will be one of the following:
-
-
   scheduled: The payout has been created and had transactions assigned to it, but
   it has not yet been submitted to the bank.
-
   in_transit: The payout has been submitted to the bank for processing.
   paid: The payout has been successfully deposited into the bank.
   failed: The payout has been declined by the bank.
@@ -1048,7 +965,6 @@ export type Article = {
   tags?: string;
   admin_graphql_api_id?: string;
   /** An image associated with the article. It can have the following properties:
-
   attachment: An image attached to article returned as Base64-encoded binary data.
   src: A source URL that specifies the location of the image.
   alt: Alternative text that describes the image.  */
@@ -1069,7 +985,6 @@ export type Comment = {
   /** The email address of the author of the comment.  */
   email?: string;
   /** The status of the comment. Valid values:
-
   pending: The comment has been created but is awaiting spam detection. Depending on the result of the spam detection and the shop owner's comment preferences, this property will be transitioned to either spam, unapproved, or approved.
   unapproved (default): The comment is awaiting approval by the shop owner. It's not visible to the readers of the blog.
   published: The comment has been approved (if the blog requires comments to be approved) and is visible to readers of the blog.
@@ -1094,7 +1009,6 @@ export type Comment = {
 
 export type OrderId = {
   id?: number;
-  order_id?: number;
 };
 
 export type Collect = {
@@ -1139,7 +1053,6 @@ export type Product = {
   /** The suffix of the Liquid template used for the product page. If this property is specified, then the product page uses a template called "product.suffix.liquid", where "suffix" is the value of this property. If this property is "" or null, then the product page uses the default template "product.liquid". (default: null)  */
   template_suffix?: string;
   /** Whether the product is published to the Point of Sale channel. Valid values:
-
   web: The product is published to the Online Store channel but not published to the Point of Sale channel.
   global: The product is published to both the Online Store channel and the Point of Sale channel.  */
   published_scope?: string;
@@ -1148,14 +1061,12 @@ export type Product = {
   tags?: string;
   admin_graphql_api_id?: string;
   /** The custom product properties. For example, Size, Color, and Material. Each product can have up to 3 options and each option value can be up to 255 characters. Product variants are made of up combinations of option values.
-
   Options cannot be created without values. To create new options, a variant with an associated option value also needs to be created.  */
   options?: Option[];
   /** A list of product image objects, each one representing an image associated with the product.  */
   images?: Image[];
   image?: Image;
   /** The status of the product. Valid values:
-
   active: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active.
   archived: The product is no longer being sold and isn't available to customers on sales channels and apps.
   draft: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft.  */
@@ -1181,10 +1092,8 @@ export type Variant = {
   The position of variants is indicated by the order in which they are listed.  */
   position?: number;
   /** Whether customers are allowed to place an order for the product variant when it's out of stock. Valid values:
-
   deny: Customers are not allowed to place orders for the product variant if it's out of stock.
   continue: Customers are allowed to place orders for the product variant if it's out of stock.
-
   Default value: deny.  */
   inventory_policy?: string;
   /** The original price of the item before an adjustment or a sale.  */
@@ -1194,7 +1103,6 @@ export type Variant = {
   fulfillment_service?: string;
   /** The fulfillment service that tracks the number of items in stock for the product variant.
   Valid values:
-
   shopify: You are tracking inventory yourself using the admin.
   null: You aren't tracking inventory on the variant.
   the handle of a fulfillment service that has inventory management enabled: This must be the same fulfillment service referenced by the fulfillment_service property.  */
@@ -1231,10 +1139,8 @@ export type Variant = {
   InventoryLevel resource instead.  */
   old_inventory_quantity?: number;
   /** A list of the variant's presentment prices and compare-at prices in each of the shop's enabled presentment currencies. Each price object has the following properties:
-
   currency_code: The three-letter code (ISO 4217 format) for one of the shop's enabled presentment currencies.
   amount: The variant's price or compare-at price in the presentment currency.
-
   Requires the header 'X-Shopify-Api-Features': 'include-presentment-prices'.  */
   presentment_prices?: PresentmentPrice[];
   /** This property is deprecated. Use the `requires_shipping` property on the InventoryItem resource instead.  */
@@ -1266,7 +1172,6 @@ export type Payment = {
   payment_processing_error_message?: string;
   fraudulent?: boolean;
   /** The details of the transaction, including the following attributes:
-
   amount: The amount of the transaction.
   amount_in: The amount in before rounding is applied. Not applicable to credit card payments.
   amount_out: The amount out after rounding is applied. Not applicable to credit card payments.
@@ -1283,7 +1188,6 @@ export type Payment = {
   test: Whether or not the transaction was a test.  */
   transaction?: Transaction;
   /** The details of the credit card used for payment. The following attributes are available:
-
   first_name: The first name of the cardholder.
   last_name: The last name of the cardholder.
   first_digits: The first six digits of the credit card.
@@ -1309,7 +1213,6 @@ export type Dispute = {
   order_id?: number;
   /** Whether the dispute is still in the inquiry phase or has turned into a chargeback.
   Valid values:
-
   inquiry: The dispute is in the inquiry phase.
   chargeback: The dispute has turned into a chargeback.  */
   type?: string;
@@ -1318,59 +1221,36 @@ export type Dispute = {
   /** The ISO 4217 currency code of the dispute amount.  */
   currency?: string;
   /** The reason of the dispute provided by the cardholder's bank. Valid values:
-
   bank_not_process: The customer's bank cannot process the charge.
-
   credit_not_processed: The customer claims that the purchased product was returned
   or the transaction was otherwise canceled, but the merchant have not yet provided a refund or credit.
-
-
   customer_initiated: The customer initiated the dispute, so the merchant should contact
   the customer for additional details to find out why the payment was disputed.
-
-
   debit_not_authorized: The customer's bank cannot proceed with the debit
   since it has not been authorized.
-
-
   duplicate: The customer claims they were charged multiple times
   for the same product or service.
-
   fraudulent: The cardholder claims that they didn't authorize the payment.
-
   general: The dispute is uncategorized, so the merchant should contact the customer for
   additional details to find out why the payment was disputed.
-
-
   incorrect_account_details: The customer account associated with the
   purchase is incorrect.
-
   insufficient_funds: The customer's bank account has insufficient funds.
-
   product_not_received: The customer claims they did not receive the products
   or services purchased.
-
-
   product_unacceptable: The product or service was received but was defective,
   damaged, or not as described.
-
-
   subscription_canceled: The customer claims that the merchant continued to charge them
   after a subscription was canceled.
-
-
   unrecognized: The customer doesn't recognize the payment appearing on
   their card statement.  */
   reason?: string;
   /** The reason for the dispute provided by the cardholder's bank.  */
   network_reason_code?: string;
   /** The current state of the dispute. Valid values:
-
   needs_response: The dispute has been open and needs an evidence submission.
-
   under_review: The evidence has been submitted and is being reviewed by the
   cardholder's bank.
-
   charge_refunded: The merchant refunded the inquiry amount.
   accepted: The merchant has accepted the dispute as being valid.
   won: The cardholder's bank reached a final decision in the merchant's favor.
@@ -1383,7 +1263,7 @@ export type Dispute = {
   evidence_sent_on?: Date;
   /** The date and time (ISO 8601 format) when
   this dispute was resolved. Returns null if the dispute is not yet resolved.  */
-  finalized_on?: FinalizedOn;
+  finalized_on?: Date;
   initiated_at?: Date;
 };
 
@@ -1411,7 +1291,6 @@ export type Country = {
   code?: string;
   tax_name?: string;
   /** The sub-regions of a country, such as its provinces or states. Each sub-region has the following properties:
-
   code: The two letter province or state code.
   country_id: The ID for the country to which this sub-region belongs.
   id: The ID for the particular sub-region.
@@ -1443,7 +1322,6 @@ export type Customer = {
   /** The number of orders associated with this customer.  */
   orders_count?: number;
   /** The state of the customer's account with a shop. Default value: disabled. Valid values:
-
   disabled: The customer doesn't have an active account. Customer accounts can be disabled from the Shopify admin at any time.
   invited: The customer has received an email invite to create an account.
   enabled: The customer has created an account.
@@ -1464,7 +1342,6 @@ export type Customer = {
   /** The unique phone number (E.164 format) for this customer. Attempting to assign the same phone number to multiple customers
   returns an error. The property can be set using different formats, but each format must represent a number that can be dialed
   from anywhere in the world. The following formats are all valid:
-
   6135551212
   +16135551212
   (613)555-1212
@@ -1478,7 +1355,6 @@ export type Customer = {
   that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.  */
   currency?: string;
   /** A list of the ten most recently updated addresses for the customer. Each address has the following properties:
-
   address1: The customer's mailing address.
   address2: An additional field for the customer's mailing address.
   city: The customer's city, town, or village.
@@ -1503,13 +1379,11 @@ export type Customer = {
   guideline) that the customer gave when they consented to receive marketing material by email.
   If the customer does not accept email marketing, then this property will be set to null.
   Valid values:
-
   single_opt_in
   confirmed_opt_in
   unknown  */
   marketing_opt_in_level?: string;
   /** Whether the customer is exempt from paying specific taxes on their order. Canadian taxes only. Valid values:
-
   EXEMPT_ALL: This customer is exempt from all Canadian taxes.
   CA_STATUS_CARD_EXEMPTION: This customer is exempt from specific taxes for holding a valid STATUS_CARD_EXEMPTION in Canada.
   CA_DIPLOMAT_EXEMPTION: This customer is exempt from specific taxes for holding a valid DIPLOMAT_EXEMPTION in Canada.
@@ -1534,7 +1408,6 @@ export type Customer = {
   tax_exemptions?: string[];
   admin_graphql_api_id?: string;
   /** The default address for the customer. The default address has the following properties:
-
   address1: The first line of the customer's mailing address.
   address2: An additional field for the customer's mailing address.
   city: The customer's city, town, or village.
@@ -1554,7 +1427,6 @@ export type Customer = {
   zip: The customer's postal code, also known as zip, postcode, Eircode, etc.  */
   default_address?: Address;
   /** Attaches additional metadata to a shop's resources:
-
   key (required): An identifier for the metafield (maximum of 30 characters).
   namespace(required): A container for a set of metadata (maximum of 20 characters). Namespaces help distinguish between metadata that you created and metadata created by another individual with a similar namespace.
   value (required): Information to be stored as metadata.
@@ -1565,7 +1437,6 @@ export type Customer = {
   material by SMS. The phone property is required to create a customer with SMS
   consent information and to perform an SMS update on a customer that doesn't have a phone number recorded.
   The customer must have a unique phone number associated to the record. The SMS marketing consent has the following properties:
-
   state: The current SMS marketing state for the customer.
   opt_in_level: The marketing subscription opt-in level, as described by the M3AAWG best practices guidelines,
   that the customer gave when they consented to receive marketing material by SMS.
@@ -1711,7 +1582,6 @@ export type Checkout = {
   /** The website that referred the customer to the shop.  */
   referring_site?: string;
   /** Information about the chosen shipping method. It has the following properties:
-
   code: A reference to the shipping method.
   price: The price of the shipping method in presentment currency.
   source: The channel where the checkout originated. Example value: shopify.
@@ -1741,7 +1611,6 @@ export type Checkout = {
   Example values: en, en-CA.  */
   customer_locale?: string;
   /** A list of line items, each containing information about an item in the checkout. Each object has the following properties:
-
   fulfillment_service: The fulfillment service provider for the item.
   fulfillment_status: The status of the item's fulfillment. Valid values: fulfilled, null, partial.
   grams: The weight of the item in grams.
@@ -1761,15 +1630,12 @@ export type Checkout = {
   /** The recovery URL that's sent to a customer so they can recover their checkout.  */
   abandoned_checkout_url?: string;
   /** Discount codes applied to the checkout. Returns an empty array when no codes are applied.
-
   Each discount code has the following fields:
-
   amount: The amount of the discount in presentment currency.
   code: The discount code.
   type: The type of discount. Valid values: percentage, shipping, fixed_amount. (default: fixed_amount)  */
   discount_codes?: DiscountCode[];
   /** An array of tax line objects, each of which details a tax applicable to the checkout. Each object has the following properties:
-
   price: The amount of tax to be charged in presentment currency.
   rate: The rate of tax to be applied.
   title: The name of the tax.
@@ -1796,7 +1662,6 @@ export type Checkout = {
   /** The total duties of the checkout in presentment currency.  */
   total_duties?: string;
   /** The mailing address associated with the payment method. It has the following properties:
-
   address1: The street address of the billing address.
   address2: An optional additional field for the street address of the billing address.
   city: The city of the billing address.
@@ -1815,7 +1680,6 @@ export type Checkout = {
   zip: The zip or postal code of the billing address.  */
   billing_address?: Address;
   /** The mailing address where the order will be shipped to. It has the following properties:
-
   address1: The street address of the shipping address.
   address2: An optional additional field for the street address of the shipping address.
   city: The city of the shipping address.
@@ -1871,13 +1735,11 @@ export type Checkout = {
   /** A list of gift card objects, each containing information about a gift card applied to this checkout.
   Gift cards can be applied to a checkout by passing { "checkout": { "gift_cards": [{ "code": "a gift card code" }, { "code": "another gift card code" }] } }.
   Each gift card object has the following properties:
-
   amount_used: The amount of the gift card used by this checkout in presentment currency.
   code: The gift card code.
   balance: The amount left on the gift card after being applied to this checkout in presentment currency.
   id: The ID for the applied gift card.
   last_characters: The last four characters of the applied gift card for display back to the user.
-
   Updating the gift card list overwrites any previous list already defined in the checkout. To remove a gift card from the list of applied gift cards, re-apply the gift_cards array without that gift card.  */
   gift_cards?: CheckoutGiftCard[];
   tax_manipulations?: unknown[];
@@ -1891,8 +1753,6 @@ export type Checkout = {
   /** A cart-level discount applied to the checkout. Apply a discount by
   specifying values for amount, title, description, value,
   and value_type.
-
-
   amount: The amount that is deducted from payment_due in presentment currency.
   title: The title to categorize the applied discount.
   description: The description of the applied discount.
@@ -1901,7 +1761,6 @@ export type Checkout = {
   non_applicable_reason: The reason why the discount is not applicable, if the discount cannot be applied to the checkout.
   applicable: Whether this discount code can be applied to the checkout.
   application_type: Describes how the discount was applied to the checkout. Possible values:
-
   automatic: The discount was applied automatically.
   discount_code: The merchant or customer entered a discount code.
   manual: The discount was applied manually by the merchant or an app.
@@ -1979,9 +1838,7 @@ export type Province = {
   /** The name of the tax for this province.  */
   tax_name?: string;
   /** The tax type. Valid values: null, normal, harmonized, or compounded.
-
   A harmonized tax is a combination of provincial and federal sales taxes.
-
   Normal and harmonized tax rates are applied to the pre-tax value of an order, but a compounded tax rate is applied on top of other tax rates.
   For example, if a $100 order receives a 5% normal tax rate and a 2% compound tax rate, then the post-tax total is $107.10 ((100 x 1.05) x 1.02 = 107.1).  */
   tax_type?: string;
@@ -1995,11 +1852,8 @@ export type Metafield = {
   /** The name of the metafield. Minimum length: 3 characters. Maximum length: 30 characters.  */
   key?: string;
   /** The information to be stored as metadata. Maximum length: 512 characters when metafield namespace is equal to tags and key is equal to alt.
-
   When using type, see this list of validations.
-
   When using the deprecated value_type, the maximum length of value varies:
-
   If value_type is a string, then maximum length: 5,000,000 characters.
   If value_type is an integer, then maximum length: 100,000 characters.
   If value_type is a json_string, then maximum length: 100,000 characters.  */
@@ -2010,8 +1864,6 @@ export type Metafield = {
   namespace?: string;
   /** Caution
   value_type is deprecated and replaced by type in API version 2021-07.
-
-
   The metafield's information type. Valid values: string, integer, json_string.  */
   value_type?: string;
   /** The unique ID of the metafield.  */
@@ -2035,42 +1887,34 @@ export type PriceRule = {
   /** The ID for the price rule.  */
   id?: number;
   /** The value type of the price rule. Valid values:
-
   fixed_amount: Applies a discount of value as a unit of the store's currency. For example, if value is -30 and the store's currency is USD,
   then $30 USD is deducted when the discount is applied.
   percentage: Applies a percentage discount of value. For example, if value is -30, then 30% will be deducted when the discount is applied.
-
   If target_type is shipping_line, then only percentage is accepted.  */
   value_type?: string;
   /** The value of the price rule. If if the value of target_type is shipping_line, then only -100 is accepted.
   The value must be negative.  */
   value?: string;
   /** The customer selection for the price rule. Valid values:
-
   all: The price rule is valid for all customers.
   prerequisite: The customer must either belong to one of the customer saved searches specified by prerequisite_saved_search_ids, or be one of the customers specified by prerequisite_customer_ids.  */
   customer_selection?: string;
   /** The target type that the price rule applies to. Valid values:
-
   line_item: The price rule applies to the cart's line items.
   shipping_line: The price rule applies to the cart's shipping lines.  */
   target_type?: string;
   /** The target selection method of the price rule. Valid values:
-
   all: The price rule applies the discount to all line items in the checkout.
   entitled: The price rule applies the discount to selected entitlements only.  */
   target_selection?: string;
   /** The allocation method of the price rule. Valid values:
-
   each: The discount is applied to each of the entitled items. For example, for a price rule that takes $15 off,
   each entitled line item in a checkout will be discounted by $15.
   across: The calculated discount amount will be applied across the entitled items. For example, for a price rule
   that takes $15 off, the discount will be applied across all the entitled items.
-
   When the value of target_type is shipping_line, then this value must be each.  */
   allocation_method?: string;
   /** The number of times the discount can be allocated on the cart - if eligible. For example a Buy 1 hat Get 1 hat for free discount can be applied 3 times on a cart having more than 6 hats, where maximum of 3 hats get discounted - if the allocation_limit is 3. Empty (null) allocation_limit means unlimited number of allocations.
-
   Caution
   allocation_limit is only working with Buy X Get Y discount. The default value on creation will be null (unlimited).  */
   allocation_limit?: number;
@@ -2088,12 +1932,10 @@ export type PriceRule = {
   updated_at?: Date;
   /** A list of IDs of products that will be entitled to the discount. It can be used only with target_type set to line_item
   and target_selection set to entitled.
-
   If a product variant is included in entitled_variant_ids, then entitled_product_ids can't include the ID of the product associated with that variant.  */
   entitled_product_ids?: number[];
   /** A list of IDs of product variants that will be entitled to the discount. It can be used only with target_type set to line_item
   and target_selection set to entitled.
-
   If a product is included in entitled_product_ids, then entitled_variant_ids can't include the ID of any variants associated with that product.  */
   entitled_variant_ids?: number[];
   /** A list of IDs of collections whose products will be eligible to the discount. It can be used only with
@@ -2103,34 +1945,26 @@ export type PriceRule = {
   /** A list of IDs of shipping countries that will be entitled to the discount. It can be used only with target_type set to shipping_line and target_selection set to entitled.  */
   entitled_country_ids?: EntitledCountryId;
   /** List of product ids that will be a prerequisites for a Buy X Get Y type discount. The prerequisite_product_ids can be used only with:
-
   target_type set to line_item,
   target_selection set to entitled,
   allocation_method set to each and
   prerequisite_to_entitlement_quantity_ratio defined.
-
-
   Caution
   If a product variant is included in prerequisite_variant_ids, then prerequisite_product_ids can't include the ID of the product associated with that variant.  */
   prerequisite_product_ids?: number[];
   /** List of variant ids that will be a prerequisites for a Buy X Get Y type discount. The entitled_variant_ids can be used only with:
-
   target_type set to line_item,
   target_selection set to entitled,
   allocation_method set to each and
   prerequisite_to_entitlement_quantity_ratio defined.
-
-
   Caution
   If a product is included in prerequisite_product_ids, then prerequisite_variant_ids can't include the ID of any variants associated with that product.  */
   prerequisite_variant_ids?: number[];
   /** List of collection ids that will be a prerequisites for a Buy X Get Y discount. The entitled_collection_ids can be used only with:
-
   target_type set to line_item,
   target_selection set to entitled,
   allocation_method set to each and
   prerequisite_to_entitlement_quantity_ratio defined.
-
   Cannot be used in combination with prerequisite_product_ids or prerequisite_variant_ids.  */
   prerequisite_collection_ids?: number[];
   /** A list of customer saved search IDs. For the price rule to be applicable, the customer must be in the group of customers matching a customer saved search.
@@ -2140,38 +1974,30 @@ export type PriceRule = {
   If prerequisite_customer_ids is populated, then prerequisite_saved_search_ids must be empty.  */
   prerequisite_customer_ids?: number[];
   /** The minimum subtotal for the price rule to be applicable. It has the following property:
-
   greater_than_or_equal_to: The subtotal of the entitled cart items must be greater than or equal to this value for the discount to apply.  */
   prerequisite_subtotal_range?: PrerequisiteSubtotalRange;
   /** The minimum number of items for the price rule to be applicable. It has the following property:
-
   greater_than_or_equal_to: The quantity of an entitled cart item must be greater than or equal to this value.  */
   prerequisite_quantity_range?: PrerequisiteSubtotalRange;
   /** The maximum shipping price for the price rule to be applicable. It has the following property:
-
   less_than_or_equal_to: The shipping price must be less than or equal to this value.  */
   prerequisite_shipping_price_range?: PrerequisiteShippingPriceRange;
   /** Buy/Get ratio for a Buy X Get Y discount. prerequisite_quantity defines the necessary 'buy' quantity and entitled_quantity the offered 'get' quantity.
   The prerequisite_to_entitlement_quantity_ratio can be used only with:
-
   value_type set to percentage,
   target_type set to line_item,
   target_selection set to entitled,
   allocation_method set to each,
   prerequisite_product_ids or prerequisite_variant_ids or prerequisite_collection_ids defined and
   entitled_product_ids or entitled_variant_ids or entitled_collection_ids defined.
-
-
   Caution
   Cannot be used in combination with prerequisite_subtotal_range, prerequisite_quantity_range or prerequisite_shipping_price_range.  */
   prerequisite_to_entitlement_quantity_ratio?: PrerequisiteToEntitlementQuantityRatio;
   /** The prerequisite purchase for a Buy X Get Y discount. It has the following property:
-
   prerequisite_amount: The minimum purchase amount required to be entitled to the discount.  */
   prerequisite_to_entitlement_purchase?: PrerequisiteToEntitlementPurchase;
   /** The title of the price rule. This is used by the Shopify admin search to retrieve discounts. It is also displayed on the Discounts page of the Shopify admin for bulk discounts.
   For non-bulk discounts, the discount code is displayed on the admin.
-
   For a consistent search experience, use the same value for title as the code property of the associated discount code.  */
   title?: string;
   admin_graphql_api_id?: string;
@@ -2189,21 +2015,20 @@ export type ScriptTag = {
   /** The date and time (ISO 8601) when the script tag was last updated.  */
   updated_at?: Date;
   /** The page or pages on the online store where the script should be included. Valid values:
-
   online_store: Include the script only on the web storefront.
   order_status: Include the script only on the order status page.
   all: Include the script on both the web storefront and the order status page.  */
   display_scope?: string;
   /** Whether the Shopify CDN can cache and serve the script tag. Valid values:
-
   true: The script will be cached and served by the CDN. The cache expires 15 minutes after the script tag is successfully returned.
   false: The script will be served as is.
-
   Default value: false.  */
   cache?: boolean;
 };
 
-export type VariantId = {};
+export type VariantId = {
+  [T: string]: unknown;
+};
 
 export type Engagement = {
   occurred_on?: string;
@@ -2255,10 +2080,8 @@ export type DraftOrder = {
   /** The status of a draft order as it transitions into an order. When a draft order is created it is set to open status.
   The invoice can then be sent to the customer, and status changes to invoice_sent.
   The draft order can then be paid, set to pending, or paid by credit card. In each case, the draft order is set to completed and an order is created.
-
   After a draft order is set to completed the only further modifications that can be made are adding tags or metafields.
   Valid values:
-
   open: Draft order is open.
   invoice_sent: Invoice has been sent for the draft order.
   completed: Draft order has been completed and turned into an order.  */
@@ -2266,7 +2089,6 @@ export type DraftOrder = {
   /** Product variant line item or custom line item associated to the draft order.
   Each draft order must include at least one line_item.
   Each line_item object has the following properties:
-
   custom: Read only field Whether this is a custom line item or a product variant line item.
   If set to true indicates a custom line item.
   If set to false indicates a product variant line item.
@@ -2293,7 +2115,6 @@ export type DraftOrder = {
   taxable: Whether the product is taxable. Only applicable to custom line items.  */
   line_items?: LineItem[];
   /** The mailing address to where the order will be shipped. This address is optional and will not be available on orders that do not require shipping. It has the following properties:
-
   address1: The street address of the shipping address.
   address2: An optional additional field for the street address of the shipping address.
   city: The city of the shipping address.
@@ -2311,7 +2132,6 @@ export type DraftOrder = {
   zip: The zip or postal code of the shipping address.  */
   shipping_address?: ShippingAddress;
   /** The mailing address associated with the payment method. This address is an optional field that won't be available on orders that do not require a payment method. It has the following properties:
-
   address1: The street address of the billing address.
   address2: An optional additional field for the street address of the billing address.
   city: The city of the billing address.
@@ -2331,7 +2151,6 @@ export type DraftOrder = {
   /** The URL for the invoice.  */
   invoice_url?: string;
   /** The discount applied to the line item or the draft order object. Each draft order object can have one applied_discount object and each draft order line item can have its own applied_discount. The object has the following properties:
-
   title: Title of the discount.
   description: Reason for the discount.
   value: The value of the discount. If the type of discount is fixed_amount, then it corresponds to a fixed dollar amount. If the type is percentage, then it corresponds to percentage.
@@ -2341,14 +2160,12 @@ export type DraftOrder = {
   /** The ID of the order that 's created and associated with the draft order after the draft order is completed.  */
   order_id?: number;
   /** A shipping_line object, which details the shipping method used. The object has the following properties:
-
   custom: Whether this is a regular shipping line or custom shipping line.
   handle: The handle of the shipping rate which was selected and applied. Required for regular shipping lines.
   title: The title of the shipping method. Required for custom shipping lines. (maximum: 255 characters)
   price: The price of the shipping method. Required for custom shipping lines.  */
   shipping_line?: ShippingLine;
   /** An array of tax line objects, each of which details a tax applicable to the order. Each object has the following properties:
-
   price: The amount of tax to be charged.
   rate: The rate of tax to be applied.
   title: The name of the tax.  */
@@ -2373,14 +2190,12 @@ export type DraftOrder = {
   total_discounts_set?: PriceSet;
   total_shipping_price_set?: PriceSet;
   /** The terms and conditions under which a payment should be processed.
-
   amount: The amount that is owed according to the payment terms.
   currency: The presentment currency for the payment.
   payment_terms_name: The name of the selected payment terms template for the draft order.
   payment_terms_type: The type of selected payment terms template for the draft order.
   due_in_days: The number of days between the invoice date and due date that is defined in the selected payment terms template.
   payment_schedules: An array of schedules associated to the payment terms.
-
   amount: The amount that is owed according to the payment terms.
   currency: The presentment currency for the payment.
   issued_at: The date and time when the payment terms were initiated.
@@ -2394,7 +2209,6 @@ export type DraftOrder = {
   For more information, see Loading  and removing customers. For more information about the customer object,  see the Customer resource.  */
   customer?: Customer;
   /** Whether the customer is exempt from paying specific taxes on their order. Canadian taxes only. Valid values:
-
   EXEMPT_ALL: This customer is exempt from all Canadian taxes.
   CA_STATUS_CARD_EXEMPTION: This customer is exempt from specific taxes for holding a valid STATUS_CARD_EXEMPTION in Canada.
   CA_DIPLOMAT_EXEMPTION: This customer is exempt from specific taxes for holding a valid DIPLOMAT_EXEMPTION in Canada.
@@ -2424,10 +2238,6 @@ export type RefundDuty = {
   refund_type?: string;
 };
 
-export type LocationId = {
-  id?: number;
-};
-
 export type CustomerId = {
   customer_id?: number;
 };
@@ -2446,7 +2256,6 @@ export type Collection = {
   /** The time and date (ISO 8601 format) when the collection was made visible. Returns null for a hidden collection.  */
   published_at?: Date;
   /** The order in which products in the collection appear. Valid values:
-
   alpha-asc: Alphabetically, in ascending order (A - Z).
   alpha-desc: Alphabetically, in descending order (Z - A).
   best-selling: By best-selling products.
@@ -2461,7 +2270,6 @@ export type Collection = {
   products_count?: number;
   collection_type?: string;
   /** Whether the collection is published to the Point of Sale channel. Valid values:
-
   web: The collection is published to the Online Store channel but not published to
   the Point of Sale channel.
   global: The collection is published to both the Online Store channel and the Point
@@ -2469,7 +2277,6 @@ export type Collection = {
   published_scope?: string;
   admin_graphql_api_id?: string;
   /** Image associated with the collection. Valid values are:
-
   attachment: An image attached to a collection returned as Base64-encoded binary data.
   src: The source URL that specifies the location of the image.
   alt: The alternative text that describes the collection image.
@@ -2534,7 +2341,6 @@ export type Fulfillment = {
   /** The unique numeric identifier for the order.  */
   order_id?: number;
   /** The address of the fulfillment location:
-
   address1: The street address of the fulfillment location.
   address2: The second line of the address. Typically the number of the apartment, suite, or unit.
   city: The city of the fulfillment location.
@@ -2543,14 +2349,12 @@ export type Fulfillment = {
   zip: The zip code of the fulfillment location.  */
   origin_address?: OriginAddress;
   /** A text field that provides information about the receipt:
-
   testcase: Whether the fulfillment was a testcase.
   authorization: The authorization code.  */
   receipt?: Receipt;
   /** The type of service used.  */
   service?: string;
   /** The current shipment status of the fulfillment. Valid values:
-
   label_printed: A label for the shipment was purchased and printed.
   label_purchased: A label for the shipment was purchased, but not printed.
   attempted_delivery: Delivery of the shipment was attempted, but unable to be completed.
@@ -2562,7 +2366,6 @@ export type Fulfillment = {
   failure: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled.  */
   shipment_status?: string;
   /** The status of the fulfillment. Valid values:
-
   pending: The fulfillment is pending.
   open: The fulfillment has been acknowledged by the service and is in processing.
   success: The fulfillment was successful.
@@ -2571,7 +2374,6 @@ export type Fulfillment = {
   failure: The fulfillment request failed.  */
   status?: string;
   /** The name of the tracking company. The following tracking companies display for shops located in any country:
-
   4PX
   Amazon Logistics UK
   Amazon Logistics US
@@ -2619,23 +2421,17 @@ export type Fulfillment = {
   Whistl
   Yamato
   YunExpress
-
-
   The following tracking companies are displayed for shops located in specific countries:
-
   Germany: Deutsche Post (DE), Deutsche Post (EN), DHL
   Ireland: An Post, Fastway
   Australia: Aramex Australia, Australia Post, Sendle
   Japan: エコ配, 西濃運輸, 西濃スーパーエキスプレス, 福山通運, 日本通運, 名鉄運輸, 第一貨物
   China: Anjun Logistics, China Post, DHL eCommerce Asia, FSC, SFC Fulfillment, WanbExpress, YunExpress
-
-
   Important
   When creating a fulfillment for a supported carrier, send the tracking_company exactly as written in the list above. If the tracking company doesn't match one of the supported entries, then the shipping status might not be updated properly during the fulfillment process.  */
   tracking_company?: string;
   tracking_number?: string;
   /** A list of tracking numbers, provided by the shipping company.
-
   Important
   It is highly recommended that you send the tracking company and the tracking URL as well. If neither one of these is sent, then the tracking company will be determined automatically. This can result in an invalid tracking URL.
   The tracking URL is displayed in the shipping confirmation email, which can optionally be sent to the customer. When accounts are enabled, it is also displayed in the customer's order history.  */
@@ -2646,7 +2442,6 @@ export type Fulfillment = {
   /** The date and time (ISO 8601 format) when the fulfillment was last modified..  */
   updated_at?: Date;
   /** A historical record of each item in the fulfillment:
-
   id: The ID of the line item within the fulfillment.
   variant_id: The ID of the product variant being fulfilled.
   title: The title of the product.
@@ -2693,7 +2488,6 @@ export type Transaction = {
   /** The ID for the device.  */
   device_id?: number;
   /** A standardized error code, independent of the payment provider. Valid values:
-
   incorrect_number
   invalid_number
   invalid_expiry_date
@@ -2710,7 +2504,6 @@ export type Transaction = {
   /** The name of the gateway the transaction was issued through. A list of gateways can be found on Shopify's payment gateways page.  */
   gateway?: string;
   /** The transaction's type. Valid values:
-
   authorization: Money that the customer has agreed to pay. The authorization period can be between 7 and 30 days (depending on your payment service) while a store waits for a payment to be captured.
   capture: A transfer of money that was reserved during the authorization of a shop.
   sale: The authorization and capture of a payment performed in one single step.
@@ -2718,13 +2511,12 @@ export type Transaction = {
   refund: The partial or full return of captured money to the customer.  */
   kind?: string;
   /** The ID of the physical location where the transaction was processed.  */
-  location_id?: LocationId;
+  location_id?: OrderId;
   /** A string generated by the payment provider with additional information about why the transaction succeeded or failed.  */
   message?: string;
   /** The ID for the order that the transaction is associated with.  */
   order_id?: number;
   /** The ID of an associated transaction.
-
   For capture transactions, the parent needs to be an authorization transaction.
   For void transactions, the parent needs to be an authorization transaction.
   For refund transactions, the parent needs to be a capture or sale transaction.  */
@@ -2747,7 +2539,6 @@ export type Transaction = {
   user_id?: number;
   maximum_refundable?: string;
   /** Information about the credit card used for this transaction. It has the following attributes:
-
   credit_card_bin: The issuer identification number (IIN), formerly known as bank identification number (BIN) of the customer's credit card. This is made up of the first few digits of the credit card number.
   avs_result_code: The response code from the address verification system. The code is always a single letter. Refer to this chart for the codes and their definitions.
   cvv_result_code: The response code from the credit card company indicating whether the customer entered the card security code, or card verification value, correctly. The code is a single letter or empty string; see this chart for the codes and their definitions.
@@ -2755,47 +2546,32 @@ export type Transaction = {
   credit_card_company: The name of the company that issued the customer's credit card.  */
   payment_details?: PaymentDetail;
   /** An adjustment on the transaction showing the amount lost or gained due to fluctuations in the currency exchange rate. It has the following attributes:
-
   ID: The ID of the adjustment.
   adjustment: The difference between the amounts on the associated transaction and the parent transaction.
   original_amount: The amount of the parent transaction in the shop currency.
   final_amount: The amount of the associated transaction in the shop currency.
   currency: The shop currency.
-
   Requires the header X-Shopify-Api-Features = include-currency-exchange-adjustments.  */
   currency_exchange_adjustment?: CurrencyExchangeAdjustment;
   /** The date and time (ISO 8601 format) when the Shopify Payments authorization expires.  */
   authorization_expires_at?: Date;
   /** The attributes associated with a Shopify Payments extended authorization period. It has the following attributes:
-
   standard_authorization_expires_at: The date and time (ISO 8601 format) when the standard authorization period expires. After expiry, an extended authorization fee is applied upon capturing the payment.
   extended_authorization_expires_at: The date and time (ISO 8601 format) when the extended authorization period expires. After expiry, the merchant can't capture the payment.
-
-
   extended_authorization_attributes are available on the Retrieve a specific transaction for an order endpoint only if the following criteria applies:
-
   The store is on a Shopify Plus plan.
   The store uses Shopify Payments.
   The transaction being retrieved is an extended authorization, which is determined by the capture_before date in the charge.
-
-
   If the criteria isn't met, then an empty JSON is returned for extended_authorization_attributes.
-
   To learn more about extended authorization periods, refer to Payment authorization.  */
   extended_authorization_attributes?: ExtendedAuthorizationAttribut;
   /** The attributes associated with a Shopify Payments refund. It has the following attributes:
-
   status: The current status of the refund. Valid values: pending, failure, success, and error.
   acquirer_reference_number: A unique number associated with the transaction that can be used to track the refund. This property has a value only for transactions completed with Visa or Mastercard.
-
-
   payments_refund_attributes are available on any JSON serialization of the order transaction only if the following criteria apply:
-
   The store is on a Shopify Plus plan.
   The store uses Shopify Payments.
   The order transaction kind is either refund or void.
-
-
   If the criteria isn't met, then the payments_refund_attributes property is omitted.  */
   payments_refund_attributes?: PaymentsRefundAttribut;
   amount_in?: string;
@@ -2834,10 +2610,6 @@ export type Destination = {
   zip?: string;
 };
 
-export type FinalizedOn = {
-  finalized_on?: Date;
-};
-
 export type ClientDetail = {
   accept_language?: string;
   browser_height?: number;
@@ -2849,7 +2621,6 @@ export type ClientDetail = {
 
 export type DiscountCode = {
   /** The case-insensitive discount code that customers use at checkout. (maximum: 255 characters)
-
   Use the same value for code as the title property of the associated price rule.  */
   code?: string;
   amount?: string;
@@ -2888,7 +2659,9 @@ export type ShippingLine = {
   handle?: string;
 };
 
-export type TaxExemption = {};
+export type TaxExemption = {
+  [T: string]: unknown;
+};
 
 export type ShippingRate = {
   id?: string;
@@ -2912,7 +2685,6 @@ export type ShippingZone = {
   location_group_id?: string;
   admin_graphql_api_id?: string;
   /** A list of countries that belong to the shipping zone.
-
   id: The unique numeric identifier for the country.
   code: The ISO 3166-1 alpha-2 two-letter country code for the country. The code for a given country will be the same as the code for the same country in another shop.
   shipping_zone_id: The unique numeric identifier for the shipping zone.
@@ -2921,7 +2693,6 @@ export type ShippingZone = {
   tax_name: The name of the tax as it is referred to in the applicable province/state. For example, in Ontario, Canada the tax is referred to as HST.  */
   countries?: Country[];
   /** Information about a weight-based shipping rate.
-
   id: The unique numeric identifier for the shipping rate.
   name: The name of the shipping rate.
   price: The price of the shipping rate.
@@ -2930,7 +2701,6 @@ export type ShippingZone = {
   weight_high: The maximum weight of an order for it to be eligible for the shipping rate.  */
   weight_based_shipping_rates?: WeightBasedShippingRate[];
   /** Information about a price-based shipping rate.
-
   id: The unique numeric identifier for the shipping rate.
   name: The name of the shipping rate.
   price: The price of the shipping rate.
@@ -3007,10 +2777,6 @@ export type RequestOption = {
   notify_customer?: boolean;
 };
 
-export type EvidenceDueBy = {
-  evidence_due_by?: Date;
-};
-
 export type ServiceFilter = {
   "*"?: string;
 };
@@ -3055,7 +2821,6 @@ export type InventoryLevel = {
 export type MarketingEvent = {
   id?: number;
   /** The type of marketing event. Valid values: ad, post, message, retargeting, transactional, affiliate, loyalty, newsletter, abandoned_cart.
-
   Note
   If there are values that you’d like to use for event_type that are not in the list above, then please post your request here. Our approach is to be more structured than using freeform text, but to still allow for categorization of most types of marketing actions.  */
   event_type?: string;
@@ -3092,7 +2857,6 @@ export type MarketingEvent = {
   marketing_activity_id?: number;
   admin_graphql_api_id?: string;
   /** A list of the items that were marketed in the marketing event. Includes the type and id of each item. Valid values for type are:
-
   product
   collection
   price_rule
@@ -3145,7 +2909,6 @@ export type ProductListing = {
   published_at?: Date;
   /** A list of variant objects, each one representing a slightly different version of the product. For example, if a product comes in different sizes and colors, each size and color permutation (such as "small black", "medium black", "large blue"), would be a variant.
   To reorder variants, update the product with the variants in the desired order. The position attribute on the variant will be ignored.
-
   barcode: The barcode, UPC or ISBN number for the product.
   compare_at_price: The competitor's price for the same item.
   created_at: The date and time when the product variant was created. The API returns this in ISO 8601.
@@ -3196,10 +2959,6 @@ export type CarrierService = {
 export type DeliveryMethod = {
   id?: number;
   method_type?: string;
-};
-
-export type EvidenceSentOn = {
-  evidence_sent_on?: Date;
 };
 
 export type ShippingAddress = {
@@ -3293,7 +3052,6 @@ export type CustomCollection = {
   /** The time and date (ISO 8601 format) when the collection was made visible. Returns null for a hidden custom collection.  */
   published_at?: Date;
   /** The order in which products in the custom collection appear. Valid values:
-
   alpha-asc: Alphabetically, in ascending order (A - Z).
   alpha-desc: Alphabetically, in descending order (Z - A).
   best-selling: By best-selling products.
@@ -3306,7 +3064,6 @@ export type CustomCollection = {
   /** The suffix of the liquid template being used. For example, if the value is custom, then the collection is using the collection.custom.liquid template. If the value is null, then the collection is using the default collection.liquid.  */
   template_suffix?: string;
   /** Whether the collection is published to the Point of Sale channel. Valid values:
-
   web: The custom collection is published to the Online Store channel but not published to
   the Point of Sale channel.
   global: The custom collection is published to both the Online Store channel and the Point
@@ -3314,7 +3071,6 @@ export type CustomCollection = {
   published_scope?: string;
   admin_graphql_api_id?: string;
   /** Image associated with the custom collection. Valid values are:
-
   attachment: An image attached to a custom collection returned as Base64-encoded binary data.
   src: The source URL that specifies the location of the image.
   alt: Alternative text that describes the collection image.
@@ -3351,13 +3107,7 @@ export type ResourceFeedback = {
   resource_updated_at?: string;
   /** A concise set of copy strings to be displayed to merchants, to guide them in resolving problems your app
   encounters when trying to make use of their Shop and its resources.
-
-
-
   Required only when state is requires_action. Disallowed when state is success.
-
-
-
   Content restrictions for product feedback:
   four messages up to 100 characters long.  */
   messages?: string[];
@@ -3365,9 +3115,6 @@ export type ResourceFeedback = {
   outdated compared to feedback already received, and if it should be ignored upon arrival.
   Type: ISO 8601 UTC DateTime as string
   with year, month [or week], day, hour, minute, second, millisecond, and time zone.
-
-
-
   Note
   If you queue a Feedback API payload for delivery at a later time, do not update this value
   when the API call is actually made; ensure that the current time is set when building the payload.  */
@@ -3386,54 +3133,27 @@ export type FulfillmentOrder = {
   /** The ID of the location that has been assigned to do the work.  */
   assigned_location_id?: number;
   /** The request status of the fulfillment order. Valid values:
-
-
   unsubmitted:
   The initial state for newly created fulfillment orders. This is the only valid
   state for fulfillment orders not assigned to a fulfillment service.
-
-
   submitted: The merchant requested fulfillment for this fulfillment order.
-
-
   accepted: The fulfillment service accepted the merchant's fulfillment request.
-
-
   rejected: The fulfillment service rejected the merchant's fulfillment request.
-
-
   cancellation_requested: The merchant requested a cancellation of the fulfillment request for this fulfillment order.
-
-
   cancellation_accepted: The fulfillment service accepted the merchant's fulfillment cancellation request.
-
-
   cancellation_rejected: The fulfillment service rejected the merchant's fulfillment cancellation request.
-
-
   closed: The fulfillment service closed the fulfillment order without completing it.  */
   request_status?: string;
   /** The status of the fulfillment order. Valid values:
-
-
   open: Default state for newly created fulfillment orders.
-
-
   in_progress: The fulfillment order is being processed.
-
-
   cancelled: The fulfillment order has been cancelled by the merchant.
-
-
   incomplete: The fulfillment order cannot be completed as requested.
-
-
   closed: The fulfillment order has been completed and closed.  */
   status?: string;
   /** The actions that can be performed on this fulfillment order.  */
   supported_actions?: string[];
   /** The destination where the items should be sent.
-
   id: The ID of the fulfillment order destination.
   address1: The first line of the address of the destination.
   address2: The second line of the address of the destination.
@@ -3448,7 +3168,6 @@ export type FulfillmentOrder = {
   zip: The ZIP code of the destination.  */
   destination?: Destination;
   /** Represents line items belonging to a fulfillment order:
-
   id: The ID of the fulfillment order line item.
   shop_id: The ID of the shop associated with the fulfillment order line item.
   fulfillment_order_id: The ID of the fulfillment order associated with this line item.
@@ -3460,7 +3179,6 @@ export type FulfillmentOrder = {
   outgoing_requests?: OutgoingRequest[];
   fulfillment_service_handle?: string;
   /** The fulfillment order's assigned location. This is the location expected to perform fulfillment.
-
   address1: The street address of the assigned location.
   address2: An optional additional field for the street address of the assigned location.
   city: The city of the assigned location.
@@ -3473,7 +3191,6 @@ export type FulfillmentOrder = {
   assigned_location?: Origin;
   origin?: Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
-
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */
@@ -3483,22 +3200,17 @@ export type FulfillmentOrder = {
   For more information about fulfillment statuses, refer to the status property.  */
   fulfill_at?: string;
   /** The international duties relevant to the fulfillment order.
-
   incoterm: The method of duties payment. Valid values:
-
   DAP: Delivered at place.
   DDP: Delivered duty paid.  */
   international_duties?: InternationalDuti;
   /** Represents the fulfillment holds applied on the fulfillment order.
-
   reason: The reason for the fulfillment hold.
   reason_notes: Additional information about the fulfillment hold reason.  */
   fulfillment_holds?: FulfillmentHold[];
   /** The type of method used to transfer a product or service to a customer.
-
   id: The ID of the delivery method.
   method_type: The type of delivery method. Valid values:
-
   local: A delivery to a customer's doorstep.
   none: No delivery method.
   pick_up: A delivery that a customer picks up at your retail store, curbside, or any location that you choose.
@@ -3513,7 +3225,6 @@ export type FulfillmentEvent = {
   /** An ID for the fulfillment that's associated with the fulfillment event.  */
   fulfillment_id?: number;
   /** The status of the fulfillment event. Valid values:
-
   label_printed: A label for the shipment was purchased and printed.
   label_purchased: A label for the shipment was purchased, but not printed.
   attempted_delivery: Delivery of the shipment was attempted, but unable to be completed.
@@ -3561,7 +3272,6 @@ export type LocationsForMove = {
   message?: string;
   movable?: boolean;
   /** A list of locations that a fulfillment order can potentially move to.
-
   location: The location being considered as the fulfillment order's new assigned location.
   movable: Whether the fulfillment order can be moved to the location.
   message: A human-readable string with the reason why the fulfillment order,
@@ -3578,7 +3288,6 @@ export type ApplicationCharge = {
   /** The price of the application charge. The minimum price is 0.50, and maximum price is 10,000.  */
   price?: string;
   /** The status of the application charge. Valid values:
-
   pending: The application charge is pending approval by the merchant.
   accepted: Removed in version 2021-01. The application charge has been accepted by the merchant and is ready to be activated by the app. At this point it will appear on the merchant's invoice. As of API version 2021-01, when a merchant accepts a charge, the charge immediately transitions from pending to active.
   active: The application charge has been activated by the app and will be paid out to the Partner.
@@ -3630,7 +3339,6 @@ export type CollectionListing = {
   /** The name of the collection.  */
   title?: string;
   /** The order in which products in the collection appear. Valid values are:
-
   alpha-asc: Alphabetically, in ascending order (A - Z).
   alpha-desc: Alphabetically, in descending order (Z - A).
   best-selling: By best-selling products.
@@ -3646,10 +3354,6 @@ export type CollectionListing = {
 
 export type InternationalDuti = {
   incoterm?: string;
-};
-
-export type NetworkReasonCode = {
-  network_reason_code?: number;
 };
 
 export type TenderTransaction = {
@@ -3670,12 +3374,10 @@ export type TenderTransaction = {
   /** The remote (gateway) reference associated with the tender.  */
   remote_reference?: string;
   /** Information about the payment instrument used for this transaction. It has the following properties:
-
   credit_card_company: The name of the company that issued the customer's credit card.
   credit_card_number: The customer's credit card number, with most of the leading digits redacted.  */
   payment_details?: PaymentDetail;
   /** Information about the payment method used for this transaction. Valid values:
-
   credit_card
   cash
   android_pay
@@ -3722,7 +3424,6 @@ export type DeprecatedApiCalls = {
   /** The date and time (ISO 8601 format) when the data was last updated.  */
   data_updated_at?: string;
   /** A list of deprecated API calls made by the authenticated app in the past 30 days. Each object has the following properties:
-
   api_type: The type of API that the call was made to. Valid values: REST, Webhook, GraphQL.
   description: A description of the deprecation and any required migration steps.
   documentation_url: The documentation URL to the deprecated change.
@@ -3842,7 +3543,6 @@ export type StorefrontAccessToken = {
   id?: number;
   admin_graphql_api_id?: string;
   /** An arbitrary title for each token determined by the developer/application, used for reference purposes.
-
   Note
   No constraint on uniqueness.  */
   title?: string;
@@ -3865,7 +3565,6 @@ export type MovedFulfillmentOrder = {
   fulfillment_service_handle?: string;
   assigned_location?: Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
-
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */
@@ -3919,7 +3618,6 @@ export type OriginalFulfillmentOrder = {
   fulfillment_service_handle?: string;
   assigned_location?: Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
-
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */
@@ -3953,7 +3651,6 @@ export type ShopifyPaymentTransaction = {
   /** The unique identifier of the transaction.  */
   id?: number;
   /** The type of the balance transaction. The value will be one of the following:
-
   charge
   refund
   dispute
@@ -3983,7 +3680,6 @@ export type ShopifyPaymentTransaction = {
   /** The id of the resource leading to the transaction.  */
   source_id?: number;
   /** The type of the resource leading to the transaction.
-
   charge
   refund
   dispute
@@ -4009,7 +3705,6 @@ export type RecurringApplicationCharge = {
   /** The price of the recurring application charge. The maximum price is 10,000.  */
   price?: string;
   /** The status of the recurring charge. Valid values:
-
   pending: The recurring charge is pending.
   accepted: Removed in version 2021-01. The recurring charge has been accepted. As of API version 2021-01, when a merchant accepts a charge, the charge immediately transitions from pending to active.
   active: The recurring charge is activated. This is the only status that actually causes a merchant to be charged. As of API version 2021-01, when a merchant accepts a charge, the charge immediately transitions from pending to active.
@@ -4080,7 +3775,6 @@ export type ReplacementFulfillmentOrder = {
   fulfillment_service_handle?: string;
   assigned_location?: Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
-
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */

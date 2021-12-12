@@ -12,6 +12,9 @@ export const nameToSnakeCase = (name: string) => {
     case "Abandonedcheckouts": {
       return "INCONSISTENT_API";
     }
+    case "Dispute": {
+      return "INCONSISTENT_API";
+    }
     case "StorefrontAccessToken": {
       return "INCONSISTENT_API";
     }

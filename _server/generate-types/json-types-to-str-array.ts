@@ -2,13 +2,17 @@ import { getType } from "./get-type";
 
 export const jsonTypesToStrArray = (types: any) => {
   const resultArray = [];
-  Object.entries(types).forEach(([type, obj]) => {
+  Object.entries(types).forEach(([type, obj], index, array) => {
     resultArray.push(`export type ${type.replace(/\s/gi, "").replace(/^\*$/gi, '"*"')} = {\n`);
 
     if (getType(obj) === "object") {
+      if (JSON.stringify(obj) === "{}") {
+        resultArray.push(`  [T: string]: unknown;\n`);
+      }
       Object.entries(obj).forEach(([key, val]) => {
         if (getType(val) === "object" && val["type"] && val["comment"]) {
           resultArray.push(`  /** `);
+          val.comment = val.comment.replace(/(\n\s*\n)/gi, "\n");
           val.comment
             .split("\n")
             .forEach((comment, i, arr) => {
@@ -40,7 +44,11 @@ export const jsonTypesToStrArray = (types: any) => {
       });
     }
 
-    resultArray.push(`}\n\n`);
+    if (index !== array.length - 1) {
+      resultArray.push(`};\n\n`);
+    } else {
+      resultArray.push(`};\n`);
+    }
   });
   return resultArray;
 };

@@ -66,6 +66,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
         comment: stripHtml(description),
         example,
       }));
+
       const paths = api.paths.map(
         ({ url, action, "x-examples": examples, parameters, description }) => ({
           body: examples
