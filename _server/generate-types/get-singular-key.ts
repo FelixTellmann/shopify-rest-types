@@ -15,6 +15,27 @@ export const getSingularKey = (key: string) => {
     case "duties": {
       return "duty";
     }
+    case "option_values": {
+      return "option_value";
+    }
+    case "payment_schedules": {
+      return "payment_schedule";
+    }
+    case "refund_duties": {
+      return "refund_duty";
+    }
+    case "weight_based_shipping_rates": {
+      return "weight_based_shipping_rate";
+    }
+    case "price_based_shipping_rates": {
+      return "weight_based_shipping_rate";
+    }
+    case "country_harmonized_system_codes": {
+      return "country_harmonized_system_code";
+    }
+    case "marketed_resources": {
+      return "marketed_resource";
+    }
     case "note_attributes": {
       return "note_attribute";
     }

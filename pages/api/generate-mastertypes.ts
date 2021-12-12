@@ -10,7 +10,10 @@ import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { fixShopifyApiErrors } from "../../_server/generate-types/fix-shopify-api-errors";
+import { jsonTypesToStrArray } from "../../_server/generate-types/json-types-to-str-array";
 import { nameToSnakeCase } from "../../_server/generate-types/name-to-snake-case";
+import { writeTypesToFile } from "../../_utils/json-to-ts";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
@@ -246,7 +249,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
             if (!masterTypes[route.apiName][name]["type"]) {
               if (Array.isArray(masterTypes[route.apiName][name]) && (type || exampleType)) {
                 if (exampleType.includes("object")) {
-                  console.log(route.apiName, name, example, "a", masterTypes[route.apiName][name]);
+                  // console.log(route.apiName, name, example, "a", masterTypes[route.apiName][name]);
                 }
                 /* masterTypes[route.apiName][name] = getTypeByName(name)
                   ? getTypeByName(name)
@@ -280,7 +283,7 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
             }
           } else {
             if (exampleType.includes("object")) {
-              console.log(route.apiName, name, example, "b");
+              // console.log(route.apiName, name, example, "b");
             }
             masterTypes[route.apiName][name] = {
               type: getTypeByName(name)
@@ -300,12 +303,6 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
             };
           }
         });
-      }
-      if (!masterTypes[route.apiName]) {
-        console.log(route.apiName);
-      }
-      if (Object.values(replacements).find((r) => r.includes(route.apiName))) {
-        console.log(route.apiName, "replacement");
       }
     });
 
@@ -333,7 +330,20 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
       }
     }
 
-    res.status(200).json(masterTypes);
+    const types = fixShopifyApiErrors(masterTypes);
+
+    writeTypesToFile({ path: `types/${version}/root-types.ts`, types: jsonTypesToStrArray(types) });
+
+    routeArray.forEach((route) => {
+      if (!types[route.apiName]) {
+        console.log(route.apiName);
+      }
+      if (Object.values(replacements).find((r) => r.includes(route.apiName))) {
+        console.log(route.apiName, "replacement");
+      }
+    });
+
+    res.status(200).json(types);
     return;
 
     // writeTypesToFile({ path: `types/${version}/root-types.ts`, types });

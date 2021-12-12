@@ -112,7 +112,7 @@ export const findOverlappingObjects = (rootObject) => {
         returnObject[keyA] = a;
       }
     });
-  console.log({ replacements });
+  // console.log({ replacements });
 
   let objectString = JSON.stringify(returnObject);
   Object.entries(replacements).forEach(([key, keyReplacements]) => {

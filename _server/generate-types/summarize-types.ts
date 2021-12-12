@@ -154,7 +154,7 @@ export const sumPathTypes = (endpoints) => {
           }
 
           default: {
-            console.log({ repeatedType });
+            // console.log({ repeatedType });
           }
         }
       }
