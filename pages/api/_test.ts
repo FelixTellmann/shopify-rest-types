@@ -10,13 +10,13 @@ type _TestFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void
 
 export const _Test: _TestFunction = async (req, res) => {
   const data2 = await shopify.get({
-    path: `product/123123`,
+    path: `storefront_access_tokens`,
     query: {
-      product: "123123",
+      product: "asd",
     },
   });
 
-  data2.body.product;
+  data2.body;
 
   res.status(200).json({ name: "John Doe" });
 };
