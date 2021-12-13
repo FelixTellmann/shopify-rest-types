@@ -64,19 +64,6 @@ export type Page = {
   metafield?: Metafield;
 };
 
-export type Duty = {
-  id?: string;
-  tax_lines?: TaxLine[];
-  shop_money?: Price;
-  presentment_money?: Price;
-  admin_graphql_api_id?: string;
-  country_code_of_origin?: string;
-  harmonized_system_code?: string;
-  duty_id?: number;
-  amount_set?: PriceSet;
-  duties?: Duty[];
-};
-
 export type Risk = {
   /** A unique numeric identifier for the order risk.  */
   id?: number;
@@ -105,6 +92,17 @@ export type Risk = {
   message?: string;
   /** The message that's displayed to the merchant to indicate the results of the fraud check. The message is displayed only if display is set totrue.  */
   merchant_message?: string;
+};
+
+export type Duty = {
+  duties?: Duty[];
+  id?: string;
+  tax_lines?: TaxLine[];
+  shop_money?: Price;
+  presentment_money?: Price;
+  admin_graphql_api_id?: string;
+  country_code_of_origin?: string;
+  harmonized_system_code?: string;
 };
 
 export type User = {
@@ -351,21 +349,21 @@ export type Order = {
   /** The current subtotal price of the order in the shop currency. The value of this field reflects order edits, returns, and refunds.  */
   current_subtotal_price?: string;
   /** The current subtotal price of the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_subtotal_price_set?: CurrentSubtotalPriceSet;
+  current_subtotal_price_set?: PriceSet;
   /** The current total discounts on the order in the shop currency. The value of this field reflects order edits, returns, and refunds.  */
   current_total_discounts?: string;
   /** The current total discounts on the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_total_discounts_set?: CurrentTotalDiscountsSet;
+  current_total_discounts_set?: PriceSet;
   /** The current total duties charged on the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_total_duties_set?: CurrentTotalDutiesSet;
+  current_total_duties_set?: object;
   /** The current total price of the order in the shop currency. The value of this field reflects order edits, returns, and refunds.  */
   current_total_price?: string;
   /** The current total price of the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_total_price_set?: CurrentTotalPriceSet;
+  current_total_price_set?: PriceSet;
   /** The current total taxes charged on the order in the shop currency. The value of this field reflects order edits, returns, or refunds.  */
   current_total_tax?: string;
   /** The current total taxes charged on the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_total_tax_set?: CurrentTotalTaxSet;
+  current_total_tax_set?: PriceSet;
   /** The two or three-letter language code, optionally followed by a region modifier.  */
   customer_locale?: string;
   /** The ID of the Shopify POS device that created the checkout.  */
@@ -420,7 +418,7 @@ export type Order = {
   /** The URL pointing to the order status web page, if applicable.  */
   order_status_url?: string;
   /** The original total duties charged on the order in shop and presentment currencies.  */
-  original_total_duties_set?: OriginalTotalDutiesSet;
+  original_total_duties_set?: object;
   /** The list of payment gateways used for the order.  */
   payment_gateway_names?: string[];
   /** The customer's phone number for receiving SMS notifications.  */
@@ -604,6 +602,7 @@ export type Order = {
   carrier_identifier: A reference to the carrier service that provided the rate. Present when the rate was computed by a third-party carrier service.
   requested_fulfillment_service_id: A reference to the fulfillment service that is being requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service; null otherwise.  */
   shipping_lines?: ShippingLine[];
+  status_url?: string;
   /** The terms and conditions under which a payment should be processed.
   amount: The amount that is owed according to the payment terms.
   currency: The presentment currency for the payment.
@@ -617,8 +616,7 @@ export type Order = {
   due_at: The date and time when the payment is due. Calculated based on issued_at and due_in_days or a customized fixed date if the type is fixed.
   completed_at: The date and time when the purchase is completed. Returns null initially and updates when the payment is captured.
   expected_payment_method: The name of the payment method gateway.  */
-  payment_terms?: PaymentTerm;
-  status_url?: string;
+  payment_terms?: object;
 };
 
 export type Error = {
@@ -1005,10 +1003,6 @@ export type Comment = {
   user_agent?: string;
   /** The date and time (ISO 8601 format) when the comment was published.  */
   published_at?: Date;
-};
-
-export type OrderId = {
-  id?: number;
 };
 
 export type Collect = {
@@ -1501,7 +1495,6 @@ export type LineItem = {
   line_price?: string;
   applied_discount?: AppliedDiscount;
   custom?: boolean;
-  origin_location?: OriginLocation;
   image_url?: string;
   shop_id?: number;
   fulfillment_order_id?: number;
@@ -2026,10 +2019,6 @@ export type ScriptTag = {
   cache?: boolean;
 };
 
-export type VariantId = {
-  [T: string]: unknown;
-};
-
 export type Engagement = {
   occurred_on?: string;
   fetched_at?: string;
@@ -2511,7 +2500,7 @@ export type Transaction = {
   refund: The partial or full return of captured money to the customer.  */
   kind?: string;
   /** The ID of the physical location where the transaction was processed.  */
-  location_id?: OrderId;
+  location_id?: object;
   /** A string generated by the payment provider with additional information about why the transaction succeeded or failed.  */
   message?: string;
   /** The ID for the order that the transaction is associated with.  */
@@ -2552,7 +2541,7 @@ export type Transaction = {
   final_amount: The amount of the associated transaction in the shop currency.
   currency: The shop currency.
   Requires the header X-Shopify-Api-Features = include-currency-exchange-adjustments.  */
-  currency_exchange_adjustment?: CurrencyExchangeAdjustment;
+  currency_exchange_adjustment?: object;
   /** The date and time (ISO 8601 format) when the Shopify Payments authorization expires.  */
   authorization_expires_at?: Date;
   /** The attributes associated with a Shopify Payments extended authorization period. It has the following attributes:
@@ -2564,7 +2553,11 @@ export type Transaction = {
   The transaction being retrieved is an extended authorization, which is determined by the capture_before date in the charge.
   If the criteria isn't met, then an empty JSON is returned for extended_authorization_attributes.
   To learn more about extended authorization periods, refer to Payment authorization.  */
-  extended_authorization_attributes?: ExtendedAuthorizationAttribut;
+  extended_authorization_attributes?: ExtendedAuthorizationAttribute;
+  amount_in?: string;
+  amount_out?: string;
+  amount_rounding?: string;
+  transaction_group_id?: number;
   /** The attributes associated with a Shopify Payments refund. It has the following attributes:
   status: The current status of the refund. Valid values: pending, failure, success, and error.
   acquirer_reference_number: A unique number associated with the transaction that can be used to track the refund. This property has a value only for transactions completed with Visa or Mastercard.
@@ -2573,11 +2566,7 @@ export type Transaction = {
   The store uses Shopify Payments.
   The order transaction kind is either refund or void.
   If the criteria isn't met, then the payments_refund_attributes property is omitted.  */
-  payments_refund_attributes?: PaymentsRefundAttribut;
-  amount_in?: string;
-  amount_out?: string;
-  amount_rounding?: string;
-  transaction_group_id?: number;
+  payments_refund_attributes?: object;
 };
 
 export type PaymentTerm = {
@@ -2616,6 +2605,7 @@ export type ClientDetail = {
   browser_ip?: string;
   browser_width?: number;
   session_hash?: string;
+  /** The user agent string provided by the software used to create the comment (usually a browser).  */
   user_agent?: string;
 };
 
@@ -2649,7 +2639,7 @@ export type ShippingLine = {
   phone?: string;
   price?: string;
   price_set?: PriceSet;
-  requested_fulfillment_service_id?: string;
+  requested_fulfillment_service_id?: number;
   source?: string;
   title?: string;
   tax_lines?: TaxLine[];
@@ -2657,10 +2647,6 @@ export type ShippingLine = {
   applied_discounts?: AppliedDiscount[];
   custom?: boolean;
   handle?: string;
-};
-
-export type TaxExemption = {
-  [T: string]: unknown;
 };
 
 export type ShippingRate = {
@@ -2868,21 +2854,6 @@ export type MarketingEvent = {
   /** The UTM parameters used in the links provided in the marketing event. Values must be unique and should not be url-encoded.
   To do traffic or order attribution you must at least define utm_campaign, utm_source, and utm_medium.  */
   UTM_parameters?: UTMparameter;
-};
-
-export type OriginLocation = {
-  id?: number;
-  zip?: string;
-  city?: string;
-  name?: string;
-  address1?: string;
-  address2?: string;
-  country_code?: string;
-  province_code?: string;
-};
-
-export type OrderStatusUrl = {
-  order_status_url?: string;
 };
 
 export type ProductListing = {
@@ -3203,7 +3174,7 @@ export type FulfillmentOrder = {
   incoterm: The method of duties payment. Valid values:
   DAP: Delivered at place.
   DDP: Delivered duty paid.  */
-  international_duties?: InternationalDuti;
+  international_duties?: InternationalDuty;
   /** Represents the fulfillment holds applied on the fulfillment order.
   reason: The reason for the fulfillment hold.
   reason_notes: Additional information about the fulfillment hold reason.  */
@@ -3352,7 +3323,7 @@ export type CollectionListing = {
   published_at?: Date;
 };
 
-export type InternationalDuti = {
+export type InternationalDuty = {
   incoterm?: string;
 };
 
@@ -3391,12 +3362,6 @@ export type TenderTransaction = {
   unknown
   other  */
   payment_method?: string;
-};
-
-export type CurrentTotalTaxSet = {
-  shop_money?: Price;
-  presentment_money?: Price;
-  current_total_tax_set?: CurrentTotalTaxSet;
 };
 
 export type DiscountAllocation = {
@@ -3481,7 +3446,6 @@ export type DiscountApplication = {
   code?: string;
   title?: string;
   description?: string;
-  discount_applications?: DiscountApplication[];
 };
 
 export type CustomerSavedSearch = {
@@ -3508,12 +3472,6 @@ export type DefaultProductImage = {
   variant_ids?: number[];
   width?: number;
   height?: number;
-};
-
-export type CurrentTotalPriceSet = {
-  shop_money?: Price;
-  presentment_money?: Price;
-  current_total_price_set?: CurrentTotalPriceSet;
 };
 
 export type DiscountCodeCreation = {
@@ -3548,10 +3506,6 @@ export type StorefrontAccessToken = {
   title?: string;
 };
 
-export type CurrentTotalDutiesSet = {
-  current_total_duties_set?: CurrentTotalDutiesSet;
-};
-
 export type MovedFulfillmentOrder = {
   id?: number;
   shop_id?: number;
@@ -3573,21 +3527,6 @@ export type MovedFulfillmentOrder = {
   outgoing_requests?: OutgoingRequest[];
 };
 
-export type OriginalTotalDutiesSet = {
-  original_total_duties_set?: OriginalTotalDutiesSet;
-};
-
-export type PaymentsRefundAttribut = {
-  status?: string;
-  acquirer_reference_number?: string;
-};
-
-export type CurrentSubtotalPriceSet = {
-  shop_money?: Price;
-  presentment_money?: Price;
-  current_subtotal_price_set?: CurrentSubtotalPriceSet;
-};
-
 export type WeightBasedShippingRate = {
   id?: number;
   name?: string;
@@ -3597,12 +3536,6 @@ export type WeightBasedShippingRate = {
   weight_high?: number;
   min_order_subtotal?: string;
   max_order_subtotal?: string;
-};
-
-export type CurrentTotalDiscountsSet = {
-  shop_money?: Price;
-  presentment_money?: Price;
-  current_total_discounts_set?: CurrentTotalDiscountsSet;
 };
 
 export type OriginalFulfillmentOrder = {
@@ -3745,18 +3678,6 @@ export type RecurringApplicationCharge = {
   terms?: string;
 };
 
-export type CurrencyExchangeAdjustment = {
-  id?: number;
-  currency?: string;
-  adjustment?: string;
-  final_amount?: string;
-  original_amount?: string;
-};
-
-export type EnabledSharedWebcredential = {
-  enabled_shared_webcredential?: boolean;
-};
-
 export type CountryHarmonizedSystemCode = {
   country_code?: string;
   harmonized_system_code?: string;
@@ -3792,13 +3713,12 @@ export type CarrierShippingRateProvider = {
   shipping_zone_id?: number;
 };
 
-export type ExtendedAuthorizationAttribut = {
-  extended_authorization_expires_at?: Date;
-  standard_authorization_expires_at?: Date;
-};
-
 export type PrerequisiteShippingPriceRange = {
   less_than_or_equal_to?: string;
+};
+
+export type ExtendedAuthorizationAttribute = {
+  [T: string]: unknown;
 };
 
 export type PrerequisiteToEntitlementPurchase = {

@@ -42,6 +42,18 @@ export const nameToSnakeCase = (name: string) => {
       return "INCONSISTENT_API";
       // return "shopify_payment_transaction";
     }
+    case "Order": {
+      return "INCONSISTENT_API";
+      // return "shopify_payment_transaction";
+    }
+    case "Transaction": {
+      return "INCONSISTENT_API";
+      // return "shopify_payment_transaction";
+    }
+    case "MobilePlatformApplication": {
+      return "INCONSISTENT_API";
+      // return "shopify_payment_transaction";
+    }
     case "Checkout": {
       return "INCONSISTENT_API";
       // return "shopify_payment_transaction";

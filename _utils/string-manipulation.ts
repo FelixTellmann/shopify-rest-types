@@ -18,3 +18,10 @@ export const lowerCaseFirstLetter = (string) => {
   }
   return string;
 };
+
+export const snakeToCamel = (str) => str.replace(/([-_]\w)/g, (g) => g[1].toUpperCase());
+
+export const snakeToPascal = (str) => {
+  const camelCase = snakeToCamel(str);
+  return camelCase[0].toUpperCase() + camelCase.substr(1);
+};

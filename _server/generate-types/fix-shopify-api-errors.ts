@@ -1,3 +1,5 @@
+import { TaxExemption, VariantId } from "types/2021-10/root-types";
+
 export const fixShopifyApiErrors = (masterTypes: any) => {
   if (masterTypes?.Checkout?.discount_code?.type) {
     masterTypes["Checkout"]["discount_code"]["type"] = "string";
@@ -19,6 +21,15 @@ export const fixShopifyApiErrors = (masterTypes: any) => {
       amount_used: "string",
       last_characters: "string",
     };
+  }
+  if (masterTypes?.OrderId) {
+    delete masterTypes?.OrderId;
+  }
+  if (masterTypes?.VariantId) {
+    delete masterTypes?.VariantId;
+  }
+  if (masterTypes?.TaxExemption) {
+    delete masterTypes?.TaxExemption;
   }
 
   return masterTypes;

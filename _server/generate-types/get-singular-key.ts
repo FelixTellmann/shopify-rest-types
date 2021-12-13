@@ -9,6 +9,9 @@ export const getSingularKey = (key: string) => {
     case "address": {
       return "address";
     }
+    case "status": {
+      return "status";
+    }
     case "shipping_lines": {
       return "shipping_line";
     }
@@ -35,6 +38,15 @@ export const getSingularKey = (key: string) => {
     }
     case "marketed_resources": {
       return "marketed_resource";
+    }
+    case "extended_authorization_attributes": {
+      return "extended_authorization_attribute";
+    }
+    case "payments_refund_attributes": {
+      return "payments_refund_attribute";
+    }
+    case "international_duties": {
+      return "international_duty";
     }
     case "note_attributes": {
       return "note_attribute";

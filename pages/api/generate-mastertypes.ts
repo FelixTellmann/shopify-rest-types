@@ -5,6 +5,7 @@ import { getManualTypes } from "_server/generate-types/get-manual-types";
 import { getSingularKey } from "_server/generate-types/get-singular-key";
 import { getTypeAsString } from "_server/generate-types/get-type";
 import { getTypeByName } from "_server/generate-types/get-type-by-name";
+import { pathsTypesToStrArray } from "_server/generate-types/paths-types-to-str-array";
 import { sumPathTypes } from "_server/generate-types/summarize-types";
 import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
@@ -242,7 +243,6 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
       non_applicable_reason: "string",
     };
 
-    /* TODO: Continue from here! NB object, array, object[] need to be reduced to its actual models*/
     routeArray.forEach((route) => {
       if (masterTypes[route.apiName]) {
         route.properties.forEach(({ name, type, exampleType, comment, example }) => {
@@ -335,14 +335,13 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
 
     writeTypesToFile({ path: `types/${version}/root-types.ts`, types: jsonTypesToStrArray(types) });
 
-    routeArray.forEach((route) => {
-      if (!types[route.apiName]) {
-        console.log(route.apiName);
-      }
-      if (Object.values(replacements).find((r) => r.includes(route.apiName))) {
-        console.log(route.apiName, "replacement");
-      }
-    });
+    console.log({ replacements });
+    const requestTypes = pathsTypesToStrArray(types, routeArray, replacements);
+
+    writeTypesToFile({ path: `types/${version}/getRequest.ts`, types: requestTypes["get"] });
+    writeTypesToFile({ path: `types/${version}/putRequest.ts`, types: requestTypes["put"] });
+    writeTypesToFile({ path: `types/${version}/postRequest.ts`, types: requestTypes["post"] });
+    writeTypesToFile({ path: `types/${version}/deleteRequest.ts`, types: requestTypes["delete"] });
 
     res.status(200).json(types);
     return;
