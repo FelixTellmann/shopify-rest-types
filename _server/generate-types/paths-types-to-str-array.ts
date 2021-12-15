@@ -1,5 +1,6 @@
 import { nameSnakeCaseToSingularPascalCase } from "_server/generate-types/name-snake-case-to-singular-pascal-case";
-import { snakeToPascal } from "_utils/string-manipulation";
+import { pascalToSnake, snakeToCamel, snakeToPascal } from "_utils/string-manipulation";
+import camelcase from "camelcase";
 import { act } from "react-dom/test-utils";
 
 function asKey(name: string) {
@@ -7,6 +8,53 @@ function asKey(name: string) {
     return `"${name}"`;
   }
   return name;
+}
+
+function actionToKeyword(action: "get" | "put" | "post" | "delete") {
+  switch (action) {
+    case "delete":
+    case "get": {
+      return action;
+    }
+    case "put": {
+      return "update";
+    }
+    case "post": {
+      return "create";
+    }
+  }
+}
+
+function filterInconsistencies(str: any) {
+  switch (str) {
+    case "customer_address": {
+      return "address";
+    }
+    case "fulfillment_event": {
+      return "event";
+    }
+    case "shopify_payment_transaction": {
+      return "transaction";
+    }
+    default: {
+      return str;
+    }
+  }
+}
+
+function fixShopifyInconsistency(str: string) {
+  switch (str) {
+    case "price_rules/${PriceRuleId}/batch": {
+      return "createBatch";
+    }
+    case "price_rules/${PriceRuleId}/batch/${BatchId}": {
+      return "getBatchById";
+    }
+    case "price_rules/${PriceRuleId}/batch/${BatchId}/discount_codes": {
+      return "getBatchDiscountCodes";
+    }
+  }
+  return "";
 }
 
 export const pathsTypesToStrArray = (
@@ -113,6 +161,60 @@ export const pathsTypesToStrArray = (
               }
               return `\${AssetUrl}`;
             });
+
+          /*============================================================================
+            # WEIRD STUFF HERE FOR NOW !!!!!!!!!!!!!
+              -  TODO: REMOVE LATER
+          ==============================================================================*/
+          const action2 = action.split("");
+          action2.length = 3;
+          // console.log(pathType.match(/\${\w+}/gi));
+          /*= ===============remove plural issue ================ */
+          const apiName = filterInconsistencies(pascalToSnake(route.apiName).replace(/y$/, ""));
+          const pathTypeArr = pathType.split("/");
+          const isPrimaryType = pathTypeArr[0].includes(apiName);
+          const isSecondaryType = !isPrimaryType &&
+          pathTypeArr.some((segment) => segment.includes(apiName)) &&
+          !pathType.includes("/batch");
+          const matchIndex = pathTypeArr.findIndex((segment) => segment.includes(apiName));
+
+          const specialAction = pathTypeArr.length > 1 &&
+          !pathTypeArr[pathTypeArr.length - 1].includes("${") &&
+          !pathTypeArr[pathTypeArr.length - 1].includes(apiName)
+            ? pathTypeArr[pathTypeArr.length - 1]
+            : "";
+
+          const specialActionSubtype = specialAction &&
+          !pathTypeArr[pathTypeArr.length - 2].includes("${") &&
+          matchIndex !== pathTypeArr.length - 2
+            ? pathTypeArr[pathTypeArr.length - 2]
+            : "";
+
+          const method = (isPrimaryType || isSecondaryType) && !specialAction
+            ? snakeToCamel(
+                `${actionToKeyword(action)}${
+                  pathTypeArr[matchIndex + 1] && /\${\w+}/gi.test(pathTypeArr[matchIndex + 1])
+                    ? "ById"
+                    : ""
+                }`
+              )
+            : (isPrimaryType || isSecondaryType) && specialAction
+            ? snakeToCamel(
+                `${specialActionSubtype ? `${specialActionSubtype}_` : ""}${specialAction}${
+                  pathTypeArr[matchIndex + 1] &&
+                  /\${\w+}/gi.test(pathTypeArr[matchIndex + 1]) &&
+                  !specialActionSubtype
+                    ? "ById"
+                    : ""
+                }`
+              )
+            : fixShopifyInconsistency(pathType);
+
+          console.log(
+            `${action2.join("")}: ${pathType} - - - ${method} - - ${pascalToSnake(route.apiName)} ${
+              isPrimaryType ? "" : isSecondaryType ? " - SECONDARY" : " - do more here"
+            }`
+          );
           arr.push(`      path: \`${pathType}\`;\n`);
         }
 

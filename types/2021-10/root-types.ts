@@ -952,7 +952,7 @@ export type Article = {
   published_at?: Date;
   /** The date and time (ISO 8601 format) when the article was last updated.  */
   updated_at?: Date;
-  /** A summary of the article, complete with HTML markup. The summary isused by the online store theme to display the article on other pages, such as the home page or the main blog page.  */
+  /** A summary of the article, which can include HTML markup. The summary is used by the online store theme to display the article on other pages, such as the home page or the main blog page.  */
   summary_html?: string;
   /** The name of the template an article is using if it's using an alternate template. If an article is using the default article.liquid template, then the value returned is null.  */
   template_suffix?: null;
@@ -967,6 +967,14 @@ export type Article = {
   src: A source URL that specifies the location of the image.
   alt: Alternative text that describes the image.  */
   image?: Image;
+  /** The additional information attached to an Article object. It has the following properties:
+  key: An identifier for the metafield. (maximum: 30 characters)
+  namespace: A container for a set of metadata. Namespaces help distinguish between metadata created by different apps. (maximum: 20 characters)
+  value: The information to be stored as metadata.
+  type: The metafield's information type. Refer to the full list of types.
+  description (optional): Additional information about the metafield.
+  For more information on attaching metadata to Shopify resources, see the Metafield resource.  */
+  metafields?: Metafield;
   /** Whether the article is visible.  */
   published?: boolean;
 };
@@ -1400,6 +1408,18 @@ export type Customer = {
   CA_NS_FARMER_EXEMPTION: This customer is exempt from specific taxes for holding a valid FARMER_EXEMPTION in Nova Scotia.
   CA_SK_FARMER_EXEMPTION: This customer is exempt from specific taxes for holding a valid FARMER_EXEMPTION in Saskatchewan.  */
   tax_exemptions?: string[];
+  /** The marketing consent information when the customer consented to receiving marketing
+  material by SMS. The phone property is required to create a customer with SMS
+  consent information and to perform an SMS update on a customer that doesn't have a phone number recorded.
+  The customer must have a unique phone number associated to the record. The SMS marketing consent has the following properties:
+  state: The current SMS marketing state for the customer.
+  opt_in_level: The marketing subscription opt-in level, as described by the M3AAWG best practices guidelines,
+  that the customer gave when they consented to receive marketing material by SMS.
+  consent_updated_at: The date and time at which the customer consented to receive marketing material by SMS.
+  The customer's consent state reflects the consent record with the most recent
+  last_consent_updated_at date. If no date is provided, then the date and time at which the consent information was sent is used.
+  consent_collected_from: The source for whether the customer has consented to receive marketing material by SMS.  */
+  sms_marketing_consent?: SmsMarketingConsent;
   admin_graphql_api_id?: string;
   /** The default address for the customer. The default address has the following properties:
   address1: The first line of the customer's mailing address.
@@ -1427,18 +1447,6 @@ export type Customer = {
   value_type (required): The value type. Valid values: string and integer.
   description (optional): Additional information about the metafield.  */
   metafield?: Metafield;
-  /** The marketing consent information when the customer consented to receiving marketing
-  material by SMS. The phone property is required to create a customer with SMS
-  consent information and to perform an SMS update on a customer that doesn't have a phone number recorded.
-  The customer must have a unique phone number associated to the record. The SMS marketing consent has the following properties:
-  state: The current SMS marketing state for the customer.
-  opt_in_level: The marketing subscription opt-in level, as described by the M3AAWG best practices guidelines,
-  that the customer gave when they consented to receive marketing material by SMS.
-  consent_updated_at: The date and time at which the customer consented to receive marketing material by SMS.
-  The customer's consent state reflects the consent record with the most recent
-  last_consent_updated_at date. If no date is provided, then the date and time at which the consent information was sent is used.
-  consent_collected_from: The source for whether the customer has consented to receive marketing material by SMS.  */
-  sms_marketing_consent?: SmsMarketingConsent;
 };
 
 export type PriceSet = {
@@ -3423,6 +3431,8 @@ export type FulfillmentService = {
   tracking_support?: boolean;
   /** States if the fulfillment service tracks product inventory and provides updates to Shopify. Valid values are "true" and "false".  */
   inventory_management?: boolean;
+  /** The GraphQL GID for this fulfillment service.  */
+  admin_graphql_api_id?: string;
   /** Specifies the format of the API output. Valid values are json and xml.  */
   format?: string;
   /** States if the fulfillment service requires products to be physically shipped. Valid values are "true" and "false".  */

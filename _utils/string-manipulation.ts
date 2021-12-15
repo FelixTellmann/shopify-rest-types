@@ -25,3 +25,7 @@ export const snakeToPascal = (str) => {
   const camelCase = snakeToCamel(str);
   return camelCase[0].toUpperCase() + camelCase.substr(1);
 };
+
+export const pascalToSnake = (str) => {
+  return str.replace(/([A-Z])/g, (g) => `_${g.toLowerCase()}`).replace(/^_/, "");
+};

@@ -164,7 +164,6 @@ export type PutPaths =
       };
     }
   | {
-      /** Updates an article  */
       path: `blogs/${BlogId}/articles/${ArticleId}`;
       body: {
         article: Omit<Article, "admin_graphql_api_id" | "created_at" | "id" | "updated_at" | "user_id">;

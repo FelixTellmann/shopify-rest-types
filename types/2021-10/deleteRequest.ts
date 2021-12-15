@@ -49,10 +49,6 @@ export type DeletePaths =
       path: `recurring_application_charges/${RecurringApplicationChargeId}`;
     }
   | {
-      /** Deletes a customer. A customer can't be deleted if they have existing orders.  */
-      path: `customers/${CustomerId}`;
-    }
-  | {
       /** Removes an address from a customer’s address list.  */
       path: `customers/${CustomerId}/addresses/${AddressId}`;
     }
@@ -94,7 +90,6 @@ export type DeletePaths =
       path: `metafields/${MetafieldId}`;
     }
   | {
-      /** Deletes an article  */
       path: `blogs/${BlogId}/articles/${ArticleId}`;
     }
   | {

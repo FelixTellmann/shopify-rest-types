@@ -303,7 +303,6 @@ export type PostPaths =
       };
     }
   | {
-      /** Creates an article for a blog  */
       path: `blogs/${BlogId}/articles`;
       body: {
         article: Omit<Article, "admin_graphql_api_id" | "created_at" | "id" | "updated_at" | "user_id">;

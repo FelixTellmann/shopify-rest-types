@@ -9,14 +9,14 @@ export const shopify = new Shopify.Clients.Rest(
 type _TestFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
 export const _Test: _TestFunction = async (req, res) => {
-  const data2 = await shopify.get({
-    path: `storefront_access_tokens`,
+  const data2 = await shopify.Product.get({
+    ProductId: 123123,
     query: {
-      product: "asd",
+      handle: "my-favorite-product",
     },
   });
 
-  data2.body;
+  data2.body.product;
 
   res.status(200).json({ name: "John Doe" });
 };

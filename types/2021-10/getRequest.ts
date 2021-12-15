@@ -193,12 +193,8 @@ export type GetPaths =
       };
     }
   | {
-      /** Retrieves a single customer.  */
+      /** Deletes a customer. A customer can't be deleted if they have existing orders.  */
       path: `customers/${CustomerId}`;
-      query: {
-        /** Show only certain fields, specified by a comma-separated list of field names. */
-        fields?: string;
-      };
       response: {
         customer: Customer;
       };
@@ -237,7 +233,7 @@ export type GetPaths =
     }
   | {
       /** Searches for customers that match a supplied query. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
-      path: `customers/search`;
+      path: `customers/search?query=Bob country:United States`;
       query: {
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
@@ -657,7 +653,6 @@ export type GetPaths =
       };
     }
   | {
-      /** Retrieves a count of all articles from a blog  */
       path: `blogs/${BlogId}/articles/count`;
       query: {
         /** Count articles created before date (format: 2014-04-25T16:15:47-04:00). */
@@ -726,14 +721,12 @@ export type GetPaths =
       };
     }
   | {
-      /** Retrieves a list all of article authors  */
       path: `articles/authors`;
       response: {
         authors?: string;
       };
     }
   | {
-      /** Retrieves a list of all the tags  */
       path: `articles/tags`;
       query: {
         /** The maximum number of tags to retrieve. */
