@@ -1,7 +1,7 @@
 export type Blog = {
   /** A unique numeric identifier for the blog.  */
   id?: number;
-  /** A human-friendly unique string for a blog automatically generated from its title. This handle is used by the Liquid templating language to refer to the blog.  */
+  /** A human-friendly unique string that is automatically generated from the title if no handle is sent during the creation of a blog. Duplicate handles are appended with an incremental number, for example, `blog-2`. The handle is customizable and is used by the Liquid templating language to refer to the blog. If you change the handle of a blog, then it can negatively affect the SEO of the shop. We recommend that you create a URL redirect to avoid any SEO issues.  */
   handle?: string;
   /** The title of the blog.  */
   title?: string;
@@ -12,24 +12,26 @@ export type Blog = {
   moderate: Readers can post comments to blog articles, but comments must be moderated before they appear.
   yes: Readers can post comments to blog articles without moderation.  */
   commentable?: string;
-  /** Feedburner is a web feed management provider and can be enabled to provide custom RSS feeds for Shopify bloggers. This property will default to blank or "null" unless feedburner is enabled through the shop admin.  */
+  /** FeedBurner is a web feed management provider and can be enabled to provide custom RSS feeds for Shopify bloggers. Google has stopped supporting FeedBurner, and new or existing blogs that are not already integrated with FeedBurner can't use the service. This property will default to blank unless FeedBurner is enabled.  */
   feedburner?: null;
-  /** URL to the feedburner location for blogs that have enabled feedburner through their store admin. This property will default to blank or "null" unless feedburner is enabled through the shop admin.  */
+  /** The URL that points to the FeedBurner location for blogs that have FeedBurner enabled. Google has stopped supporting FeedBurner, and new or existing blogs that are not already integrated with FeedBurner can't use the service. This property will default to blank unless FeedBurner is enabled  */
   feedburner_location?: null;
   /** The date and time when the blog was created. The API returns this value in ISO 8601 format.  */
   created_at?: Date;
   /** States the name of the template a blog is using if it is using an alternate template. If a blog is using the default blog.liquid template, the value returned is "null".  */
   template_suffix?: null;
-  /** Tags are additional short descriptors formatted as a string of comma-separated values. For example, if an article has three tags: tag1, tag2, tag3. Tags are limited to 255 characters.  */
+  /** A list of tags associated with the 200 most recent blog articles. Tags are additional short descriptors formatted as a string of comma-separated values. For example, if an article has three tags: tag1, tag2, tag3. Tags are limited to 255 characters.  */
   tags?: string;
+  /** The GraphQL GID of the blog.  */
   admin_graphql_api_id?: string;
   /** Attaches additional metadata to a store's resources:
   key (required): Identifier for the metafield (maximum of 30 characters).
   namespace (required): Container for a set of metadata. Namespaces help distinguish between metadata you created and metadata created by another individual with a similar namespace (maximum of 20 characters).
   value (required): Information to be stored as metadata.
-  value_type (required): States whether the information in the value is stored as a 'string' or 'integer.'
-  description (optional): Additional information about the metafield.  */
-  metafield?: Metafield;
+  type (required): The metafield's information type. Refer to the full list of types.
+  description (optional): Additional information about the metafield.
+  For more information on attaching metadata to Shopify resources, see the Metafield resource.  */
+  metafields?: Metafield[];
 };
 
 export type Page = {

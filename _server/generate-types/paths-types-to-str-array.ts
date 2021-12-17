@@ -81,6 +81,8 @@ export const pathsTypesToStrArray = (
   replacements: { [p: string]: string[] }
 ) => {
   const requestTypes = {
+    types: [],
+    objects: [],
     get: [],
     put: [],
     post: [],
@@ -108,6 +110,12 @@ export const pathsTypesToStrArray = (
     route.readOnly.unshift("admin_graphql_api_id");
     const initReplace = Object.entries(replacements).find(([k, r]) => r.includes(route.apiName));
     if (initReplace || types[route.apiName]) {
+      const types = [];
+      const objects = [];
+
+      types.push(`  ${route.apiName}: {\n`);
+      objects.push(`    this.${route.apiName}: {\n`);
+
       route.paths.forEach(({ url, action, comment, query, path, body, examples, ...rest }) => {
         if (!requestTypes[action]) return;
         const arr = [];
@@ -116,23 +124,29 @@ export const pathsTypesToStrArray = (
         arr.push(`  | {\n`);
 
         /*= =============== PATH COMMENT ================ */
-        if (comment) {
+        if (comment && url) {
           arr.push(`      /** `);
+          types.push(`    /** `);
           comment = comment.replace(/(\n\s*\n)/gi, "\n");
           comment
             .split("\n")
             .forEach((comment, i, arr2) => {
               if (i === 0 && i !== arr2.length - 1) {
                 arr.push(`${comment.trim()}\n`);
+                types.push(`${comment.trim()}\n`);
               } else if (i === 0 && i === arr2.length - 1) {
                 arr.push(`${comment.trim()}`);
+                types.push(`${comment.trim()}`);
               } else if (i !== arr2.length - 1) {
                 arr.push(`      ${comment.trim()}\n`);
+                types.push(`    ${comment.trim()}\n`);
               } else {
                 arr.push(`      ${comment.trim()}`);
+                types.push(`    ${comment.trim()}`);
               }
             });
           arr.push(`  */\n`);
+          types.push(`  */\n`);
         }
 
         /*= =============== PATH ================ */
@@ -216,6 +230,10 @@ export const pathsTypesToStrArray = (
             }`
           );
           arr.push(`      path: \`${pathType}\`;\n`);
+          types.push(`    ${method}: `);
+          objects.push(
+            `      ${method}: (params) => this.request({...params, path: '${pathType}', type: DataType.JSON, method: Method.Get} as RequestParams)`
+          );
         }
 
         /*= =============== QUERY ================ */

@@ -193,7 +193,7 @@ export type PutPaths =
       /** Update a blog  */
       path: `blogs/${BlogId}`;
       body: {
-        blog: Omit<Blog, "admin_graphql_api_id" | "created_at" | "id" | "updated_at">;
+        blog: Omit<Blog, "admin_graphql_api_id" | "created_at" | "id" | "tags" | "updated_at" | "admin_graphql_api_id">;
       };
       response: {
         blog: Blog;

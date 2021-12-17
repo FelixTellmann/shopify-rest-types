@@ -741,12 +741,12 @@ export type GetPaths =
   | {
       /** Retrieves a single asset for a theme by its key.
       To retrieve a single asset, include asset[key]=#{asset_key} as a request parameter. For example, to retrieve the asset with a key of templates/index.liquid, the request might be /admin/themes/828155753/assets.json?asset[key]=templates/index.liquid.
-      For more information on the key property, see Asset properties.  */
+      For more information on the key property, refer to Asset properties.  */
       path: `themes/${ThemeId}/assets?asset[key]=templates/index.liquid`;
       query: {
         /** Retrieves a single asset for a theme by specifying the asset's key.  */
         "asset[key]"?: string;
-        /** Show only certain fields, specified by a comma-separated list of field names */
+        /** Specify which fields to show using a comma-separated list of field names. */
         fields?: string;
       };
       response: {
@@ -754,10 +754,11 @@ export type GetPaths =
       };
     }
   | {
-      /** Retrieves a list of assets for a theme. Listing theme assets returns only metadata about each asset. To get an asset's contents, you need to retrieve the asset individually.  */
+      /** Retrieves a list of assets for a theme.
+      Note: Retrieving a list of assets returns only metadata about each asset. To retrieve an asset's content, you need to retrieve the asset individually.  */
       path: `themes/${ThemeId}/assets`;
       query: {
-        /** Show only certain fields, specified by a comma-separated list of field names */
+        /** Specify which fields to show using a comma-separated list of field names. */
         fields?: string;
       };
       response: {

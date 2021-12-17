@@ -314,8 +314,12 @@ export type PostPaths =
   | {
       /** Create a new blog  */
       path: `blogs`;
+      query: {
+        /** The title of the blog. Maximum length: 255 characters. */
+        title?: string;
+      };
       body: {
-        blog: Omit<Blog, "admin_graphql_api_id" | "created_at" | "id" | "updated_at">;
+        blog: Omit<Blog, "admin_graphql_api_id" | "created_at" | "id" | "tags" | "updated_at" | "admin_graphql_api_id">;
       };
       response: {
         blog: Blog;
