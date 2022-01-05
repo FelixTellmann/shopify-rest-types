@@ -128,23 +128,21 @@ export const pathsTypesToStrArray = (
           arr.push(`      /** `);
           types.push(`    /** `);
           comment = comment.replace(/(\n\s*\n)/gi, "\n");
-          comment
-            .split("\n")
-            .forEach((comment, i, arr2) => {
-              if (i === 0 && i !== arr2.length - 1) {
-                arr.push(`${comment.trim()}\n`);
-                types.push(`${comment.trim()}\n`);
-              } else if (i === 0 && i === arr2.length - 1) {
-                arr.push(`${comment.trim()}`);
-                types.push(`${comment.trim()}`);
-              } else if (i !== arr2.length - 1) {
-                arr.push(`      ${comment.trim()}\n`);
-                types.push(`    ${comment.trim()}\n`);
-              } else {
-                arr.push(`      ${comment.trim()}`);
-                types.push(`    ${comment.trim()}`);
-              }
-            });
+          comment.split("\n").forEach((comment, i, arr2) => {
+            if (i === 0 && i !== arr2.length - 1) {
+              arr.push(`${comment.trim()}\n`);
+              types.push(`${comment.trim()}\n`);
+            } else if (i === 0 && i === arr2.length - 1) {
+              arr.push(`${comment.trim()}`);
+              types.push(`${comment.trim()}`);
+            } else if (i !== arr2.length - 1) {
+              arr.push(`      ${comment.trim()}\n`);
+              types.push(`    ${comment.trim()}\n`);
+            } else {
+              arr.push(`      ${comment.trim()}`);
+              types.push(`    ${comment.trim()}`);
+            }
+          });
           arr.push(`  */\n`);
           types.push(`  */\n`);
         }
@@ -187,42 +185,46 @@ export const pathsTypesToStrArray = (
           const apiName = filterInconsistencies(pascalToSnake(route.apiName).replace(/y$/, ""));
           const pathTypeArr = pathType.split("/");
           const isPrimaryType = pathTypeArr[0].includes(apiName);
-          const isSecondaryType = !isPrimaryType &&
-          pathTypeArr.some((segment) => segment.includes(apiName)) &&
-          !pathType.includes("/batch");
+          const isSecondaryType =
+            !isPrimaryType &&
+            pathTypeArr.some((segment) => segment.includes(apiName)) &&
+            !pathType.includes("/batch");
           const matchIndex = pathTypeArr.findIndex((segment) => segment.includes(apiName));
 
-          const specialAction = pathTypeArr.length > 1 &&
-          !pathTypeArr[pathTypeArr.length - 1].includes("${") &&
-          !pathTypeArr[pathTypeArr.length - 1].includes(apiName)
-            ? pathTypeArr[pathTypeArr.length - 1]
-            : "";
+          const specialAction =
+            pathTypeArr.length > 1 &&
+            !pathTypeArr[pathTypeArr.length - 1].includes("${") &&
+            !pathTypeArr[pathTypeArr.length - 1].includes(apiName)
+              ? pathTypeArr[pathTypeArr.length - 1]
+              : "";
 
-          const specialActionSubtype = specialAction &&
-          !pathTypeArr[pathTypeArr.length - 2].includes("${") &&
-          matchIndex !== pathTypeArr.length - 2
-            ? pathTypeArr[pathTypeArr.length - 2]
-            : "";
+          const specialActionSubtype =
+            specialAction &&
+            !pathTypeArr[pathTypeArr.length - 2].includes("${") &&
+            matchIndex !== pathTypeArr.length - 2
+              ? pathTypeArr[pathTypeArr.length - 2]
+              : "";
 
-          const method = (isPrimaryType || isSecondaryType) && !specialAction
-            ? snakeToCamel(
-                `${actionToKeyword(action)}${
-                  pathTypeArr[matchIndex + 1] && /\${\w+}/gi.test(pathTypeArr[matchIndex + 1])
-                    ? "ById"
-                    : ""
-                }`
-              )
-            : (isPrimaryType || isSecondaryType) && specialAction
-            ? snakeToCamel(
-                `${specialActionSubtype ? `${specialActionSubtype}_` : ""}${specialAction}${
-                  pathTypeArr[matchIndex + 1] &&
-                  /\${\w+}/gi.test(pathTypeArr[matchIndex + 1]) &&
-                  !specialActionSubtype
-                    ? "ById"
-                    : ""
-                }`
-              )
-            : fixShopifyInconsistency(pathType);
+          const method =
+            (isPrimaryType || isSecondaryType) && !specialAction
+              ? snakeToCamel(
+                  `${actionToKeyword(action)}${
+                    pathTypeArr[matchIndex + 1] && /\${\w+}/gi.test(pathTypeArr[matchIndex + 1])
+                      ? "ById"
+                      : ""
+                  }`
+                )
+              : (isPrimaryType || isSecondaryType) && specialAction
+              ? snakeToCamel(
+                  `${specialActionSubtype ? `${specialActionSubtype}_` : ""}${specialAction}${
+                    pathTypeArr[matchIndex + 1] &&
+                    /\${\w+}/gi.test(pathTypeArr[matchIndex + 1]) &&
+                    !specialActionSubtype
+                      ? "ById"
+                      : ""
+                  }`
+                )
+              : fixShopifyInconsistency(pathType);
 
           console.log(
             `${action2.join("")}: ${pathType} - - - ${method} - - ${pascalToSnake(route.apiName)} ${

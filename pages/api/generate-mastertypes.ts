@@ -29,13 +29,9 @@ type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Pro
  * Post - need body input (Product)
  * */
 export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
-  const navlinks = /*[
-    "product",
-    "product-image",
-    "product-variant",
-    "collection",
-    "smartcollection",
-  ] ||*/ SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
+  const navlinks =
+    /*["product", "product-image", "product-variant", "collection", "smartcollection"] ||*/
+    SHOPIFY.api.rest.nav.map(({ children }) => children.map(({ key }) => key)).flat();
 
   const requestArray = [];
 
