@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Product } from "types/2022-01/namespaces";
 import Shopify, { DataType } from "../../../shopify-node-api/src/index";
 
 export const shopify = new Shopify.Clients.Rest(
@@ -9,8 +10,19 @@ export const shopify = new Shopify.Clients.Rest(
 type _TestFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
 export const _Test: _TestFunction = async (req, res) => {
-  const data2 = await shopify.get({
-    path: "customers/count",
+  const data2 = await shopify.post<Product.Create>({
+    type: DataType.JSON,
+    path: "products",
+    data: {
+      product: {
+        title: "asd",
+        variants: [
+          {
+            id: 123123123,
+          },
+        ],
+      },
+    },
   });
 
   data2.body;

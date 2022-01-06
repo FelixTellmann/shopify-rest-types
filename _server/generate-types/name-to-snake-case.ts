@@ -19,7 +19,7 @@ export const nameToSnakeCase = (name: string) => {
       return "INCONSISTENT_API";
     }
     case "ProductResourceFeedback": {
-      return "resource_feedback";
+      return "product_resource_feedback";
     }
     case "AssignedFulfillmentOrder": {
       return "fulfillment_order";

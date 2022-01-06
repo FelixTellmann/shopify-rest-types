@@ -1,4 +1,10 @@
-import { ShippingAddress, CustomerInvite, Collection, MovedFulfillmentOrder, ReplacementFulfillmentOrder } from "./root-types";
+import {
+  ShippingAddress,
+  CustomerInvite,
+  Collection,
+  MovedFulfillmentOrder,
+  ReplacementFulfillmentOrder,
+} from "types/2022-01/types";
 
 export type RecurringApplicationChargeId = number;
 export type CustomerId = number;
@@ -14,15 +20,12 @@ export type Token = number;
 export type FulfillmentOrderId = number;
 export type FulfillmentId = number;
 
-
 export type PostPaths =
   | {
       /** Creates a new storefront access token  */
       path: `storefront_access_tokens`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a new report  */
@@ -33,50 +36,38 @@ export type PostPaths =
         /** The ShopifyQL the report will query. */
         shopify_ql?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates an application charge  */
       path: `application_charges`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates an application credit  */
       path: `application_credits`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a recurring application charge. Make sure to include a valid return_url property to ensure the merchant is redirected after accepting the charge (an invalid or missing return_url propertymay lead to unstable behaviour in the charge approval flow).  */
       path: `recurring_application_charges`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a usage charge  */
       path: `recurring_application_charges/${RecurringApplicationChargeId}/usage_charges`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a customer.  */
       path: `customers`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Generate an account activation URL for a customer whose account is not yet enabled. This is useful when you've imported a large number of customers and want to send them activation emails all at once. Using this approach, you'll need to generate and send the activation emails yourself.
@@ -89,16 +80,13 @@ export type PostPaths =
   | {
       /** Sends an account invite to a customer.  */
       path: `customers/${CustomerId}/send_invite`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a new address for a customer.  */
       path: `customers/${CustomerId}/addresses`;
-      body: {
-      };
+      body: {};
       response: {
         customer_address: ShippingAddress;
       };
@@ -106,18 +94,14 @@ export type PostPaths =
   | {
       /** Creates a customer saved search.  */
       path: `customer_saved_searches`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a discount code  */
       path: `price_rules/${PriceRuleId}/discount_codes`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a discount code creation job.
@@ -137,26 +121,20 @@ export type PostPaths =
       "Price rule allocation method can't be blank"
         */
       path: `price_rules/${PriceRuleId}/batch`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a price rule  */
       path: `price_rules`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create a new webhook subscription by specifying both an address and a topic.Amazon EventBridge and Google Pub/Sub webhook subscriptions use this field differently.For more information, refer to the Amazon EventBridgeand Google Cloud Pub/Sub pages.  */
       path: `webhooks`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Adjusts the inventory level of an inventory item at a single location  */
@@ -174,8 +152,7 @@ export type PostPaths =
         inventory_item_id?: number;
         available_adjustment?: number;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Connects an inventory item to a location by creating an inventory level at that location.
@@ -194,8 +171,7 @@ export type PostPaths =
         location_id?: number;
         inventory_item_id?: number;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Sets the inventory level for an inventory item at a location.
@@ -218,16 +194,13 @@ export type PostPaths =
         inventory_item_id?: number;
         available?: number;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Creates a marketing event  */
       path: `marketing_events`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Engagements on marketing events represent customer activity taken on the marketing event before customers reach the shop’s website. Not all types of marketing events will necessarily have engagement, and most types of marketing events will only use a subset of the possible engagement types.
@@ -253,25 +226,19 @@ export type PostPaths =
         /**      The total number of views for the day. A view occurs when a customer reads the marketing event that was served to them, for example, if the customer opens the email or spends time looking at a Facebook post.  */
         views_count?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a new metafield for a resource.  */
       path: `metafields`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       path: `blogs/${BlogId}/articles`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create a new blog  */
@@ -280,18 +247,14 @@ export type PostPaths =
         /** The title of the blog. Maximum length: 255 characters. */
         title?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a comment for an article  */
       path: `comments`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Marks a comment as spam  */
@@ -391,27 +354,21 @@ export type PostPaths =
   | {
       /** Creates a page  */
       path: `pages`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a redirect. When you provide a full URL as the value of the path property, it will be saved as an absolute path without the domain.
       For example, "path": "http://www.johns-apparel.com/springwear" will be saved as "path": "springwear".  */
       path: `redirects`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a new script tag  */
       path: `script_tags`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a theme by providing the public URL of a ZIP file that contains the theme.
@@ -419,10 +376,8 @@ export type PostPaths =
       "role": "main" in the POST request. The theme will be published only after all
       of its files have been extracted and stored by Shopify, which might take a couple of minutes.  */
       path: `themes`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a draft order.
@@ -476,10 +431,8 @@ export type PostPaths =
         /** An optional boolean that you can send as part of a draft order object     to load customer shipping information. Valid values: true or false. */
         use_customer_default_address?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Sends an invoice for the draft order.
@@ -502,17 +455,15 @@ export type PostPaths =
   | {
       /** Closes an order. A closed order is one that has no more work to be done. All items have been fulfilled or refunded.  */
       path: `orders/${OrderId}/close`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Re-opens a closed order  */
       path: `orders/${OrderId}/open`;
-      response: {
-      };
+      response: {};
     }
   | {
-      /** 
+      /**
       Caution
       For multi-currency orders, the currency property is required whenever the amount property is provided. For more information, see Migrating to support multiple currencies.
       Cancels an order. Orders that are paid and have fulfillments can't be canceled.  */
@@ -531,8 +482,7 @@ export type PostPaths =
         /** Whether to restock refunded items back to your store's inventory. */
         restock?: string;
       };
-      body: {
-      };
+      body: {};
       response: {
         notice?: string;
       };
@@ -555,21 +505,17 @@ export type PostPaths =
       Usage notes: If you're using this endpoint with a trial or Partner development store, then you can create no more than 5 new orders per minute.
         */
       path: `orders`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates an order risk for an order  */
       path: `orders/${OrderId}/risks`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
-      /** 
+      /**
       Caution
       For multi-currency orders, the currency property is required whenever the amount property is provided. For more information, see Migrating to support multiple currencies.
       Creates a refund. Use the calculate endpoint to produce the transactions to submit.
@@ -595,13 +541,11 @@ export type PostPaths =
         /**      A list of transactions      to process as refunds.  */
         transactions?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
-      /** 
+      /**
       Caution
       For multi-currency orders, the currency property is required whenever the amount property is provided. For more information, see Migrating to support multiple currencies.
       Calculates refund transactions based on line items and shipping. When you want to create a refund,
@@ -620,13 +564,11 @@ export type PostPaths =
         /** Specify how much shipping to refund. It has the following properties: */
         shipping?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
-      /** 
+      /**
       Caution
       For multi-currency orders, the currency property is required when creating refund and capture transactions. The value should be the presentment currency from the order. For more information, see Migrating to support multiple currencies.
       Creates a transaction for an order.  */
@@ -635,72 +577,60 @@ export type PostPaths =
         /** The origin of the transaction. Set to external to create a cash transaction for the associated order. */
         source?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a gift card  */
       path: `gift_cards`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Disables a gift card. Disabling a gift card can't be undone.  */
       path: `gift_cards/${GiftCardId}/disable`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Adds a product to a custom collection.  */
       path: `collects`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a custom collection  */
       path: `custom_collections`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create a new product  */
       path: `products`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create a new product image  */
       path: `products/${ProductId}/images`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a new product variant  */
       path: `products/${ProductId}/variants`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a new smart collection using the specified rules.  */
       path: `smart_collections`;
       body: {
-        smart_collection: Omit<Collection, "admin_graphql_api_id" | "updated_at" | "rules" | "title"> & Required<Pick<Collection, "rules" | "title">>;
+        smart_collection: Omit<
+          Collection,
+          "admin_graphql_api_id" | "updated_at" | "rules" | "title"
+        > &
+          Required<Pick<Collection, "rules" | "title">>;
       };
       response: {
         smart_collection: Collection;
@@ -709,24 +639,19 @@ export type PostPaths =
   | {
       /** Creates a checkout  */
       path: `checkouts`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Completes a checkout  */
       path: `checkouts/${Token}/complete`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Create a mobile platform application  */
       path: `mobile_platform_applications`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Stores a credit card in the card vault. Credit cards cannot be sent to the Checkout API directly. They must be
@@ -740,8 +665,7 @@ export type PostPaths =
         /** The credit card used for payment. See the properties table above for a description of its attributes. */
         credit_card?: string;
       };
-      body: {
-      };
+      body: {};
       response: {
         id?: number;
       };
@@ -759,10 +683,8 @@ export type PostPaths =
         /** A unique idempotency token generated by your app. This can be any value, but must be unique across all payment requests. */
         unique_token?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create product feedback.  */
@@ -772,10 +694,8 @@ export type PostPaths =
         product_id?: string;
         state?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates shop resource feedback.  */
@@ -788,10 +708,8 @@ export type PostPaths =
         /** Must be one of the following values: */
         state?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Sends a cancellation request to the fulfillment service of a fulfillment order.  */
@@ -803,8 +721,7 @@ export type PostPaths =
       body: {
         cancellation_request?: {};
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Accepts a cancellation request sent to a fulfillment service for a fulfillment order.  */
@@ -816,8 +733,7 @@ export type PostPaths =
       body: {
         cancellation_request?: {};
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Rejects a cancellation request sent to a fulfillment service for a fulfillment order.  */
@@ -829,16 +745,13 @@ export type PostPaths =
       body: {
         cancellation_request?: {};
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Creates a carrier service  */
       path: `carrier_services`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create a fulfillment for the specified order and line items.
@@ -857,64 +770,51 @@ export type PostPaths =
       If you send an unsupported carrier without a tracking URL, then Shopify will still try to generate a valid tracking URL by using pattern matching on the tracking number. However, Shopify does not validate the tracking URL, so you should make sure that your tracking URL is correct for the order and fulfillment.
         */
       path: `orders/${OrderId}/fulfillments`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates a fulfillment for one or many fulfillment orders. The fulfillment orders are associated with the same order and are assigned to the same location.  */
       path: `fulfillments`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates the tracking information for a fulfillment.  */
       path: `fulfillments/${FulfillmentId}/update_tracking`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Mark a fulfillment as complete  */
       path: `orders/${OrderId}/fulfillments/${FulfillmentId}/complete`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Mark a fulfillment as open  */
       path: `orders/${OrderId}/fulfillments/${FulfillmentId}/open`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Cancel a fulfillment for a specific order ID  */
       path: `orders/${OrderId}/fulfillments/${FulfillmentId}/cancel`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Cancels a fulfillment.  */
       path: `fulfillments/${FulfillmentId}/cancel`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Creates a fulfillment event  */
       path: `orders/${OrderId}/fulfillments/${FulfillmentId}/events`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Marks a fulfillment order as cancelled.  */
       path: `fulfillment_orders/${FulfillmentOrderId}/cancel`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Marks an in progress fulfillment order as incomplete, indicating the fulfillment service
@@ -924,10 +824,8 @@ export type PostPaths =
         /** An optional reason for marking the fulfillment order as incomplete. */
         message?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Moves a fulfillment order from one merchant managed location to another merchant managed location.  */
@@ -936,8 +834,7 @@ export type PostPaths =
         /** The id of the location to which the fulfillment order will be moved. */
         new_location_id?: string;
       };
-      body: {
-      };
+      body: {};
       response: {
         remaining_fulfillment_order?: any;
       };
@@ -946,17 +843,14 @@ export type PostPaths =
       /** Marks a scheduled fulfillment order as ready for fulfillment.
       This endpoint allows merchants to work on a scheduled fulfillment order before its expected fulfill_at datetime.  */
       path: `fulfillment_orders/${FulfillmentOrderId}/open`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Updates the fulfill_at time of a scheduled fulfillment order.
       This endpoint is used to manage the time a scheduled fulfillment order will be marked as ready for fulfillment.  */
       path: `fulfillment_orders/${FulfillmentOrderId}/reschedule`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Halts all fulfillment work on a fulfillment order with status OPEN
@@ -970,17 +864,14 @@ export type PostPaths =
         /** Optional additional information about the fulfillment hold reason. */
         reason_notes?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Release the fulfillment hold on a fulfillment order and changes the status
       of the fulfillment order to OPEN or SCHEDULED  */
       path: `fulfillment_orders/${FulfillmentOrderId}/release_hold`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Sends a fulfillment request to the fulfillment service of a fulfillment order.  */
@@ -1015,8 +906,7 @@ export type PostPaths =
           fulfillment_order_line_items: { id: number; quantity: number }[];
         };
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Rejects a fulfillment request sent to a fulfillment service for a fulfillment order.  */
@@ -1031,8 +921,7 @@ export type PostPaths =
           fulfillment_order_line_items: { id: number; quantity: number }[];
         };
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** To create a fulfillment service, you can also send a cURL request with the fulfillment_service.json payload:
@@ -1041,19 +930,15 @@ export type PostPaths =
       {% endhighlight %}
       Replace {token} with the OAuth token given to you by Shopify and https://{shop}.myshopify.com/admin/fulfillment_services with your store's URL.  */
       path: `fulfillment_services`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
-      /** 
+      /**
       Caution
       As of version 2020-10, the tax field is deprecated.
       Creates a country.  */
       path: `countries`;
-      body: {
-      };
-      response: {
-      };
-    }
+      body: {};
+      response: {};
+    };

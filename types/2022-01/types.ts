@@ -1,4 +1,4 @@
-export type Blog = {
+export type _Blog = {
   /** A unique numeric identifier for the blog.  */
   id?: number;
   /** A human-friendly unique string that is automatically generated from the title if no handle is sent during the creation of a blog. Duplicate handles are appended with an incremental number, for example, `blog-2`. The handle is customizable and is used by the Liquid templating language to refer to the blog. If you change the handle of a blog, then it can negatively affect the SEO of the shop. We recommend that you create a URL redirect to avoid any SEO issues.  */
@@ -31,10 +31,10 @@ export type Blog = {
   type (required): The metafield's information type. Refer to the full list of types.
   description (optional): Additional information about the metafield.
   For more information on attaching metadata to Shopify resources, see the Metafield resource.  */
-  metafields?: Metafield[];
+  metafields?: _Metafield[];
 };
 
-export type Page = {
+export type _Page = {
   /** The unique numeric identifier for the page.  */
   id?: number;
   /** The page's title.  */
@@ -63,10 +63,10 @@ export type Page = {
   type: The metafield's information type. Refer to the full list of types.
   description (optional): Additional information about the metafield.
   For more information on attaching metadata to Shopify resources, see the Metafield resource.  */
-  metafield?: Metafield;
+  metafield?: _Metafield;
 };
 
-export type Risk = {
+export type _Risk = {
   /** A unique numeric identifier for the order risk.  */
   id?: number;
   /** The ID of the order that the order risk belongs to.  */
@@ -96,18 +96,18 @@ export type Risk = {
   merchant_message?: string;
 };
 
-export type Duty = {
-  duties?: Duty[];
+export type _Duty = {
+  duties?: _Duty[];
   id?: string;
-  tax_lines?: TaxLine[];
-  shop_money?: Price;
-  presentment_money?: Price;
+  tax_lines?: _TaxLine[];
+  shop_money?: _Price;
+  presentment_money?: _Price;
   admin_graphql_api_id?: string;
   country_code_of_origin?: string;
   harmonized_system_code?: string;
 };
 
-export type User = {
+export type _User = {
   /** The ID of the user's staff.  */
   id?: number;
   /** The user's first name.  */
@@ -180,17 +180,17 @@ export type User = {
   tfa_enabled?: boolean;
 };
 
-export type Rule = {
+export type _Rule = {
   column?: string;
   relation?: string;
   condition?: string;
 };
 
-export type Date = {
+export type _Date = {
   date?: string;
 };
 
-export type Shop = {
+export type _Shop = {
   /** The ID for the shop. A 64-bit unsigned integer.  */
   id?: number;
   /** The name of the shop.  */
@@ -303,7 +303,7 @@ export type Shop = {
   force_ssl?: boolean;
 };
 
-export type Order = {
+export type _Order = {
   /** The ID of the order, used for API purposes.
   This is different from the order_number property, which is the ID
   used by the shop owner and customer.'  */
@@ -336,7 +336,7 @@ export type Order = {
   browser_width: The browser screen width in pixels, if available.
   session_hash: A hash of the session.
   user_agent: Details of the browsing client, including software and operating versions.  */
-  client_details?: ClientDetail;
+  client_details?: _ClientDetail;
   /** The date and time (ISO 8601 format) when the order was closed. Returns null if the order isn't closed.  */
   closed_at?: Date;
   confirmed?: boolean;
@@ -351,21 +351,21 @@ export type Order = {
   /** The current subtotal price of the order in the shop currency. The value of this field reflects order edits, returns, and refunds.  */
   current_subtotal_price?: string;
   /** The current subtotal price of the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_subtotal_price_set?: PriceSet;
+  current_subtotal_price_set?: _PriceSet;
   /** The current total discounts on the order in the shop currency. The value of this field reflects order edits, returns, and refunds.  */
   current_total_discounts?: string;
   /** The current total discounts on the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_total_discounts_set?: PriceSet;
+  current_total_discounts_set?: _PriceSet;
   /** The current total duties charged on the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
   current_total_duties_set?: object;
   /** The current total price of the order in the shop currency. The value of this field reflects order edits, returns, and refunds.  */
   current_total_price?: string;
   /** The current total price of the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_total_price_set?: PriceSet;
+  current_total_price_set?: _PriceSet;
   /** The current total taxes charged on the order in the shop currency. The value of this field reflects order edits, returns, or refunds.  */
   current_total_tax?: string;
   /** The current total taxes charged on the order in shop and presentment currencies. The amount values associated with this field reflect order edits, returns, and refunds.  */
-  current_total_tax_set?: PriceSet;
+  current_total_tax_set?: _PriceSet;
   /** The two or three-letter language code, optionally followed by a region modifier.  */
   customer_locale?: string;
   /** The ID of the Shopify POS device that created the checkout.  */
@@ -377,7 +377,7 @@ export type Order = {
   fixed_amount: Applies amount as a unit of the store's currency. For example, if amount is 30 and the store's currency is USD, then 30 USD is deducted from the order total when the discount is applied.
   percentage: Applies a discount of amount as a percentage of the order total.
   shipping: Applies a free shipping discount on orders that have a shipping rate less than or equal to amount. For example, if amount is 30, then the discount will give the customer free shipping for any shipping rate that is less than or equal to $30.  */
-  discount_codes?: DiscountCode[];
+  discount_codes?: _DiscountCode[];
   /** The customer's email address.  */
   email?: string;
   /** Whether taxes on the order are estimated. Many factors can change between the
@@ -412,7 +412,7 @@ export type Order = {
   /** An optional note that a shop owner can attach to the order.  */
   note?: string;
   /** Extra information that is added to the order. Appears in the Additional details section of an order details page. Each array entry must contain a hash with name and value keys.  */
-  note_attributes?: NoteAttribute[];
+  note_attributes?: _NoteAttribute[];
   /** The order's position in the shop's count of orders. Numbers are sequential and start at 1.  */
   number?: number;
   /** The order 's position in the shop's count of orders starting at 1001. Order numbers are sequential and start at 1001.  */
@@ -453,7 +453,7 @@ export type Order = {
   /** The price of the order in the shop currency after discounts but before shipping, duties, taxes, and tips.  */
   subtotal_price?: string;
   /** The subtotal of the order in shop and presentment currencies after discounts but before shipping, duties, taxes, and tips.  */
-  subtotal_price_set?: PriceSet;
+  subtotal_price_set?: _PriceSet;
   /** Tags attached to the order, formatted as a string of comma-separated values. Tags are additional short descriptors, commonly used for filtering and searching. Each individual tag is limited to 40 characters in length.  */
   tags?: string;
   /** An array of tax line objects, each of which details a tax applicable to the order. Each object has the following properties:
@@ -462,7 +462,7 @@ export type Order = {
   title: The name of the tax.
   channel_liable: Whether the channel that submitted the tax line is liable for remitting. A value of null indicates unknown liability for the tax line.
   When creating an order through the API, tax lines can be specified on the order or the line items but not both. Tax lines specified on the order are split across the taxable line items in the created order.  */
-  tax_lines?: TaxLine[];
+  tax_lines?: _TaxLine[];
   /** Whether taxes are included in the order subtotal.  */
   taxes_included?: boolean;
   /** Whether this is a test order.  */
@@ -472,24 +472,24 @@ export type Order = {
   /** The total discounts applied to the price of the order in the shop currency.  */
   total_discounts?: string;
   /** The total discounts applied to the price of the order in shop and presentment currencies.  */
-  total_discounts_set?: PriceSet;
+  total_discounts_set?: _PriceSet;
   /** The sum of all line item prices in the shop currency.  */
   total_line_items_price?: string;
   /** The total of all line item prices in shop and presentment currencies.  */
-  total_line_items_price_set?: PriceSet;
+  total_line_items_price_set?: _PriceSet;
   /** The total outstanding amount of the order in the shop currency.  */
   total_outstanding?: string;
   /** The sum of all line item prices, discounts, shipping, taxes, and tips in the shop currency. Must be positive.  */
   total_price?: string;
   /** The total price of the order in shop and presentment currencies.  */
-  total_price_set?: PriceSet;
+  total_price_set?: _PriceSet;
   total_price_usd?: string;
   /** The total shipping price of the order, excluding discounts and returns, in shop and presentment currencies. If taxes_included is set to true, then total_shipping_price_set includes taxes.  */
-  total_shipping_price_set?: PriceSet;
+  total_shipping_price_set?: _PriceSet;
   /** The sum of all the taxes applied to the order in the shop currency. Must be positive.  */
   total_tax?: string;
   /** The total tax applied to the order in shop and presentment currencies.  */
-  total_tax_set?: PriceSet;
+  total_tax_set?: _PriceSet;
   /** The sum of all the tips in the order in the shop currency.  */
   total_tip_received?: string;
   /** The sum of all line item weights in grams. The sum is not adjusted as items are removed from the order.  */
@@ -501,9 +501,9 @@ export type Order = {
   user_id?: number;
   /** The mailing address associated with the payment method. This address is an optional field that won't be available on orders that do not require a payment method. It has the following properties:
   address1: The street address of the billing address.  address2: An optional additional field for the street address of the billing address.  city: The city, town, or village of the billing address.  company: The company of the person associated with the billing address.  country: The name of the country of the billing address.  country_code: The two-letter code (ISO 3166-1 format) for the country of the billing address.  first_name: The first name of the person associated with the payment method.  last_name: The last name of the person associated with the payment method.  latitude: The latitude of the billing address.  longitude: The longitude of the billing address.  name: The full name of the person associated with the payment method.  phone: The phone number at the billing address.  province: The name of the region (for example, province, state, or prefecture) of the billing address.  province_code: The two-letter abbreviation of the region of the billing address.  zip: The postal code (for example, zip, postcode, or Eircode) of the billing address.  */
-  billing_address?: Address;
+  billing_address?: _Address;
   /** Information about the customer. The order might not have a customer and apps should not depend on the existence of a customer object. This value might be null if the order was created through Shopify POS. For more information about the customer object, see the Customer resource.  */
-  customer?: Customer;
+  customer?: _Customer;
   /** An ordered list of stacked discount applications.
   The discount_applications property includes 3 types: discount_code, manual, and script. All 3 types share a common structure and have some type specific attributes.
   allocation_method: The method by which the discount application value has been allocated to entitled lines. Valid values:
@@ -531,9 +531,9 @@ export type Order = {
   value_type: The type of the value. Valid values:
   fixed_amount: A fixed amount discount value in the currency of the order.
   percentage: A percentage discount value.  */
-  discount_applications?: DiscountApplication[];
+  discount_applications?: _DiscountApplication[];
   /** An array of fulfillments associated with the order. For more information, see the Fulfillment API.  */
-  fulfillments?: Fulfillment[];
+  fulfillments?: _Fulfillment[];
   /** A list of line item objects, each containing information about an item in the order. Each object has the following properties:
   fulfillable_quantity: The amount available to fulfill, calculated as follows: quantity - max(refunded_quantity, fulfilled_quantity) - pending_fulfilled_quantity - open_fulfilled_quantity
   fulfillment_service: The service provider that's fulfilling the item. Valid values: manual, or the name of the provider, such as amazon or shipwire.
@@ -579,19 +579,19 @@ export type Order = {
   city: The city of the item's supplier.
   zip: The zip of the item's supplier.
   duties: A list of duty objects, each containing information about a duty on the line item.  */
-  line_items?: LineItem[];
+  line_items?: _LineItem[];
   /** An object containing information about the payment. It has the following properties:
   avs_result_code: The response code from the address verification system (AVS). The code is a single letter. See  this chart for the codes and their definitions.
   credit_card_bin: The issuer identification number (IIN), formerly known as the bank identification number (BIN), of the customer's credit card. This is made up of the first few digits of the credit card number.
   credit_card_company: The name of the company who issued the customer's credit card.
   credit_card_number: The customer's credit card number, with most of the leading digits redacted.
   cvv_result_code: The response code from the credit card company indicating whether the customer entered the card security code (card verification value) correctly. The code is a single letter or empty string. See  this chart for the codes and their definitions.  */
-  payment_details?: PaymentDetail;
+  payment_details?: _PaymentDetail;
   /** A list of refunds applied to the order. For more information, see the Refund API.  */
-  refunds?: Refund[];
+  refunds?: _Refund[];
   /** The mailing address to where the order will be shipped. This address is optional and will not be available on orders that do not require shipping. It has the following properties:
   address1: The street address of the shipping address.  address2: An optional additional field for the street address of the shipping address.  city: The city, town, or village of the shipping address.  company: The company of the person associated with the shipping address.  country: The name of the country of the shipping address.  country_code: The two-letter code (ISO 3166-1 format) for the country of the shipping address.  first_name: The first name of the person associated with the shipping address.  last_name: The last name of the person associated with the shipping address.  latitude: The latitude of the shipping address.  longitude: The longitude of the shipping address.  name: The full name of the person associated with the payment method.  phone: The phone number at the shipping address.  province: The name of the region (for example, province, state, or prefecture) of the shipping address.  province_code: The two-letter abbreviation of the region of the shipping address.  zip: The postal code (for example, zip, postcode, or Eircode) of the shipping address.  */
-  shipping_address?: ShippingAddress;
+  shipping_address?: _ShippingAddress;
   /** An array of objects, each of which details a shipping method used. Each object has the following properties:
   code: A reference to the shipping method.
   discounted_price: The price of the shipping method after line-level discounts have been applied. Doesn't reflect cart-level or order-level discounts.
@@ -603,7 +603,7 @@ export type Order = {
   tax_lines: A list of tax line objects, each of which details a tax applicable to this shipping line.
   carrier_identifier: A reference to the carrier service that provided the rate. Present when the rate was computed by a third-party carrier service.
   requested_fulfillment_service_id: A reference to the fulfillment service that is being requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service; null otherwise.  */
-  shipping_lines?: ShippingLine[];
+  shipping_lines?: _ShippingLine[];
   status_url?: string;
   /** The terms and conditions under which a payment should be processed.
   amount: The amount that is owed according to the payment terms.
@@ -621,11 +621,11 @@ export type Order = {
   payment_terms?: object;
 };
 
-export type Error = {
+export type _Error = {
   [T: string]: unknown;
 };
 
-export type Event = {
+export type _Event = {
   /** The ID of the event.  */
   id?: number;
   /** The ID of the resource that generated the event.  */
@@ -659,7 +659,7 @@ export type Event = {
   path?: string;
 };
 
-export type Image = {
+export type _Image = {
   /** The date and time when the product image was created. The API returns this value in ISO 8601 format.  */
   created_at?: Date;
   alt?: string;
@@ -682,7 +682,7 @@ export type Image = {
   admin_graphql_api_id?: string;
 };
 
-export type Asset = {
+export type _Asset = {
   /** The path to the asset within a theme. It consists of the file's directory and filename. For example, the asset assets/bg-body-green.gif is in the assets directory, so its key is assets/bg-body-green.gif.  */
   key?: string;
   /** The public-facing URL of the asset.  */
@@ -705,7 +705,7 @@ export type Asset = {
   attachment?: string;
 };
 
-export type Theme = {
+export type _Theme = {
   /** A unique numeric identifier for the theme.  */
   id?: number;
   /** The name of the theme.  */
@@ -729,12 +729,12 @@ export type Theme = {
   admin_graphql_api_id?: string;
 };
 
-export type Price = {
+export type _Price = {
   amount?: string;
   currency_code?: string;
 };
 
-export type Report = {
+export type _Report = {
   /** The unique numeric identifier for the report.  */
   id?: number;
   /** The name of the report. Maximum length: 255 characters.  */
@@ -749,7 +749,7 @@ export type Report = {
   category?: string;
 };
 
-export type Refund = {
+export type _Refund = {
   /** The unique identifier for the refund.  */
   id?: number;
   admin_graphql_api_id?: string;
@@ -762,8 +762,8 @@ export type Refund = {
   processed_at?: Date;
   /** Whether to add the line items back to the store's inventory.  */
   restock?: boolean;
-  total_additional_fees_set?: PriceSet;
-  total_duties_set?: PriceSet;
+  total_additional_fees_set?: _PriceSet;
+  total_duties_set?: _PriceSet;
   /** The unique identifier of the user who performed the refund.  */
   user_id?: number;
   /** A list of order adjustments attached to the refund. Order adjustments are generated to account for refunded shipping costs and differences between calculated and actual refund amounts. Each entry has the following properties:
@@ -776,9 +776,9 @@ export type Refund = {
   reason: The reason for the order adjustment. To set this value, include discrepancy_reason when you create a refund.
   amount_set: The amount of the order adjustment in shop and presentment currencies.
   tax_amount_set: The tax amount of the order adjustment in shop and presentment currencies.  */
-  order_adjustments?: OrderAdjustment[];
+  order_adjustments?: _OrderAdjustment[];
   /** A list of transactions involved in the refund. A single order can have multiple transactions associated with it. For more information,  see the Transaction resource.  */
-  transactions?: Transaction[];
+  transactions?: _Transaction[];
   /** A list of refunded line items. Each entry has the following properties:
   id: The unique identifier of the line item in the refund.
   line_item: A line item being returned.
@@ -794,21 +794,21 @@ export type Refund = {
   total_tax: The total tax on the refund line item.
   subtotal_set: The subtotal of the refund line item in shop and presentment currencies.
   total_tax_set: The total tax of the line item in shop and presentment currencies.  */
-  refund_line_items?: RefundLineItem[];
+  refund_line_items?: _RefundLineItem[];
   /** A list of duties that have been returned as part of the refund.  */
-  duties?: Duty;
+  duties?: _Duty;
   additional_fees?: unknown[];
-  shipping?: Shipping;
+  shipping?: _Shipping;
   currency?: string;
   /** A list of refunded duties. Each entry has the following properties:
   duty_id: The unique identifier of the duty.
   refund_type: Specifies how you want the duty refunded. Valid values:
   FULL: Refunds all the duties associated with a duty ID. You do not need to include refund line items if you are using the full refund type.
   PROPORTIONAL: Refunds duties in proportion to the line item quantity that you want to refund. If you choose the proportional refund type, then you must also pass the refund line items to calculate the portion of duties to refund.  */
-  refund_duties?: RefundDuty[];
+  refund_duties?: _RefundDuty[];
 };
 
-export type Option = {
+export type _Option = {
   id?: number;
   product_id?: number;
   name?: string;
@@ -817,7 +817,7 @@ export type Option = {
   option1?: string;
 };
 
-export type Origin = {
+export type _Origin = {
   /** The shop's street address.  */
   address1?: string;
   /** The optional second line of the shop's street address.  */
@@ -835,11 +835,11 @@ export type Origin = {
   zip?: string;
 };
 
-export type Amount = {
+export type _Amount = {
   amount?: string;
 };
 
-export type Payout = {
+export type _Payout = {
   /** The unique identifier of the payout  */
   id?: number;
   /** The transfer status of the payout. The value will be one of the following:
@@ -856,10 +856,10 @@ export type Payout = {
   currency?: string;
   /** The total amount of the payout, in a decimal formatted string.  */
   amount?: string;
-  summary?: Summary;
+  summary?: _Summary;
 };
 
-export type Policy = {
+export type _Policy = {
   /** A description of the policy.  */
   body?: string;
   /** The date and time (ISO 8601 format) when the policy was created.  */
@@ -874,7 +874,7 @@ export type Policy = {
   url?: string;
 };
 
-export type Address = {
+export type _Address = {
   id?: number;
   customer_id?: number;
   first_name?: string;
@@ -896,23 +896,23 @@ export type Address = {
   longitude?: number;
 };
 
-export type TaxLine = {
+export type _TaxLine = {
   price?: string;
   rate?: number;
   title?: string;
-  price_set?: PriceSet;
+  price_set?: _PriceSet;
   channel_liable?: boolean;
   compare_at?: number;
 };
 
-export type Receipt = {
+export type _Receipt = {
   testcase?: boolean;
   authorization?: string;
   gift_card_id?: number;
   gift_card_last_characters?: string;
 };
 
-export type Webhook = {
+export type _Webhook = {
   /** Unique numeric identifier for the webhook subscription.  */
   id?: number;
   /** Destination URI to which the webhook subscription should send the POST request when an event occurs.  */
@@ -935,7 +935,7 @@ export type Webhook = {
   private_metafield_namespaces?: string[];
 };
 
-export type Article = {
+export type _Article = {
   /** The ID of the article.  */
   id?: number;
   /** The title of the article.  */
@@ -968,7 +968,7 @@ export type Article = {
   attachment: An image attached to article returned as Base64-encoded binary data.
   src: A source URL that specifies the location of the image.
   alt: Alternative text that describes the image.  */
-  image?: Image;
+  image?: _Image;
   /** The additional information attached to an Article object. It has the following properties:
   key: An identifier for the metafield. (maximum: 30 characters)
   namespace: A container for a set of metadata. Namespaces help distinguish between metadata created by different apps. (maximum: 20 characters)
@@ -976,12 +976,12 @@ export type Article = {
   type: The metafield's information type. Refer to the full list of types.
   description (optional): Additional information about the metafield.
   For more information on attaching metadata to Shopify resources, see the Metafield resource.  */
-  metafields?: Metafield;
+  metafields?: _Metafield;
   /** Whether the article is visible.  */
   published?: boolean;
 };
 
-export type Comment = {
+export type _Comment = {
   /** A unique numeric identifier for the comment.  */
   id?: number;
   /** The basic Textile markup of a comment.  */
@@ -1015,7 +1015,7 @@ export type Comment = {
   published_at?: Date;
 };
 
-export type Collect = {
+export type _Collect = {
   /** A unique numeric identifier for the collect.  */
   id?: number;
   /** The ID of the custom collection containing the product.  */
@@ -1032,7 +1032,7 @@ export type Collect = {
   sort_value?: string;
 };
 
-export type Product = {
+export type _Product = {
   /** An unsigned 64-bit integer that's used as a unique identifier for the product. Each id is unique across the Shopify system. No two products will have the same id, even if they're from different shops.  */
   id?: number;
   /** The name of the product.  */
@@ -1066,10 +1066,10 @@ export type Product = {
   admin_graphql_api_id?: string;
   /** The custom product properties. For example, Size, Color, and Material. Each product can have up to 3 options and each option value can be up to 255 characters. Product variants are made of up combinations of option values.
   Options cannot be created without values. To create new options, a variant with an associated option value also needs to be created.  */
-  options?: Option[];
+  options?: _Option[];
   /** A list of product image objects, each one representing an image associated with the product.  */
-  images?: Image[];
-  image?: Image;
+  images?: _Image[];
+  image?: _Image;
   /** The status of the product. Valid values:
   active: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active.
   archived: The product is no longer being sold and isn't available to customers on sales channels and apps.
@@ -1077,10 +1077,10 @@ export type Product = {
   status?: string;
   /** An array of product variants, each representing a different version of the product.
   The position property is read-only. The position of variants is indicated by the order in which they are listed.  */
-  variants?: Variant[];
+  variants?: _Variant[];
 };
 
-export type Variant = {
+export type _Variant = {
   /** The unique numeric identifier for the product variant.  */
   id?: number;
   /** The unique numeric identifier for the product.  */
@@ -1146,7 +1146,7 @@ export type Variant = {
   currency_code: The three-letter code (ISO 4217 format) for one of the shop's enabled presentment currencies.
   amount: The variant's price or compare-at price in the presentment currency.
   Requires the header 'X-Shopify-Api-Features': 'include-presentment-prices'.  */
-  presentment_prices?: PresentmentPrice[];
+  presentment_prices?: _PresentmentPrice[];
   /** This property is deprecated. Use the `requires_shipping` property on the InventoryItem resource instead.  */
   requires_shipping?: boolean;
   admin_graphql_api_id?: string;
@@ -1160,13 +1160,13 @@ export type Variant = {
   Default value: Default Title.
   The title field is a concatenation of the option1, option2, and
   option3 fields. Updating the option fields updates the title field.  */
-  option?: Option;
-  option_values?: OptionValue[];
+  option?: _Option;
+  option_values?: _OptionValue[];
   formatted_price?: string;
   available?: boolean;
 };
 
-export type Payment = {
+export type _Payment = {
   /** A unique identifer for the payment generated by Shopify.  */
   id?: number;
   /** A unique idempotency token generated by the app that created the payment request.
@@ -1190,7 +1190,7 @@ export type Payment = {
   message: The message returned by the payment provider, if any.
   status: The status of the transaction, either success or failure.
   test: Whether or not the transaction was a test.  */
-  transaction?: Transaction;
+  transaction?: _Transaction;
   /** The details of the credit card used for payment. The following attributes are available:
   first_name: The first name of the cardholder.
   last_name: The last name of the cardholder.
@@ -1199,18 +1199,18 @@ export type Payment = {
   brand: The credit card brand.
   expiry_month: The expiry month of the credit card.
   expiry_year: The expiry year of the credit card.  */
-  credit_card?: CreditCard;
+  credit_card?: _CreditCard;
   /** Specifies the URL that your app or sales channel needs to send the customer to so that they can authenticate their payment. To learn more about how to use this property, refer to Authenticating payments with 3D Secure.  */
-  next_action?: NextAction;
-  checkout?: Checkout;
+  next_action?: _NextAction;
+  checkout?: _Checkout;
 };
 
-export type Balance = {
+export type _Balance = {
   currency?: string;
   amount?: string;
 };
 
-export type Dispute = {
+export type _Dispute = {
   /** The ID of the dispute.  */
   id?: number;
   /** The ID of the order that the dispute belongs to.  */
@@ -1271,7 +1271,7 @@ export type Dispute = {
   initiated_at?: Date;
 };
 
-export type Summary = {
+export type _Summary = {
   adjustments_fee_amount?: string;
   adjustments_gross_amount?: string;
   charges_fee_amount?: string;
@@ -1284,7 +1284,7 @@ export type Summary = {
   retried_payouts_gross_amount?: string;
 };
 
-export type Country = {
+export type _Country = {
   /** The ID for the country. The ID for a country is unique across all Shopify stores. The ID for a country in one shop will be different from the same country in another shop.  */
   id?: number;
   /** The full name of the country in English.  */
@@ -1303,11 +1303,11 @@ export type Country = {
   tax_name: The name of the tax as it is referred to in the applicable sub-region. For example, in Canada, the sales tax in the province Ontario is referred to as HST.
   tax_type: The tax type. Valid values: null, normal, or harmonized. If the value is harmonized, then the tax is compounded of the provincial and federal sales taxes.
   tax_percentage: The tax value in percent format.  */
-  provinces?: Province[];
+  provinces?: _Province[];
   shipping_zone_id?: number;
 };
 
-export type Customer = {
+export type _Customer = {
   /** A unique identifier for the customer.  */
   id?: number;
   /** The unique email address of the customer. Attempting to assign the same email address to
@@ -1376,7 +1376,7 @@ export type Customer = {
   province: The customer's region name. Typically a province, a state, or a prefecture.
   province_code: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
   zip: The customer's postal code, also known as zip, postcode, Eircode, etc.  */
-  addresses?: Address[];
+  addresses?: _Address[];
   /** The date and time (ISO 8601 format) when the customer consented or objected to receiving marketing material by email. Set this value whenever the customer consents or objects to marketing materials.  */
   accepts_marketing_updated_at?: Date;
   /** The marketing subscription opt-in level (as described by the M3AAWG best practices
@@ -1421,7 +1421,7 @@ export type Customer = {
   The customer's consent state reflects the consent record with the most recent
   last_consent_updated_at date. If no date is provided, then the date and time at which the consent information was sent is used.
   consent_collected_from: The source for whether the customer has consented to receive marketing material by SMS.  */
-  sms_marketing_consent?: SmsMarketingConsent;
+  sms_marketing_consent?: _SmsMarketingConsent;
   admin_graphql_api_id?: string;
   /** The default address for the customer. The default address has the following properties:
   address1: The first line of the customer's mailing address.
@@ -1441,27 +1441,27 @@ export type Customer = {
   province: The customer's region name. Typically a province, a state, or a prefecture.
   province_code: The two-letter code for the customer's region.
   zip: The customer's postal code, also known as zip, postcode, Eircode, etc.  */
-  default_address?: Address;
+  default_address?: _Address;
   /** Attaches additional metadata to a shop's resources:
   key (required): An identifier for the metafield (maximum of 30 characters).
   namespace(required): A container for a set of metadata (maximum of 20 characters). Namespaces help distinguish between metadata that you created and metadata created by another individual with a similar namespace.
   value (required): Information to be stored as metadata.
   type (required): The type. See the full list of types.
   description (optional): Additional information about the metafield.  */
-  metafield?: Metafield;
+  metafield?: _Metafield;
 };
 
-export type PriceSet = {
-  shop_money?: Price;
-  presentment_money?: Price;
+export type _PriceSet = {
+  shop_money?: _Price;
+  presentment_money?: _Price;
 };
 
-export type Property = {
+export type _Property = {
   name?: string;
   value?: string;
 };
 
-export type LineItem = {
+export type _LineItem = {
   id?: number;
   admin_graphql_api_id?: string;
   fulfillable_quantity?: number;
@@ -1471,25 +1471,25 @@ export type LineItem = {
   grams?: number;
   name?: string;
   price?: string;
-  price_set?: PriceSet;
+  price_set?: _PriceSet;
   product_exists?: boolean;
   product_id?: number;
-  properties?: Property[];
+  properties?: _Property[];
   quantity?: number;
   requires_shipping?: boolean;
   sku?: string;
   taxable?: boolean;
   title?: string;
   total_discount?: string;
-  total_discount_set?: PriceSet;
+  total_discount_set?: _PriceSet;
   variant_id?: number;
   variant_inventory_management?: string;
   variant_title?: string;
   vendor?: string;
-  tax_lines?: TaxLine[];
-  duties?: Duty[];
-  discount_allocations?: DiscountAllocation[];
-  applied_discounts?: AppliedDiscount[];
+  tax_lines?: _TaxLine[];
+  duties?: _Duty[];
+  discount_allocations?: _DiscountAllocation[];
+  applied_discounts?: _AppliedDiscount[];
   key?: string;
   destination_location_id?: number;
   origin_location_id?: number;
@@ -1503,7 +1503,7 @@ export type LineItem = {
   /** The original price of the item before an adjustment or a sale.  */
   compare_at_price?: string;
   line_price?: string;
-  applied_discount?: AppliedDiscount;
+  applied_discount?: _AppliedDiscount;
   custom?: boolean;
   image_url?: string;
   shop_id?: number;
@@ -1513,7 +1513,7 @@ export type LineItem = {
   fulfillment_line_item_id?: number;
 };
 
-export type Location = {
+export type _Location = {
   /** The ID for the location.  */
   id?: number;
   /** The name of the location.  */
@@ -1552,7 +1552,7 @@ export type Location = {
   localized_province_name?: string;
 };
 
-export type Redirect = {
+export type _Redirect = {
   /** The ID for the redirect.  */
   id?: number;
   /** The old path to be redirected. When the user visits this path, they will be redirected to the target. (maximum: 1024 characters)  */
@@ -1561,7 +1561,7 @@ export type Redirect = {
   target?: string;
 };
 
-export type Checkout = {
+export type _Checkout = {
   /** The ID for the checkout.  */
   id?: number;
   /** A unique ID for a checkout.  */
@@ -1582,7 +1582,7 @@ export type Checkout = {
   landing_site?: string;
   /** The text of an optional note that a shop owner can attach to the order.  */
   note?: string;
-  note_attributes?: NoteAttribute;
+  note_attributes?: _NoteAttribute;
   /** The website that referred the customer to the shop.  */
   referring_site?: string;
   /** Information about the chosen shipping method. It has the following properties:
@@ -1590,7 +1590,7 @@ export type Checkout = {
   price: The price of the shipping method in presentment currency.
   source: The channel where the checkout originated. Example value: shopify.
   title: The title of the shipping method. Example value: International Shipping.  */
-  shipping_lines?: ShippingLine[];
+  shipping_lines?: _ShippingLine[];
   /** Whether taxes are included in the price.  */
   taxes_included?: boolean;
   /** The sum of all the weights in grams of the line items in the checkout.  */
@@ -1627,7 +1627,7 @@ export type Checkout = {
   variant_id: The product variant ID of item.
   variant_title: The title of the product variant.
   vendor: The name of the item's supplier.  */
-  line_items?: LineItem[];
+  line_items?: _LineItem[];
   name?: string;
   /** The source of the order risk.  */
   source?: string;
@@ -1638,13 +1638,13 @@ export type Checkout = {
   amount: The amount of the discount in presentment currency.
   code: The discount code.
   type: The type of discount. Valid values: percentage, shipping, fixed_amount. (default: fixed_amount)  */
-  discount_codes?: DiscountCode[];
+  discount_codes?: _DiscountCode[];
   /** An array of tax line objects, each of which details a tax applicable to the checkout. Each object has the following properties:
   price: The amount of tax to be charged in presentment currency.
   rate: The rate of tax to be applied.
   title: The name of the tax.
   channel_liable: Whether the channel that submitted the tax line is liable for remitting. A value of null indicates unknown liability for the tax line.  */
-  tax_lines?: TaxLine[];
+  tax_lines?: _TaxLine[];
   /** Where the checkout originated. Valid values: web, pos, iphone, android.  */
   source_name?: string;
   /** The three-letter code (ISO 4217 format) of the currency that the customer used at checkout. For the shop's default currency, see currency.  */
@@ -1682,7 +1682,7 @@ export type Checkout = {
   province: The name of the state or province of the billing address.
   province_code: The two-letter abbreviation of the state or province of the billing address.
   zip: The zip or postal code of the billing address.  */
-  billing_address?: Address;
+  billing_address?: _Address;
   /** The mailing address where the order will be shipped to. It has the following properties:
   address1: The street address of the shipping address.
   address2: An optional additional field for the street address of the shipping address.
@@ -1699,9 +1699,9 @@ export type Checkout = {
   province: The name of the state or province of the shipping address.
   province_code: The two-letter abbreviation of the state or province of the shipping address.
   zip: The zip or postal code of the shipping address.  */
-  shipping_address?: ShippingAddress;
+  shipping_address?: _ShippingAddress;
   /** Information about the customer. For more information, see the Customer resource.  */
-  customer?: Customer;
+  customer?: _Customer;
   /** The ID of the customer associated with this checkout.  */
   customer_id?: number;
   /** The discount code that is applied to the checkout. This populates applied_discount with
@@ -1712,12 +1712,12 @@ export type Checkout = {
   order_id?: number;
   order_status_url?: string;
   /** An object containing the ID, name, and status page URL of the associated order when the checkout is complete. Default value: null.  */
-  order?: Order;
+  order?: _Order;
   /** The amount left to be paid in presentment currency. This is equal to the sum of the checkout line prices, taxes, and shipping minus discounts and gift cards.  */
   payment_due?: string;
   /** The URL that must be used to store credit cards in Shopify's card vault. These URLs are subject to change, so you should always use the one supplied here. The general pattern for the URLs is https://elb.deposit.shopifycs.com/sessions.  */
   payment_url?: string;
-  payments?: Payment[];
+  payments?: _Payment[];
   shopify_payments_account_id?: number;
   privacy_policy_url?: string;
   refund_policy_url?: any;
@@ -1745,15 +1745,15 @@ export type Checkout = {
   id: The ID for the applied gift card.
   last_characters: The last four characters of the applied gift card for display back to the user.
   Updating the gift card list overwrites any previous list already defined in the checkout. To remove a gift card from the list of applied gift cards, re-apply the gift_cards array without that gift card.  */
-  gift_cards?: CheckoutGiftCard[];
+  gift_cards?: _CheckoutGiftCard[];
   tax_manipulations?: unknown[];
   /** The selected shipping rate. A new shipping rate can be selected by updating the value for handle.
   A shipping line is required when requires_shipping is true. Learn more about
   selecting shipping rates.  */
-  shipping_line?: ShippingLine;
+  shipping_line?: _ShippingLine;
   /** The selected shipping rate. This property is not writable.  */
-  shipping_rate?: ShippingRate;
-  credit_card?: CreditCard;
+  shipping_rate?: _ShippingRate;
+  credit_card?: _CreditCard;
   /** A cart-level discount applied to the checkout. Apply a discount by
   specifying values for amount, title, description, value,
   and value_type.
@@ -1769,16 +1769,16 @@ export type Checkout = {
   discount_code: The merchant or customer entered a discount code.
   manual: The discount was applied manually by the merchant or an app.
   script: The discount was applied by a Shopify Script.  */
-  applied_discount?: AppliedDiscount;
+  applied_discount?: _AppliedDiscount;
 };
 
-export type Shipping = {
+export type _Shipping = {
   amount?: string;
   tax?: string;
   maximum_refundable?: string;
 };
 
-export type GiftCard = {
+export type _GiftCard = {
   /** The ID of the gift card.  */
   id?: number;
   /** The balance of the gift card.  */
@@ -1800,7 +1800,7 @@ export type GiftCard = {
   /** The ID of the user that issued the gift card, if it was issued by a user.  */
   user_id?: number;
   /** The ID of a customer who is associated with this gift card.  */
-  customer_id?: CustomerId;
+  customer_id?: _CustomerId;
   /** The text of an optional note that a merchant can attach to the gift card. Not visible to customers.  */
   note?: string;
   /** The date (YYYY-MM-DD format) when the gift card expires. Returns null if the gift card doesn't have an expiration date.  */
@@ -1817,7 +1817,7 @@ export type GiftCard = {
   code?: string;
 };
 
-export type Currency = {
+export type _Currency = {
   /** The three-letter code (ISO 4217 format) for the currency associated with this setting.  */
   currency?: string;
   /** The date and time (ISO 8601 format) when
@@ -1828,7 +1828,7 @@ export type Currency = {
   enabled?: boolean;
 };
 
-export type Province = {
+export type _Province = {
   /** The ID for the province.  */
   id?: number;
   /** The ID for the country that the province belongs to.  */
@@ -1852,7 +1852,7 @@ export type Province = {
   tax_percentage?: number;
 };
 
-export type Metafield = {
+export type _Metafield = {
   /** The name of the metafield. Minimum length: 3 characters. Maximum length: 30 characters.  */
   key?: string;
   /** The metafield's information type. See the full list of types.  */
@@ -1887,7 +1887,7 @@ export type Metafield = {
   admin_graphql_api_id?: string;
 };
 
-export type PriceRule = {
+export type _PriceRule = {
   /** The ID for the price rule.  */
   id?: number;
   /** The value type of the price rule. Valid values:
@@ -1947,7 +1947,7 @@ export type PriceRule = {
   It can't be used in combination with entitled_product_ids or entitled_variant_ids.  */
   entitled_collection_ids?: number[];
   /** A list of IDs of shipping countries that will be entitled to the discount. It can be used only with target_type set to shipping_line and target_selection set to entitled.  */
-  entitled_country_ids?: EntitledCountryId;
+  entitled_country_ids?: _EntitledCountryId;
   /** List of product ids that will be a prerequisites for a Buy X Get Y type discount. The prerequisite_product_ids can be used only with:
   target_type set to line_item,
   target_selection set to entitled,
@@ -1979,13 +1979,13 @@ export type PriceRule = {
   prerequisite_customer_ids?: number[];
   /** The minimum subtotal for the price rule to be applicable. It has the following property:
   greater_than_or_equal_to: The subtotal of the entitled cart items must be greater than or equal to this value for the discount to apply.  */
-  prerequisite_subtotal_range?: PrerequisiteSubtotalRange;
+  prerequisite_subtotal_range?: _PrerequisiteSubtotalRange;
   /** The minimum number of items for the price rule to be applicable. It has the following property:
   greater_than_or_equal_to: The quantity of an entitled cart item must be greater than or equal to this value.  */
-  prerequisite_quantity_range?: PrerequisiteSubtotalRange;
+  prerequisite_quantity_range?: _PrerequisiteSubtotalRange;
   /** The maximum shipping price for the price rule to be applicable. It has the following property:
   less_than_or_equal_to: The shipping price must be less than or equal to this value.  */
-  prerequisite_shipping_price_range?: PrerequisiteShippingPriceRange;
+  prerequisite_shipping_price_range?: _PrerequisiteShippingPriceRange;
   /** Buy/Get ratio for a Buy X Get Y discount. prerequisite_quantity defines the necessary 'buy' quantity and entitled_quantity the offered 'get' quantity.
   The prerequisite_to_entitlement_quantity_ratio can be used only with:
   value_type set to percentage,
@@ -1996,10 +1996,10 @@ export type PriceRule = {
   entitled_product_ids or entitled_variant_ids or entitled_collection_ids defined.
   Caution
   Cannot be used in combination with prerequisite_subtotal_range, prerequisite_quantity_range or prerequisite_shipping_price_range.  */
-  prerequisite_to_entitlement_quantity_ratio?: PrerequisiteToEntitlementQuantityRatio;
+  prerequisite_to_entitlement_quantity_ratio?: _PrerequisiteToEntitlementQuantityRatio;
   /** The prerequisite purchase for a Buy X Get Y discount. It has the following property:
   prerequisite_amount: The minimum purchase amount required to be entitled to the discount.  */
-  prerequisite_to_entitlement_purchase?: PrerequisiteToEntitlementPurchase;
+  prerequisite_to_entitlement_purchase?: _PrerequisiteToEntitlementPurchase;
   /** The title of the price rule. This is used by the Shopify admin search to retrieve discounts. It is also displayed on the Discounts page of the Shopify admin for bulk discounts.
   For non-bulk discounts, the discount code is displayed on the admin.
   For a consistent search experience, use the same value for title as the code property of the associated discount code.  */
@@ -2007,7 +2007,7 @@ export type PriceRule = {
   admin_graphql_api_id?: string;
 };
 
-export type ScriptTag = {
+export type _ScriptTag = {
   /** The ID for the script tag.  */
   id?: number;
   /** The URL of the remote script.  */
@@ -2030,7 +2030,7 @@ export type ScriptTag = {
   cache?: boolean;
 };
 
-export type Engagement = {
+export type _Engagement = {
   occurred_on?: string;
   fetched_at?: string;
   views_count?: number;
@@ -2051,7 +2051,7 @@ export type Engagement = {
   utc_offset?: string;
 };
 
-export type DraftOrder = {
+export type _DraftOrder = {
   /** The ID of the draft order.  */
   id?: number;
   /** The text of an optional note that a shop owner can attach to the draft order.  */
@@ -2113,7 +2113,7 @@ export type DraftOrder = {
   requires_shipping: Whether the fulfillment requires shipping. Applicable only to custom line items. Valid values are true or false.
   sku: A unique identifier of the item in the fulfillment. Applicable only to custom line items.
   taxable: Whether the product is taxable. Only applicable to custom line items.  */
-  line_items?: LineItem[];
+  line_items?: _LineItem[];
   /** The mailing address to where the order will be shipped. This address is optional and will not be available on orders that do not require shipping. It has the following properties:
   address1: The street address of the shipping address.
   address2: An optional additional field for the street address of the shipping address.
@@ -2130,7 +2130,7 @@ export type DraftOrder = {
   province: The name of the state or province of the shipping address.
   province_code: The two-letter abbreviation of the state or province of the shipping address.
   zip: The zip or postal code of the shipping address.  */
-  shipping_address?: ShippingAddress;
+  shipping_address?: _ShippingAddress;
   /** The mailing address associated with the payment method. This address is an optional field that won't be available on orders that do not require a payment method. It has the following properties:
   address1: The street address of the billing address.
   address2: An optional additional field for the street address of the billing address.
@@ -2147,7 +2147,7 @@ export type DraftOrder = {
   province: The name of the billing address region, such as province, state, or prefecture.
   province_code: The two-letter abbreviation of the region for the billing address.
   zip: The postal code of the billing address, such as zip, postcode, or Eircode.  */
-  billing_address?: Address;
+  billing_address?: _Address;
   /** The URL for the invoice.  */
   invoice_url?: string;
   /** The discount applied to the line item or the draft order object. Each draft order object can have one applied_discount object and each draft order line item can have its own applied_discount. The object has the following properties:
@@ -2156,7 +2156,7 @@ export type DraftOrder = {
   value: The value of the discount. If the type of discount is fixed_amount, then it corresponds to a fixed dollar amount. If the type is percentage, then it corresponds to percentage.
   value_type: The type of discount. Valid values: percentage, fixed_amount.
   amount: The applied amount of the discount, based on the setting of value_type. For more information, see Applying discounts.  */
-  applied_discount?: AppliedDiscount;
+  applied_discount?: _AppliedDiscount;
   /** The ID of the order that 's created and associated with the draft order after the draft order is completed.  */
   order_id?: number;
   /** A shipping_line object, which details the shipping method used. The object has the following properties:
@@ -2164,17 +2164,17 @@ export type DraftOrder = {
   handle: The handle of the shipping rate which was selected and applied. Required for regular shipping lines.
   title: The title of the shipping method. Required for custom shipping lines. (maximum: 255 characters)
   price: The price of the shipping method. Required for custom shipping lines.  */
-  shipping_line?: ShippingLine;
+  shipping_line?: _ShippingLine;
   /** An array of tax line objects, each of which details a tax applicable to the order. Each object has the following properties:
   price: The amount of tax to be charged.
   rate: The rate of tax to be applied.
   title: The name of the tax.  */
-  tax_lines?: TaxLine[];
+  tax_lines?: _TaxLine[];
   /** A comma-seperated list of additional short descriptors, commonly used for filtering and searching.
   Each individual tag is limited to 40 characters in length. For example, tags: "tag1","tag2","tag3".  */
   tags?: string;
   /** Extra information that is added to the order. Appears in the Additional details section of an order details page. Each array entry must contain a hash with name and value keys.  */
-  note_attributes?: NoteAttribute[];
+  note_attributes?: _NoteAttribute[];
   /** The sum of all the prices of all the items in the order,
   taxes and discounts included.  */
   total_price?: string;
@@ -2183,12 +2183,12 @@ export type DraftOrder = {
   /** The sum of all the taxes applied to the order.  */
   total_tax?: string;
   presentment_currency?: string;
-  total_line_items_price_set?: PriceSet;
-  total_price_set?: PriceSet;
-  subtotal_price_set?: PriceSet;
-  total_tax_set?: PriceSet;
-  total_discounts_set?: PriceSet;
-  total_shipping_price_set?: PriceSet;
+  total_line_items_price_set?: _PriceSet;
+  total_price_set?: _PriceSet;
+  subtotal_price_set?: _PriceSet;
+  total_tax_set?: _PriceSet;
+  total_discounts_set?: _PriceSet;
+  total_shipping_price_set?: _PriceSet;
   /** The terms and conditions under which a payment should be processed.
   amount: The amount that is owed according to the payment terms.
   currency: The presentment currency for the payment.
@@ -2202,12 +2202,12 @@ export type DraftOrder = {
   due_at: The date and time when the payment is due. Calculated based on issued_at and due_in_days or a customized fixed date if the type is fixed.
   completed_at: The date and time when the purchase is completed. Returns null initially and updates when the payment is captured.
   expected_payment_method: The name of the payment method gateway.  */
-  payment_terms?: PaymentTerm;
+  payment_terms?: _PaymentTerm;
   admin_graphql_api_id?: string;
   /** Information about the customer. To load a customer, provide the ID as part  of the draft order object in the Create POST request.
   To remove a customer, set the customer property to null as part of the  Create POST request.
   For more information, see Loading  and removing customers. For more information about the customer object,  see the Customer resource.  */
-  customer?: Customer;
+  customer?: _Customer;
   /** Whether the customer is exempt from paying specific taxes on their order. Canadian taxes only. Valid values:
   EXEMPT_ALL: This customer is exempt from all Canadian taxes.
   CA_STATUS_CARD_EXEMPTION: This customer is exempt from specific taxes for holding a valid STATUS_CARD_EXEMPTION in Canada.
@@ -2233,16 +2233,16 @@ export type DraftOrder = {
   tax_exemptions?: string[];
 };
 
-export type RefundDuty = {
+export type _RefundDuty = {
   duty_id?: number;
   refund_type?: string;
 };
 
-export type CustomerId = {
+export type _CustomerId = {
   customer_id?: number;
 };
 
-export type Collection = {
+export type _Collection = {
   /** The ID for the collection.  */
   id?: number;
   /** A unique, human-readable string for the collection automatically generated from its title. This is used in themes by the Liquid templating language to refer to the collection. (limit: 255 characters)  */
@@ -2283,12 +2283,12 @@ export type Collection = {
   created_at: The time and date (ISO 8601 format) when the image was added to the collection.
   width: The width of the image in pixels.
   height: The height of the image in pixels.  */
-  image?: Image;
+  image?: _Image;
   disjunctive?: boolean;
-  rules?: Rule[];
+  rules?: _Rule[];
 };
 
-export type CreditCard = {
+export type _CreditCard = {
   first_name?: string;
   last_name?: string;
   first_digits?: string;
@@ -2299,17 +2299,17 @@ export type CreditCard = {
   customer_id?: number;
 };
 
-export type NextAction = {
+export type _NextAction = {
   redirect_url?: string;
 };
 
-export type AccessScope = {
+export type _AccessScope = {
   handle?: string;
   /** The list of access scopes associated with the access token.  */
-  access_scopes?: AccessScope[];
+  access_scopes?: _AccessScope[];
 };
 
-export type UsageCharge = {
+export type _UsageCharge = {
   /** The ID of the usage charge.  */
   id?: number;
   /** The description of the usage charge.  */
@@ -2329,7 +2329,7 @@ export type UsageCharge = {
   updated_at?: Date;
 };
 
-export type Fulfillment = {
+export type _Fulfillment = {
   /** The ID for the fulfillment.  */
   id?: number;
   admin_graphql_api_id?: string;
@@ -2348,11 +2348,11 @@ export type Fulfillment = {
   country_code: The country of the fulfillment location.
   province_code: The province of the fulfillment location.
   zip: The zip code of the fulfillment location.  */
-  origin_address?: OriginAddress;
+  origin_address?: _OriginAddress;
   /** A text field that provides information about the receipt:
   testcase: Whether the fulfillment was a testcase.
   authorization: The authorization code.  */
-  receipt?: Receipt;
+  receipt?: _Receipt;
   /** The fulfillment service associated with the fulfillment.  */
   service?: string;
   /** The current shipment status of the fulfillment. Valid values:
@@ -2467,14 +2467,14 @@ export type Fulfillment = {
   fulfillment_line_item_id: A unique identifier for a quantity of items within a single fulfillment. An order can have multiple fulfillment line items.
   tax_lines: The title, price, and rate of any taxes applied to the line item.
   duties: A list of duty objects, each containing information about a duty on the line item.  */
-  line_items?: LineItem[];
+  line_items?: _LineItem[];
   /** Whether the customer should be notified. If set to true, then an email will be sent when the fulfillment is created or updated. For orders that were initially created using the API, the default value is false. For all other orders, the default value is true.  */
   notify_customer?: boolean;
   /** The name of the inventory management service.  */
   variant_inventory_management?: string;
 };
 
-export type Transaction = {
+export type _Transaction = {
   /** The ID for the transaction.  */
   id?: number;
   admin_graphql_api_id?: string;
@@ -2529,7 +2529,7 @@ export type Transaction = {
   original transaction was processed.  */
   processed_at?: Date;
   /** A transaction receipt attached to the transaction by the gateway. The value of this field depends on which gateway the shop is using.  */
-  receipt?: Receipt;
+  receipt?: _Receipt;
   /** The origin of the transaction. This is set by Shopify and can't be overridden. Example values: web, pos, iphone, and android.  */
   source_name?: string;
   /** The status of the transaction. Valid values: pending, failure, success, and error.  */
@@ -2553,7 +2553,7 @@ export type Transaction = {
   cvv_result_code: The response code from the credit card company indicating whether the customer entered the card security code, or card verification value, correctly. The code is a single letter or empty string; see this chart for the codes and their definitions.
   credit_card_number: The customer's credit card number, with most of the leading digits redacted.
   credit_card_company: The name of the company that issued the customer's credit card.  */
-  payment_details?: PaymentDetail;
+  payment_details?: _PaymentDetail;
   /** The date and time (ISO 8601 format) when the Shopify Payments authorization expires.  */
   authorization_expires_at?: Date;
   /** The attributes associated with a Shopify Payments extended authorization period. It has the following attributes:
@@ -2565,7 +2565,7 @@ export type Transaction = {
   The transaction being retrieved is an extended authorization, which is determined by the capture_before date in the charge.
   If the criteria isn't met, then an empty JSON is returned for extended_authorization_attributes.
   To learn more about extended authorization periods, refer to Payment authorization.  */
-  extended_authorization_attributes?: ExtendedAuthorizationAttribute;
+  extended_authorization_attributes?: _ExtendedAuthorizationAttribute;
   amount_in?: string;
   amount_out?: string;
   amount_rounding?: string;
@@ -2590,22 +2590,22 @@ export type Transaction = {
   payments_refund_attributes?: object;
 };
 
-export type PaymentTerm = {
+export type _PaymentTerm = {
   amount?: number;
   currency?: string;
   due_in_days?: number;
-  payment_schedules?: PaymentSchedule[];
+  payment_schedules?: _PaymentSchedule[];
   payment_terms_name?: string;
   payment_terms_type?: string;
 };
 
-export type OptionValue = {
+export type _OptionValue = {
   option_id?: number;
   name?: string;
   value?: string;
 };
 
-export type Destination = {
+export type _Destination = {
   id?: number;
   address1?: string;
   address2?: string;
@@ -2620,7 +2620,7 @@ export type Destination = {
   zip?: string;
 };
 
-export type ClientDetail = {
+export type _ClientDetail = {
   accept_language?: string;
   browser_height?: number;
   browser_ip?: string;
@@ -2630,7 +2630,7 @@ export type ClientDetail = {
   user_agent?: string;
 };
 
-export type DiscountCode = {
+export type _DiscountCode = {
   /** The case-insensitive discount code that customers use at checkout. (maximum: 255 characters)
   Use the same value for code as the title property of the associated price rule.  */
   code?: string;
@@ -2646,42 +2646,42 @@ export type DiscountCode = {
   created_at?: Date;
   /** The date and time (ISO 8601 format) when the discount code was updated.  */
   updated_at?: Date;
-  errors?: Error;
+  errors?: _Error;
 };
 
-export type ShippingLine = {
+export type _ShippingLine = {
   id?: number;
   carrier_identifier?: string;
   code?: string;
   delivery_category?: string;
   discounted_price?: string;
-  discounted_price_set?: PriceSet;
+  discounted_price_set?: _PriceSet;
   /** The user's phone number.  */
   phone?: string;
   price?: string;
-  price_set?: PriceSet;
+  price_set?: _PriceSet;
   requested_fulfillment_service_id?: number;
   source?: string;
   title?: string;
-  tax_lines?: TaxLine[];
-  discount_allocations?: DiscountAllocation[];
-  applied_discounts?: AppliedDiscount[];
+  tax_lines?: _TaxLine[];
+  discount_allocations?: _DiscountAllocation[];
+  applied_discounts?: _AppliedDiscount[];
   custom?: boolean;
   handle?: string;
 };
 
-export type ShippingRate = {
+export type _ShippingRate = {
   id?: string;
   price?: string;
   title?: string;
-  checkout?: Checkout;
+  checkout?: _Checkout;
   phone_required?: boolean;
   delivery_range?: string;
   estimated_time_in_transit?: string;
   handle?: string;
 };
 
-export type ShippingZone = {
+export type _ShippingZone = {
   /** The unique numeric identifier for the shipping zone.  */
   id?: number;
   /** The name of the shipping zone, specified by the user.  */
@@ -2698,7 +2698,7 @@ export type ShippingZone = {
   name: The full name of the country, in English.
   tax: The tax value in decimal format.
   tax_name: The name of the tax as it is referred to in the applicable province/state. For example, in Ontario, Canada the tax is referred to as HST.  */
-  countries?: Country[];
+  countries?: _Country[];
   /** Information about a weight-based shipping rate.
   id: The unique numeric identifier for the shipping rate.
   name: The name of the shipping rate.
@@ -2706,7 +2706,7 @@ export type ShippingZone = {
   shipping_zone_id: The unique numeric identifier for the associated shipping zone.
   weight_low: The minimum weight of an order for it to be eligible for the shipping rate.
   weight_high: The maximum weight of an order for it to be eligible for the shipping rate.  */
-  weight_based_shipping_rates?: WeightBasedShippingRate[];
+  weight_based_shipping_rates?: _WeightBasedShippingRate[];
   /** Information about a price-based shipping rate.
   id: The unique numeric identifier for the shipping rate.
   name: The name of the shipping rate.
@@ -2714,19 +2714,19 @@ export type ShippingZone = {
   shipping_zone_id: The unique numeric identifier for the associated shipping zone.
   min_order_subtotal: The minimum price of an order for it to be eligible for the shipping rate.
   max_order_subtotal: The maximum price of an order for it to be eligible for the shipping rate.  */
-  price_based_shipping_rates?: WeightBasedShippingRate[];
+  price_based_shipping_rates?: _WeightBasedShippingRate[];
   /** Information about carrier shipping providers and the rates used.  */
-  carrier_shipping_rate_providers?: CarrierShippingRateProvider[];
+  carrier_shipping_rate_providers?: _CarrierShippingRateProvider[];
 };
 
-export type NoteAttribute = {
+export type _NoteAttribute = {
   name?: string;
   value?: string;
   custom_engraving?: string;
   colour?: string;
 };
 
-export type OriginAddress = {
+export type _OriginAddress = {
   zip?: string;
   city?: string;
   address1?: string;
@@ -2735,7 +2735,7 @@ export type OriginAddress = {
   province_code?: string;
 };
 
-export type PaymentDetail = {
+export type _PaymentDetail = {
   credit_card_bin?: string;
   avs_result_code?: string;
   cvv_result_code?: string;
@@ -2747,7 +2747,7 @@ export type PaymentDetail = {
   credit_card_expiration_year?: string;
 };
 
-export type InventoryItem = {
+export type _InventoryItem = {
   /** The ID of the inventory item.  */
   id?: number;
   /** The unique SKU (stock keeping unit) of the inventory item.  */
@@ -2769,26 +2769,26 @@ export type InventoryItem = {
   /** Whether the inventory item is tracked. If true, then inventory quantity changes are tracked by Shopify.  */
   tracked?: boolean;
   /** An array of country-specific Harmonized System (HS) codes for the item. Used to determine duties when shipping the inventory item to certain countries.  */
-  country_harmonized_system_codes?: CountryHarmonizedSystemCode[];
+  country_harmonized_system_codes?: _CountryHarmonizedSystemCode[];
   admin_graphql_api_id?: string;
 };
 
-export type UTMparameter = {
-  marketing_event?: MarketingEvent;
+export type _UTMparameter = {
+  marketing_event?: _MarketingEvent;
 };
 
-export type RequestOption = {
+export type _RequestOption = {
   date?: Date;
   note?: string;
   shipping_method?: string;
   notify_customer?: boolean;
 };
 
-export type ServiceFilter = {
+export type _ServiceFilter = {
   "*"?: string;
 };
 
-export type CustomerInvite = {
+export type _CustomerInvite = {
   to?: string;
   from?: string;
   subject?: string;
@@ -2796,24 +2796,24 @@ export type CustomerInvite = {
   bcc?: string[];
 };
 
-export type RefundLineItem = {
+export type _RefundLineItem = {
   id?: number;
   line_item_id?: number;
   location_id?: number;
   quantity?: number;
   restock_type?: string;
   subtotal?: number;
-  subtotal_set?: PriceSet;
+  subtotal_set?: _PriceSet;
   total_tax?: number;
-  total_tax_set?: PriceSet;
-  line_item?: LineItem;
+  total_tax_set?: _PriceSet;
+  line_item?: _LineItem;
   price?: string;
   discounted_price?: string;
   discounted_total_price?: string;
   total_cart_discount_amount?: string;
 };
 
-export type InventoryLevel = {
+export type _InventoryLevel = {
   /** The ID of the inventory item that the inventory level belongs to.  */
   inventory_item_id?: number;
   /** The ID of the location that the inventory level belongs to. To find the ID of the location, use the Location resource.  */
@@ -2825,7 +2825,7 @@ export type InventoryLevel = {
   admin_graphql_api_id?: string;
 };
 
-export type MarketingEvent = {
+export type _MarketingEvent = {
   id?: number;
   /** The type of marketing event. Valid values: ad, post, message, retargeting, transactional, affiliate, loyalty, newsletter, abandoned_cart.
   Note
@@ -2871,13 +2871,13 @@ export type MarketingEvent = {
   page
   article
   homepage (Doesn't have an id.)  */
-  marketed_resources?: MarketedResource[];
+  marketed_resources?: _MarketedResource[];
   /** The UTM parameters used in the links provided in the marketing event. Values must be unique and should not be url-encoded.
   To do traffic or order attribution you must at least define utm_campaign, utm_source, and utm_medium.  */
-  UTM_parameters?: UTMparameter;
+  UTM_parameters?: _UTMparameter;
 };
 
-export type ProductListing = {
+export type _ProductListing = {
   /** The unique identifer of the product this listing is for. The primary key for this resource.  */
   product_id?: number;
   /** The date and time when the product was created. The API returns this in ISO 8601.  */
@@ -2922,14 +2922,14 @@ export type ProductListing = {
   taxable: Specifies whether or not a tax is charged when the product variant is sold.
   title: The title of the product variant.
   updated_at: The date and time when the product variant was last modified. The API returns this in ISO 8601.  */
-  variants?: Variant[];
+  variants?: _Variant[];
   /** A list of image objects, each one representing an image associated with the product.  */
-  images?: Image[];
+  images?: _Image[];
   /** Custom product property names like "Size", "Color", and "Material".  */
-  options?: Option[];
+  options?: _Option[];
 };
 
-export type CarrierService = {
+export type _CarrierService = {
   /** The ID of the carrier service.  */
   id?: number;
   /** The name of the shipping service as seen by merchants and their customers.  */
@@ -2948,12 +2948,12 @@ export type CarrierService = {
   callback_url?: string;
 };
 
-export type DeliveryMethod = {
+export type _DeliveryMethod = {
   id?: number;
   method_type?: string;
 };
 
-export type ShippingAddress = {
+export type _ShippingAddress = {
   first_name?: string;
   address1?: string;
   phone?: string;
@@ -2975,7 +2975,7 @@ export type ShippingAddress = {
   default?: boolean;
 };
 
-export type AppliedDiscount = {
+export type _AppliedDiscount = {
   title?: string;
   value?: string;
   amount?: string;
@@ -2986,7 +2986,7 @@ export type AppliedDiscount = {
   non_applicable_reason?: string;
 };
 
-export type PaymentSchedule = {
+export type _PaymentSchedule = {
   amount?: number;
   due_at?: Date;
   currency?: string;
@@ -2995,42 +2995,42 @@ export type PaymentSchedule = {
   expected_payment_method?: string;
 };
 
-export type OrderAdjustment = {
+export type _OrderAdjustment = {
   id?: number;
   amount?: string;
-  amount_set?: PriceSet;
+  amount_set?: _PriceSet;
   kind?: string;
   order_id?: number;
   reason?: string;
   refund_id?: number;
   tax_amount?: string;
-  tax_amount_set?: PriceSet;
+  tax_amount_set?: _PriceSet;
 };
 
-export type FulfillmentHold = {
+export type _FulfillmentHold = {
   reason?: string;
   reason_notes?: string;
 };
 
-export type MerchantRequest = {
+export type _MerchantRequest = {
   kind?: string;
   message?: string;
-  request_options?: RequestOption;
+  request_options?: _RequestOption;
 };
 
-export type OutgoingRequest = {
+export type _OutgoingRequest = {
   message?: string;
-  request_options?: RequestOption;
+  request_options?: _RequestOption;
   sent_at?: Date;
   kind?: string;
 };
 
-export type MarketedResource = {
+export type _MarketedResource = {
   id?: number;
   type?: string;
 };
 
-export type CustomCollection = {
+export type _CustomCollection = {
   /** The ID for the custom collection.  */
   id?: number;
   /** A human-friendly unique string for the custom collection automatically generated from its title. This is used in shop themes by the Liquid templating language to refer to the custom collection. (limit: 255 characters)  */
@@ -3069,25 +3069,25 @@ export type CustomCollection = {
   created_at: The time and date (ISO 8601 format) when the image was added to the collection.
   width: The width of the image in pixels.
   height: The height of the image in pixels.  */
-  image?: Image;
+  image?: _Image;
   products_count?: number;
   /** Whether the custom collection is published to the Online Store channel.  */
   published?: boolean;
 };
 
-export type PresentmentPrice = {
-  price?: Price;
-  compare_at_price?: Price;
-  presentment_prices?: PresentmentPrice[];
+export type _PresentmentPrice = {
+  price?: _Price;
+  compare_at_price?: _Price;
+  presentment_prices?: _PresentmentPrice[];
 };
 
-export type ResourceFeedback = {
+export type _ResourceFeedback = {
   /** DateTime when the resource feedback record was stored by Shopify.
   Type: ISO 8601 UTC DateTime as string with year, month (or week), day, hour, minute, second, time zone.  */
-  created_at?: string;
+  created_at?: Date;
   /** DateTime when the resource feedback record was last updated by Shopify.
   Type: ISO 8601 UTC DateTime as string with year, month (or week), day, hour, minute, second, time zone.  */
-  updated_at?: string;
+  updated_at?: Date;
   /** Unique id of the resource.  */
   resource_id?: number;
   /** Type of resource for which feedback is returned. eg. Shop, Product.  */
@@ -3096,7 +3096,7 @@ export type ResourceFeedback = {
   based on merchant actions.
   When required, it is used along with feedback_generated_at to help determine whether incoming
   feedback is outdated compared to feedback already received, and if it should be ignored upon arrival.  */
-  resource_updated_at?: string;
+  resource_updated_at?: Date;
   /** A concise set of copy strings to be displayed to merchants, to guide them in resolving problems your app
   encounters when trying to make use of their Shop and its resources.
   Required only when state is requires_action. Disallowed when state is success.
@@ -3110,12 +3110,12 @@ export type ResourceFeedback = {
   Note
   If you queue a Feedback API payload for delivery at a later time, do not update this value
   when the API call is actually made; ensure that the current time is set when building the payload.  */
-  feedback_generated_at?: string;
+  feedback_generated_at?: Date;
   /** Indicates the state that the Shop or resource is in, from the perspective of your app.  */
   state?: string;
 };
 
-export type FulfillmentOrder = {
+export type _FulfillmentOrder = {
   /** The ID of the fulfillment order.  */
   id?: number;
   /** The ID of the shop that's associated with the fulfillment order.  */
@@ -3158,7 +3158,7 @@ export type FulfillmentOrder = {
   phone: The phone number of the customer at the destination.
   province: The province of the destination.
   zip: The ZIP code of the destination.  */
-  destination?: Destination;
+  destination?: _Destination;
   /** Represents line items belonging to a fulfillment order:
   id: The ID of the fulfillment order line item.
   shop_id: The ID of the shop associated with the fulfillment order line item.
@@ -3167,8 +3167,8 @@ export type FulfillmentOrder = {
   inventory_item_id: The ID of the inventory item associated with this fulfillment order line item.
   quantity: The total number of units to be fulfilled.
   fulfillable_quantity: The number of units remaining to be fulfilled.  */
-  line_items?: LineItem[];
-  outgoing_requests?: OutgoingRequest[];
+  line_items?: _LineItem[];
+  outgoing_requests?: _OutgoingRequest[];
   fulfillment_service_handle?: string;
   /** The fulfillment order's assigned location. This is the location expected to perform fulfillment.
   address1: The street address of the assigned location.
@@ -3180,13 +3180,13 @@ export type FulfillmentOrder = {
   phone: The phone number of the assigned location.
   province: The province of the assigned location.
   zip: The ZIP code of the assigned location.  */
-  assigned_location?: Origin;
-  origin?: Origin;
+  assigned_location?: _Origin;
+  origin?: _Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */
-  merchant_requests?: MerchantRequest[];
+  merchant_requests?: _MerchantRequest[];
   /** The date and time at which the fulfillment order will be fulfillable.
   When this date and time is reached, a scheduled fulfillment order is automatically transitioned to open.
   For more information about fulfillment statuses, refer to the status property.  */
@@ -3195,11 +3195,11 @@ export type FulfillmentOrder = {
   incoterm: The method of duties payment. Valid values:
   DAP: Delivered at place.
   DDP: Delivered duty paid.  */
-  international_duties?: InternationalDuty;
+  international_duties?: _InternationalDuty;
   /** Represents the fulfillment holds applied on the fulfillment order.
   reason: The reason for the fulfillment hold.
   reason_notes: Additional information about the fulfillment hold reason.  */
-  fulfillment_holds?: FulfillmentHold[];
+  fulfillment_holds?: _FulfillmentHold[];
   /** The type of method used to transfer a product or service to a customer.
   id: The ID of the delivery method.
   method_type: The type of delivery method. Valid values:
@@ -3208,10 +3208,10 @@ export type FulfillmentOrder = {
   pick_up: A delivery that a customer picks up at your retail store, curbside, or any location that you choose.
   retail: Items delivered immediately in a retail store.
   shipping: A delivery to a customer using a shipping carrier.  */
-  delivery_method?: DeliveryMethod;
+  delivery_method?: _DeliveryMethod;
 };
 
-export type FulfillmentEvent = {
+export type _FulfillmentEvent = {
   /** An ID for the fulfillment event.  */
   id?: number;
   /** An ID for the fulfillment that's associated with the fulfillment event.  */
@@ -3259,8 +3259,8 @@ export type FulfillmentEvent = {
   admin_graphql_api_id?: string;
 };
 
-export type LocationsForMove = {
-  location?: Location;
+export type _LocationsForMove = {
+  location?: _Location;
   message?: string;
   movable?: boolean;
   /** A list of locations that a fulfillment order can potentially move to.
@@ -3268,10 +3268,10 @@ export type LocationsForMove = {
   movable: Whether the fulfillment order can be moved to the location.
   message: A human-readable string with the reason why the fulfillment order,
   or some of its line items, can't be moved to the location.  */
-  locations_for_move?: LocationsForMove[];
+  locations_for_move?: _LocationsForMove[];
 };
 
-export type ApplicationCharge = {
+export type _ApplicationCharge = {
   /** The ID of the application charge.  */
   id?: number;
   /** The application charge name.  */
@@ -3300,7 +3300,7 @@ export type ApplicationCharge = {
   confirmation_url?: string;
 };
 
-export type ApplicationCredit = {
+export type _ApplicationCredit = {
   /** The ID of the application credit.  */
   id?: number;
   /** The amount refunded by the application credit.  */
@@ -3311,11 +3311,11 @@ export type ApplicationCredit = {
   test?: boolean;
 };
 
-export type EntitledCountryId = {
+export type _EntitledCountryId = {
   _entitled_country_ids?: number[];
 };
 
-export type CollectionListing = {
+export type _CollectionListing = {
   /** Identifies which collection this listing is for.  */
   collection_id?: number;
   /** The date and time when the collection was last modified. The API returns this in ISO_8601.  */
@@ -3323,11 +3323,11 @@ export type CollectionListing = {
   /** The description of the collection, complete with HTML formatting.  */
   body_html?: string;
   /** The default product image for a collection.  */
-  default_product_image?: DefaultProductImage;
+  default_product_image?: _DefaultProductImage;
   /** A human-friendly unique string for the Collection automatically generated from its title.  */
   handle?: string;
   /** The image for a collection.  */
-  image?: Image;
+  image?: _Image;
   /** The name of the collection.  */
   title?: string;
   /** The order in which products in the collection appear. Valid values are:
@@ -3344,11 +3344,11 @@ export type CollectionListing = {
   published_at?: Date;
 };
 
-export type InternationalDuty = {
+export type _InternationalDuty = {
   incoterm?: string;
 };
 
-export type TenderTransaction = {
+export type _TenderTransaction = {
   /** The ID of the transaction.  */
   id?: number;
   /** The ID of the order that the tender transaction belongs to.  */
@@ -3368,7 +3368,7 @@ export type TenderTransaction = {
   /** Information about the payment instrument used for this transaction. It has the following properties:
   credit_card_company: The name of the company that issued the customer's credit card.
   credit_card_number: The customer's credit card number, with most of the leading digits redacted.  */
-  payment_details?: PaymentDetail;
+  payment_details?: _PaymentDetail;
   /** Information about the payment method used for this transaction. Valid values:
   credit_card
   cash
@@ -3385,9 +3385,9 @@ export type TenderTransaction = {
   payment_method?: string;
 };
 
-export type DiscountAllocation = {
+export type _DiscountAllocation = {
   amount?: string;
-  amount_set?: PriceSet;
+  amount_set?: _PriceSet;
   discount_application_index?: number;
   /** A unique numeric identifier for the blog.  */
   id?: number;
@@ -3398,7 +3398,7 @@ export type DiscountAllocation = {
   application_type?: string;
 };
 
-export type DeprecatedApiCalls = {
+export type _DeprecatedApiCalls = {
   api_type?: string;
   description?: string;
   documentation_url?: string;
@@ -3418,10 +3418,10 @@ export type DeprecatedApiCalls = {
   migration_deadline: The time (ISO 4217 format) when the deprecated API call will be removed.
   graphql_schema_name: The name of the GraphQL schema. If the call wasn't made to a GraphQL API, then this value is null.
   version: The earliest API version to migrate to in order to avoid making the deprecated API calls.  */
-  deprecated_api_calls?: DeprecatedApiCalls;
+  deprecated_api_calls?: _DeprecatedApiCalls;
 };
 
-export type FulfillmentService = {
+export type _FulfillmentService = {
   id?: number;
   /** The name of the fulfillment service as seen by merchants.  */
   name?: string;
@@ -3452,14 +3452,14 @@ export type FulfillmentService = {
   requires_shipping_method?: boolean;
 };
 
-export type SmsMarketingConsent = {
+export type _SmsMarketingConsent = {
   state?: string;
   opt_in_level?: string;
   consent_updated_at?: Date;
   consent_collected_from?: string;
 };
 
-export type DiscountApplication = {
+export type _DiscountApplication = {
   target_type?: string;
   type?: string;
   value?: string;
@@ -3471,7 +3471,7 @@ export type DiscountApplication = {
   description?: string;
 };
 
-export type CustomerSavedSearch = {
+export type _CustomerSavedSearch = {
   /** A unique identifier for the customer saved search.  */
   id?: number;
   /** The name given by the shop owner to the customer saved search.  */
@@ -3484,7 +3484,7 @@ export type CustomerSavedSearch = {
   query?: string;
 };
 
-export type DefaultProductImage = {
+export type _DefaultProductImage = {
   id?: number;
   created_at?: Date;
   position?: number;
@@ -3497,7 +3497,7 @@ export type DefaultProductImage = {
   height?: number;
 };
 
-export type DiscountCodeCreation = {
+export type _DiscountCodeCreation = {
   id?: number;
   price_rule_id?: number;
   /** The time when the marketing action was started.  */
@@ -3513,7 +3513,7 @@ export type DiscountCodeCreation = {
   logs?: unknown[];
 };
 
-export type StorefrontAccessToken = {
+export type _StorefrontAccessToken = {
   /** The issued public access token.  */
   access_token?: string;
   /** An application-dependant, comma separated list of permissions associated with the token.  */
@@ -3529,7 +3529,7 @@ export type StorefrontAccessToken = {
   title?: string;
 };
 
-export type MovedFulfillmentOrder = {
+export type _MovedFulfillmentOrder = {
   id?: number;
   shop_id?: number;
   order_id?: number;
@@ -3537,20 +3537,20 @@ export type MovedFulfillmentOrder = {
   request_status?: string;
   status?: string;
   supported_actions?: string[];
-  destination?: Destination;
-  line_items?: LineItem[];
+  destination?: _Destination;
+  line_items?: _LineItem[];
   fulfillment_service_handle?: string;
-  assigned_location?: Origin;
+  assigned_location?: _Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */
-  merchant_requests?: MerchantRequest[];
-  origin?: Origin;
-  outgoing_requests?: OutgoingRequest[];
+  merchant_requests?: _MerchantRequest[];
+  origin?: _Origin;
+  outgoing_requests?: _OutgoingRequest[];
 };
 
-export type WeightBasedShippingRate = {
+export type _WeightBasedShippingRate = {
   id?: number;
   name?: string;
   price?: string;
@@ -3561,7 +3561,7 @@ export type WeightBasedShippingRate = {
   max_order_subtotal?: string;
 };
 
-export type OriginalFulfillmentOrder = {
+export type _OriginalFulfillmentOrder = {
   id?: number;
   shop_id?: number;
   order_id?: number;
@@ -3569,24 +3569,24 @@ export type OriginalFulfillmentOrder = {
   request_status?: string;
   status?: string;
   supported_actions?: string[];
-  destination?: Destination;
-  line_items?: LineItem[];
+  destination?: _Destination;
+  line_items?: _LineItem[];
   fulfillment_service_handle?: string;
-  assigned_location?: Origin;
+  assigned_location?: _Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */
-  merchant_requests?: MerchantRequest[];
-  origin?: Origin;
-  outgoing_requests?: OutgoingRequest[];
+  merchant_requests?: _MerchantRequest[];
+  origin?: _Origin;
+  outgoing_requests?: _OutgoingRequest[];
 };
 
-export type PrerequisiteSubtotalRange = {
+export type _PrerequisiteSubtotalRange = {
   greater_than_or_equal_to?: string;
 };
 
-export type MobilePlatformApplication = {
+export type _MobilePlatformApplication = {
   /** Unique numeric identifier for the mobile platform application.  */
   id?: number;
   /** iOS App ID or Android application ID of the application.  */
@@ -3603,7 +3603,7 @@ export type MobilePlatformApplication = {
   enabled_shared_webcredentials?: boolean;
 };
 
-export type RecurringApplicationCharge = {
+export type _RecurringApplicationCharge = {
   /** The ID of the recurring application charge.  */
   id?: number;
   /** The name of the recurring application charge.  */
@@ -3652,12 +3652,12 @@ export type RecurringApplicationCharge = {
   terms?: string;
 };
 
-export type CountryHarmonizedSystemCode = {
+export type _CountryHarmonizedSystemCode = {
   country_code?: string;
   harmonized_system_code?: string;
 };
 
-export type ReplacementFulfillmentOrder = {
+export type _ReplacementFulfillmentOrder = {
   id?: number;
   shop_id?: number;
   order_id?: number;
@@ -3665,46 +3665,46 @@ export type ReplacementFulfillmentOrder = {
   request_status?: string;
   status?: string;
   supported_actions?: string[];
-  destination?: Destination;
-  line_items?: LineItem[];
+  destination?: _Destination;
+  line_items?: _LineItem[];
   fulfillment_service_handle?: string;
-  assigned_location?: Origin;
+  assigned_location?: _Origin;
   /** A list of requests sent by the merchant to the fulfillment service for this fulfillment order.
   message: The message returned by the merchant, if any.
   request_options: The request options returned by the merchant, if any.
   kind: The kind of request. Valid values: fulfillment_request, cancellation_request, or legacy_fulfill_request.  */
-  merchant_requests?: MerchantRequest[];
-  origin?: Origin;
-  outgoing_requests?: OutgoingRequest[];
+  merchant_requests?: _MerchantRequest[];
+  origin?: _Origin;
+  outgoing_requests?: _OutgoingRequest[];
 };
 
-export type CarrierShippingRateProvider = {
+export type _CarrierShippingRateProvider = {
   id?: number;
   carrier_service_id?: number;
   flat_modifier?: string;
   percent_modifier?: string;
-  service_filter?: ServiceFilter;
+  service_filter?: _ServiceFilter;
   shipping_zone_id?: number;
 };
 
-export type PrerequisiteShippingPriceRange = {
+export type _PrerequisiteShippingPriceRange = {
   less_than_or_equal_to?: string;
 };
 
-export type ExtendedAuthorizationAttribute = {
+export type _ExtendedAuthorizationAttribute = {
   [T: string]: unknown;
 };
 
-export type PrerequisiteToEntitlementPurchase = {
+export type _PrerequisiteToEntitlementPurchase = {
   prerequisite_amount?: string;
 };
 
-export type PrerequisiteToEntitlementQuantityRatio = {
+export type _PrerequisiteToEntitlementQuantityRatio = {
   prerequisite_quantity?: number;
   entitled_quantity?: number;
 };
 
-export type CheckoutGiftCard = {
+export type _CheckoutGiftCard = {
   id?: number;
   balance?: string;
   amount_used?: string;

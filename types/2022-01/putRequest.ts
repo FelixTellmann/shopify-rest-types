@@ -1,4 +1,4 @@
-import { ShippingAddress, Collection } from "./root-types";
+import { ShippingAddress, Collection } from "types/2022-01/types";
 
 export type ReportId = number;
 export type RecurringApplicationChargeId = number;
@@ -37,35 +37,28 @@ export type FulfillmentServiceId = number;
 export type CountryId = number;
 export type ProvinceId = number;
 
-
 export type PutPaths =
   | {
       /** Updates a report  */
       path: `reports/${ReportId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates the capped amount of an active recurring application charge. Note that you cannot use this endpoint to update  an [Annual subscription](https://shopify.dev/apps/billing/subscriptions/annual#limitations).  */
       path: `recurring_application_charges/${RecurringApplicationChargeId}/customize?recurring_application_charge[capped_amount]=200`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Updates a customer.  */
       path: `customers/${CustomerId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing customer address.  */
       path: `customers/${CustomerId}/addresses/${AddressId}`;
-      body: {
-      };
+      body: {};
       response: {
         customer_address: ShippingAddress;
       };
@@ -90,65 +83,49 @@ export type PutPaths =
   | {
       /** Updates a customer saved search.  */
       path: `customer_saved_searches/${CustomerSavedSearchId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing discount code  */
       path: `price_rules/${PriceRuleId}/discount_codes/${DiscountCodeId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing a price rule  */
       path: `price_rules/${PriceRuleId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Update a webhook subscription's topic or address URIs  */
       path: `webhooks/${WebhookId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing inventory item  */
       path: `inventory_items/${InventoryItemId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates a marketing event  */
       path: `marketing_events/${MarketingEventId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates a metafield.  */
       path: `metafields/${MetafieldId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       path: `blogs/${BlogId}/articles/${ArticleId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Creates or updates an asset for a theme.
@@ -160,66 +137,50 @@ export type PutPaths =
         /** The source URL of an image. Include in the body of the PUT request to upload the image to Shopify. */
         src?: string;
       };
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Update a blog  */
       path: `blogs/${BlogId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates a comment of an article  */
       path: `comments/${CommentId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates a page  */
       path: `pages/${PageId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing redirect  */
       path: `redirects/${RedirectId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates a script tag  */
       path: `script_tags/${ScriptTagId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing theme.  */
       path: `themes/${ThemeId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates a draft order  */
       path: `draft_orders/${DraftOrderId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Completes a draft order.
@@ -233,16 +194,13 @@ export type PutPaths =
       query: {
         payment_pending?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** This operation allows for updating properties of an order including `buyer_accepts_marketing`, `email`, `phone`, `note`, `tags`, `metafields` and `shipping_address_attributes`. It is not for editing the items of an order.  */
       path: `orders/${OrderId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an order risk
@@ -250,57 +208,49 @@ export type PutPaths =
       You cannot modify an order risk that was created by another application.
         */
       path: `orders/${OrderId}/risks/${RiskId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing gift card.
       The gift card's balance can't be changed via the API. You can change only the expiry date, note, and template suffix.  */
       path: `gift_cards/${GiftCardId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing custom collection  */
       path: `custom_collections/${CustomCollectionId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Update a product  */
       path: `products/${ProductId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Modify an existing product image  */
       path: `products/${ProductId}/images/${ImageId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing product variant  */
       path: `variants/${VariantId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates an existing smart collection  */
       path: `smart_collections/${SmartCollectionId}`;
       body: {
-        smart_collection: Omit<Collection, "admin_graphql_api_id" | "updated_at" | "rules" | "title"> & Required<Pick<Collection, "rules" | "title">>;
+        smart_collection: Omit<
+          Collection,
+          "admin_graphql_api_id" | "updated_at" | "rules" | "title"
+        > &
+          Required<Pick<Collection, "rules" | "title">>;
       };
       response: {
         smart_collection: Collection;
@@ -319,77 +269,59 @@ export type PutPaths =
   | {
       /** Modifies an existing checkout  */
       path: `checkouts/${Token}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create a collection listing to publish a collection to your app  */
       path: `collection_listings/${CollectionListingId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Update a mobile platform application  */
       path: `mobile_platform_applications/${MobilePlatformApplicationId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Create a product listing to publish a product to your app  */
       path: `product_listings/${ProductListingId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Updates a carrier service. Only the app that creates a carrier service can update it.  */
       path: `carrier_services/${CarrierServiceId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       /** Update information associated with a fulfillment  */
       path: `orders/${OrderId}/fulfillments/${FulfillmentId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
       path: `fulfillment_services/${FulfillmentServiceId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
-      /** 
+      /**
       Caution
       As of version 2020-10, the tax field is deprecated.
       Updates an existing country.  */
       path: `countries/${CountryId}`;
-      body: {
-      };
-      response: {
-      };
+      body: {};
+      response: {};
     }
   | {
-      /** 
+      /**
       Caution
       As of version 2020-10, the tax field is deprecated.
       Updates an existing province for a country.  */
       path: `countries/${CountryId}/provinces/${ProvinceId}`;
-      body: {
-      };
-      response: {
-      };
-    }
+      body: {};
+      response: {};
+    };

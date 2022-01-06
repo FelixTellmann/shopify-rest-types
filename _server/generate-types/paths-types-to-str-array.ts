@@ -106,14 +106,17 @@ export const pathsTypesToStrArray = (
   requestTypes.post.push(`export type PostPaths =\n`);
   requestTypes.delete.push(`export type DeletePaths =\n`);
 
-  routeArray.forEach((route) => {
+  routeArray.forEach((route, index) => {
+    if (index === 1) {
+      console.log({ types });
+    }
     route.readOnly.unshift("admin_graphql_api_id");
     const initReplace = Object.entries(replacements).find(([k, r]) => r.includes(route.apiName));
     if (initReplace || types[route.apiName]) {
-      const types = [];
+      const newTypes = [];
       const objects = [];
 
-      types.push(`  ${route.apiName}: {\n`);
+      newTypes.push(`  ${route.apiName}: {\n`);
       objects.push(`    this.${route.apiName}: {\n`);
 
       route.paths.forEach(({ url, action, comment, query, path, body, examples, ...rest }) => {
@@ -126,25 +129,25 @@ export const pathsTypesToStrArray = (
         /*= =============== PATH COMMENT ================ */
         if (comment && url) {
           arr.push(`      /** `);
-          types.push(`    /** `);
+          newTypes.push(`    /** `);
           comment = comment.replace(/(\n\s*\n)/gi, "\n");
           comment.split("\n").forEach((comment, i, arr2) => {
             if (i === 0 && i !== arr2.length - 1) {
               arr.push(`${comment.trim()}\n`);
-              types.push(`${comment.trim()}\n`);
+              newTypes.push(`${comment.trim()}\n`);
             } else if (i === 0 && i === arr2.length - 1) {
               arr.push(`${comment.trim()}`);
-              types.push(`${comment.trim()}`);
+              newTypes.push(`${comment.trim()}`);
             } else if (i !== arr2.length - 1) {
               arr.push(`      ${comment.trim()}\n`);
-              types.push(`    ${comment.trim()}\n`);
+              newTypes.push(`    ${comment.trim()}\n`);
             } else {
               arr.push(`      ${comment.trim()}`);
-              types.push(`    ${comment.trim()}`);
+              newTypes.push(`    ${comment.trim()}`);
             }
           });
           arr.push(`  */\n`);
-          types.push(`  */\n`);
+          newTypes.push(`  */\n`);
         }
 
         /*= =============== PATH ================ */
@@ -232,7 +235,7 @@ export const pathsTypesToStrArray = (
             }`
           );
           arr.push(`      path: \`${pathType}\`;\n`);
-          types.push(`    ${method}: `);
+          newTypes.push(`    ${method}: `);
           objects.push(
             `      ${method}: (params) => this.request({...params, path: '${pathType}', type: DataType.JSON, method: Method.Get} as RequestParams)`
           );
@@ -270,7 +273,7 @@ export const pathsTypesToStrArray = (
               const pascalKey = nameSnakeCaseToSingularPascalCase(key);
               const replace = Object.entries(replacements).find(([k, r]) => r.includes(pascalKey));
 
-              const type = types[pascalKey]
+              const type = newTypes[pascalKey]
                 ? pascalKey
                 : replace && replace[1].includes(pascalKey)
                 ? replace[0]
@@ -382,7 +385,7 @@ export const pathsTypesToStrArray = (
             responseKeys.forEach((key) => {
               const pascalKey = nameSnakeCaseToSingularPascalCase(key);
               const replace = Object.entries(replacements).find(([k, r]) => r.includes(pascalKey));
-              const type = types[pascalKey]
+              const type = newTypes[pascalKey]
                 ? pascalKey
                 : replace && replace[1].includes(pascalKey)
                 ? replace[0]
@@ -468,6 +471,7 @@ export const pathsTypesToStrArray = (
         arr.push(`    }\n`);
         requestTypes[action] = [...requestTypes[action], ...arr];
       });
+      console.log({ objects });
     }
   });
 

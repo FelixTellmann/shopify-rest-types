@@ -1,4 +1,4 @@
-import { ShippingAddress, Collection } from "./root-types";
+import { ShippingAddress, Collection } from "types/2022-01/types";
 
 export type ReportId = number;
 export type ApplicationChargeId = number;
@@ -52,19 +52,16 @@ export type PayoutId = number;
 export type CountryId = number;
 export type ProvinceId = number;
 
-
 export type GetPaths =
   | {
       /** Retrieves a list of access scopes associated with the access token.  */
       path: `/admin/oauth/access_scopes`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of storefront access tokens that have been issued  */
       path: `storefront_access_tokens`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single report created by your app  */
@@ -73,8 +70,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of reports. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -93,8 +89,7 @@ export type GetPaths =
         /** Show reports last updated after date. (format: 2014-04-25T16:15:47-04:00) */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves an application charge  */
@@ -103,8 +98,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of application charges  */
@@ -115,8 +109,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single application credit  */
@@ -125,8 +118,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves all application credits  */
@@ -135,8 +127,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single charge  */
@@ -145,8 +136,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of recurring application charges  */
@@ -157,8 +147,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single charge  */
@@ -167,8 +156,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of usage charges  */
@@ -177,14 +165,12 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Deletes a customer. A customer can't be deleted if they have existing orders.  */
       path: `customers/${CustomerId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of all customers.  */
@@ -214,8 +200,7 @@ export type GetPaths =
         /** Show customers last updated after a specified date.(format: 2014-04-25T16:15:47-04:00) */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Searches for customers that match a supplied query. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -230,14 +215,12 @@ export type GetPaths =
         /** Text to search for in the shop's customer data. Note: Supported queries: accepts_marketing, activation_date, address1, address2, city, company, country, customer_date, customer_first_name, customer_id, customer_last_name, customer_tag, email, email_marketing_state, first_name, first_order_date, id, last_abandoned_order_date, last_name, multipass_identifier, orders_count, order_date, phone, province, shop_id, state, tag, total_spent, updated_at, verified_email, product_subscriber_status. All other queries returns all customers.  */
         query?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves all open orders belonging to a customer. The query string parameters that are available to the  Order resource are also available to this endpoint.  */
       path: `customers/${CustomerId}/orders`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves details a single customer address.  */
@@ -249,8 +232,7 @@ export type GetPaths =
   | {
       /** Retrieves a list of addresses for a customer. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
       path: `customers/${CustomerId}/addresses?limit=1`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of all customer saved searches.  */
@@ -270,8 +252,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of customer saved searches. Note: As of version 2019-07, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -284,8 +265,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves all customers returned by a customer saved search.  */
@@ -298,8 +278,7 @@ export type GetPaths =
         /** Set the field and direction by which to order results. */
         order?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of deprecated API calls made by your private apps in the past 30 days.  */
@@ -311,8 +290,7 @@ export type GetPaths =
   | {
       /** Retrieves a single discount code  */
       path: `price_rules/${PriceRuleId}/discount_codes/${DiscountCodeId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves the location of a discount code.
@@ -342,28 +320,24 @@ export type GetPaths =
   | {
       /** Retrieves a discount code creation job  */
       path: `price_rules/${PriceRuleId}/batch/${BatchId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a list of discount codes. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
       path: `price_rules/${PriceRuleId}/discount_codes`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of discount codes for a discount code creation job.
       Discount codes that have been successfully created include a populated id field. Discount codes that
       encountered errors during the creation process include a populated errors field.  */
       path: `price_rules/${PriceRuleId}/batch/${BatchId}/discount_codes`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single price rule  */
       path: `price_rules/${PriceRuleId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of all price rules.  */
@@ -399,8 +373,7 @@ export type GetPaths =
         /** Show price rules last updated after date (format 2017-03-25T16:15:47-04:00). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single event by its ID  */
@@ -409,8 +382,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of events  */
@@ -444,8 +416,7 @@ export type GetPaths =
         /** Show events of a certain type. */
         verb?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of existing webhook subscriptions. The results can be filtered by address or by topic.  */
@@ -467,8 +438,7 @@ export type GetPaths =
         /** Comma-separated list of the properties you want returned for each item in the result list. Use this parameter to restrict the returned list of items to only those properties you specify. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of webhooks.  */
@@ -493,14 +463,12 @@ export type GetPaths =
         /** Retrieve webhooks that were updated before a given date and time (format: 2014-04-25T16:15:47-04:00). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single inventory item by ID  */
       path: `inventory_items/${InventoryItemId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of inventory items. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -511,8 +479,7 @@ export type GetPaths =
         /** The maximum number of results to show. */
         limit?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of inventory levels.
@@ -529,14 +496,12 @@ export type GetPaths =
         /** Show inventory levels updated at or after date (format: 2019-03-19T01:21:44-04:00). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single location by its ID  */
       path: `locations/${LocationId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of locations  */
@@ -548,14 +513,12 @@ export type GetPaths =
   | {
       /** Retrieves a list of locations  */
       path: `locations`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of inventory levels for a location. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
       path: `locations/${LocationId}/inventory_levels`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of all marketing events  */
@@ -567,8 +530,7 @@ export type GetPaths =
   | {
       /** Retrieves a single marketing event  */
       path: `marketing_events/${MarketingEventId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of all marketing events. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -579,8 +541,7 @@ export type GetPaths =
         /** The number of marketing events to skip. */
         offset?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of a resource's metafields.  */
@@ -596,8 +557,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of metafields that belong to a resource. Note: As of version 2019-07, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -626,8 +586,7 @@ export type GetPaths =
         /** The metafield's information type. */
         value_type?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of metafields that belong to a Product Image resource.  */
@@ -638,8 +597,7 @@ export type GetPaths =
         /** Retrieves a list of metafields by the type of resource that metafield belongs to. */
         "metafield[owner_resource]"?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       path: `blogs/${BlogId}/articles/count`;
@@ -670,8 +628,7 @@ export type GetPaths =
         /** Show only certain fields, specifed by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of all articles from a blog. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -704,8 +661,7 @@ export type GetPaths =
         /** Show articles last updated after date (format: 2014-04-25T16:15:47-04:00). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       path: `articles/authors`;
@@ -736,8 +692,7 @@ export type GetPaths =
         /** Specify which fields to show using a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of assets for a theme.
@@ -747,8 +702,7 @@ export type GetPaths =
         /** Specify which fields to show using a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Get a count of all blogs  */
@@ -764,8 +718,7 @@ export type GetPaths =
         /** comma-separated list of fields to include in the response */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a list of all blogs. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -780,8 +733,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of comments  */
@@ -815,8 +767,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of comments. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -845,8 +796,7 @@ export type GetPaths =
         /** Show comments last updated after date (format: 2014-04-25T16:15:47-04:00). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a page count.  */
@@ -880,8 +830,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a list of all pages. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -912,8 +861,7 @@ export type GetPaths =
         /** Show pages last updated after date (format: 2008-12-31). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of URL redirects  */
@@ -935,8 +883,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of URL redirects. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -953,8 +900,7 @@ export type GetPaths =
         /** Show redirects with a given target. */
         target?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of all script tags  */
@@ -974,8 +920,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of all script tags. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -998,8 +943,7 @@ export type GetPaths =
         /** Show script tags last updated after this date. (format: 2014-04-25T16:15:47-04:00) */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single theme.  */
@@ -1008,8 +952,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of themes.  */
@@ -1018,8 +961,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of checkouts from the past 90 days  */
@@ -1061,8 +1003,7 @@ export type GetPaths =
         /** Show checkouts last updated after the specified date. (format: 2014-04-25T16:15:47-04:00) */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a specific draft order  */
@@ -1071,8 +1012,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of draft orders  */
@@ -1109,8 +1049,7 @@ export type GetPaths =
         /** Show orders last updated after date (format: 2014-04-25T16:15:47-04:00) */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve an order by specifying the ID. All fields of an order are returned unless specific fields are named.  */
@@ -1119,8 +1058,7 @@ export type GetPaths =
         /** Retrieve only certain fields, specified by a comma-separated list of fields names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve the total number of orders that meet the specified criteria.  */
@@ -1178,20 +1116,17 @@ export type GetPaths =
         /** Show orders last updated at or after date. */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single order risk by its ID  */
       path: `orders/${OrderId}/risks/${RiskId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of all order risks for an order. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
       path: `orders/${OrderId}/risks`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a specific refund.  */
@@ -1202,8 +1137,7 @@ export type GetPaths =
         /** Show amounts in the shop currency for the underlying transaction. */
         in_shop_currency?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of refunds for an order. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1216,8 +1150,7 @@ export type GetPaths =
         /** The maximum number of results to retrieve. */
         limit?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of an order's transactions.  */
@@ -1237,8 +1170,7 @@ export type GetPaths =
         /** Show amounts in the shop currency. */
         in_shop_currency?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of transactions.
@@ -1252,14 +1184,12 @@ export type GetPaths =
         /** Retrieve only transactions after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single gift card by its ID  */
       path: `gift_cards/${GiftCardId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of gift cards  */
@@ -1285,8 +1215,7 @@ export type GetPaths =
         /** Retrieve gift cards with a given status. Valid values: */
         status?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Searches for gift cards that match a supplied query. The following fields are indexed by search:
@@ -1310,20 +1239,17 @@ export type GetPaths =
         /** The text to search for. */
         query?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single user  */
       path: `users/${UserId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves information about the user account associated with the access token used to make this API request. This request works only when the access token was created for a specific user of the shop.  */
       path: `users/current`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of all users. Note: As of version 2021-01, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1334,8 +1260,7 @@ export type GetPaths =
         /** A unique ID used to access a certain page of results. */
         page_info?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a specific collect by its ID.  */
@@ -1344,8 +1269,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of collects.  */
@@ -1365,8 +1289,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single collection  */
@@ -1375,8 +1298,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a list of products belonging to a collection. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.. The products returned are sorted by the collection's sort order.  */
@@ -1385,8 +1307,7 @@ export type GetPaths =
         /** The number of products to retrieve. */
         limit?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of custom collections  */
@@ -1418,8 +1339,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of custom collections. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1450,8 +1370,7 @@ export type GetPaths =
         /** Show custom collections last updated after date (format: 2014-04-25T16:15:47-04:00). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a count of products.  */
@@ -1489,8 +1408,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a list of products.  */
@@ -1533,8 +1451,7 @@ export type GetPaths =
         /** Return products by product vendor. */
         vendor?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Get a count of all product images  */
@@ -1554,8 +1471,7 @@ export type GetPaths =
         /** comma-separated list of fields to include in the response */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Get all product images  */
@@ -1566,8 +1482,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of product variants  */
@@ -1583,8 +1498,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of product variants. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1599,8 +1513,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of smart collections  */
@@ -1672,22 +1585,19 @@ export type GetPaths =
   | {
       /** Retrieves a checkout  */
       path: `checkouts/${Token}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of available shipping rates for the specified checkout. Implementers need to poll this endpoint until rates become available.
       Each shipping rate contains the checkout's new subtotal price, total tax, and total price in the event that this shipping rate is selected. This can be used to update the UI without performing further API requests.
       To apply a shipping rate, update the checkout's shipping line with the handle of the selected rate.  */
       path: `checkouts/${Token}/shipping_rates`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a specific collection listing that is published to your app  */
       path: `collection_listings/${CollectionListingId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve collection listings that are published to your app. Note: As of version 2019-07, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1696,8 +1606,7 @@ export type GetPaths =
         /** Amount of results */
         limit?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve product_ids that are published to a collection_id.       Note: As of version 2019-07, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1713,20 +1622,17 @@ export type GetPaths =
   | {
       /** Get a mobile platform application  */
       path: `mobile_platform_applications/${MobilePlatformApplicationId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** List the mobile platform applications  */
       path: `mobile_platform_applications`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves the payment information for an existing payment  */
       path: `checkouts/${Token}/payments/${PaymentId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Counts the number of payments attempted on a checkout  */
@@ -1738,8 +1644,7 @@ export type GetPaths =
   | {
       /** Retrieves a list of payments on a particular checkout  */
       path: `checkouts/${Token}/payments`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve all product feedback from your app associated with the product.  */
@@ -1748,8 +1653,7 @@ export type GetPaths =
         /** Retrieve feedback for a specific product, by product id. */
         product_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve a count of products that are published to your app  */
@@ -1761,8 +1665,7 @@ export type GetPaths =
   | {
       /** Retrieve a specific product listing that is published to your app  */
       path: `product_listings/${ProductListingId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve product listings that are published to your app. Note: As of version 2019-07, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1779,8 +1682,7 @@ export type GetPaths =
         /** Filter by product listings last updated after a certain date and time (formatted in ISO 8601) */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve product_ids that are published to your app. Maximum 1,000 results per page.  */
@@ -1799,8 +1701,7 @@ export type GetPaths =
       Note that ids are not returned as part of this request. Records are immutable except when POST replaces them.
         */
       path: `resource_feedback`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of fulfillment orders on a shop for a specific app.  */
@@ -1811,20 +1712,17 @@ export type GetPaths =
         /** The IDs of the assigned locations of the fulfillment orders that should be returned. */
         location_ids?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single carrier service by its ID  */
       path: `carrier_services/${CarrierServiceId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of carrier services  */
       path: `carrier_services`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of fulfillments associated with a specific order  */
@@ -1850,8 +1748,7 @@ export type GetPaths =
         /** Comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves fulfillments associated with an order. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -1872,8 +1769,7 @@ export type GetPaths =
         /** Show fulfillments last updated after date (format: 2014-04-25T16:15:47-04:00). */
         updated_at_min?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves fulfillments associated with a fulfillment order.  */
@@ -1882,8 +1778,7 @@ export type GetPaths =
         /** The ID of the fulfillment order that is associated with the fulfillments. */
         fulfillment_order_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a specific fulfillment event  */
@@ -1892,8 +1787,7 @@ export type GetPaths =
         /** The ID of the fulfillment event. */
         event_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of fulfillment events for a specific fulfillment  */
@@ -1904,14 +1798,12 @@ export type GetPaths =
         /** The ID of the order that's associated with the fulfillment event. */
         order_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a specific fulfillment order.  */
       path: `fulfillment_orders/${FulfillmentOrderId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of fulfillment orders for a specific order.  */
@@ -1920,21 +1812,18 @@ export type GetPaths =
         /** The ID of the order that is associated with the fulfillment orders. */
         order_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       path: `fulfillment_services/${FulfillmentServiceId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       path: `fulfillment_services`;
       query: {
         scope?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of locations that a fulfillment order can potentially move to.
@@ -1944,20 +1833,17 @@ export type GetPaths =
         /** The ID of the fulfillment order. */
         fulfillment_order_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves the account's current balance.  */
       path: `shopify_payments/balance`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single dispute by ID.  */
       path: `shopify_payments/disputes/${DisputeId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieve all disputes ordered by initiated_at date and time (ISO 8601 format), with the most recent being first.
@@ -1973,14 +1859,12 @@ export type GetPaths =
         /** Return only disputes with the specified status. */
         status?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a single payout by id.  */
       path: `shopify_payments/payouts/${PayoutId}`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of all payouts ordered by payout date, with the most recent being first.
@@ -2000,8 +1884,7 @@ export type GetPaths =
         /** Filter the response to payouts made with the specified status. */
         status?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of countries.  */
@@ -2017,8 +1900,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of countries.  */
@@ -2029,20 +1911,17 @@ export type GetPaths =
         /** Restrict results to after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of currencies enabled on a shop  */
       path: `currencies`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of the shop's policies  */
       path: `policies`;
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a count of provinces for a country  */
@@ -2058,8 +1937,7 @@ export type GetPaths =
         /** Show only certain fields, specified by a comma-separated list of field names. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of provinces  */
@@ -2070,8 +1948,7 @@ export type GetPaths =
         /** Restrict results to after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Get a list of all shipping zones  */
@@ -2080,8 +1957,7 @@ export type GetPaths =
         /** comma-separated list of fields to include in the response */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves the shop's configuration  */
@@ -2090,8 +1966,7 @@ export type GetPaths =
         /** A comma-separated list of fields to include in the response. */
         fields?: string;
       };
-      response: {
-      };
+      response: {};
     }
   | {
       /** Retrieves a list of tender transactions. Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. To learn more, see Making requests to paginated REST Admin API endpoints.  */
@@ -2110,6 +1985,5 @@ export type GetPaths =
         /** Retrieve only transactions after the specified ID. */
         since_id?: string;
       };
-      response: {
-      };
-    }
+      response: {};
+    };

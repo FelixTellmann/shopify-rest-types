@@ -3,7 +3,7 @@ import { getType } from "./get-type";
 export const jsonTypesToStrArray = (types: any) => {
   const resultArray = [];
   Object.entries(types).forEach(([type, obj], index, array) => {
-    resultArray.push(`export type ${type.replace(/\s/gi, "").replace(/^\*$/gi, '"*"')} = {\n`);
+    resultArray.push(`export type _${type.replace(/\s/gi, "").replace(/^\*$/gi, '"*"')} = {\n`);
 
     if (getType(obj) === "object") {
       if (JSON.stringify(obj) === "{}") {

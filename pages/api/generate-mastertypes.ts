@@ -7,6 +7,7 @@ import { getTypeAsString } from "_server/generate-types/get-type";
 import { getTypeByName } from "_server/generate-types/get-type-by-name";
 import { pathsTypesToStrArray } from "_server/generate-types/paths-types-to-str-array";
 import { sumPathTypes } from "_server/generate-types/summarize-types";
+import { transposePathToTypes } from "_server/generate-types/transpose-path-to-types";
 import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
@@ -332,12 +333,15 @@ export const ReadShopifyDev: ReadShopifyDevFunction = async (req, res) => {
     writeTypesToFile({ path: `types/${version}/root-types.ts`, types: jsonTypesToStrArray(types) });
 
     console.log({ replacements });
-    const requestTypes = pathsTypesToStrArray(types, routeArray, replacements);
+    // const requestTypes = pathsTypesToStrArray(types, routeArray, replacements);
+    const requestTypes = transposePathToTypes(types, routeArray, replacements);
 
-    writeTypesToFile({ path: `types/${version}/getRequest.ts`, types: requestTypes["get"] });
+    writeTypesToFile({ path: `types/${version}/types.ts`, types: requestTypes.types });
+
+    /*    writeTypesToFile({ path: `types/${version}/getRequest.ts`, types: requestTypes["get"] });
     writeTypesToFile({ path: `types/${version}/putRequest.ts`, types: requestTypes["put"] });
     writeTypesToFile({ path: `types/${version}/postRequest.ts`, types: requestTypes["post"] });
-    writeTypesToFile({ path: `types/${version}/deleteRequest.ts`, types: requestTypes["delete"] });
+    writeTypesToFile({ path: `types/${version}/deleteRequest.ts`, types: requestTypes["delete"] });*/
 
     res.status(200).json(types);
     return;
