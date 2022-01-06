@@ -13,19 +13,17 @@ export const jsonTypesToStrArray = (types: any) => {
         if (getType(val) === "object" && val["type"] && val["comment"]) {
           resultArray.push(`  /** `);
           val.comment = val.comment.replace(/(\n\s*\n)/gi, "\n");
-          val.comment
-            .split("\n")
-            .forEach((comment, i, arr) => {
-              if (i === 0 && i !== arr.length - 1) {
-                resultArray.push(`${comment.trim()}\n`);
-              } else if (i === 0 && i === arr.length - 1) {
-                resultArray.push(`${comment.trim()}`);
-              } else if (i !== arr.length - 1) {
-                resultArray.push(`  ${comment.trim()}\n`);
-              } else {
-                resultArray.push(`  ${comment.trim()}`);
-              }
-            });
+          val.comment.split("\n").forEach((comment, i, arr) => {
+            if (i === 0 && i !== arr.length - 1) {
+              resultArray.push(`${comment.trim()}\n`);
+            } else if (i === 0 && i === arr.length - 1) {
+              resultArray.push(`${comment.trim()}`);
+            } else if (i !== arr.length - 1) {
+              resultArray.push(`  ${comment.trim()}\n`);
+            } else {
+              resultArray.push(`  ${comment.trim()}`);
+            }
+          });
           resultArray.push(`  */\n`);
           resultArray.push(
             `  ${key

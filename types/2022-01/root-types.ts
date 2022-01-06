@@ -917,7 +917,7 @@ export type Webhook = {
   id?: number;
   /** Destination URI to which the webhook subscription should send the POST request when an event occurs.  */
   address?: string;
-  /** Event that triggers the webhook. Valid values are: app/uninstalled, bulk_operations/finish, carts/create, carts/update, checkouts/create, checkouts/delete, checkouts/update, collection_listings/add, collection_listings/remove, collection_listings/update, collections/create, collections/delete, collections/update, customer_groups/create, customer_groups/delete, customer_groups/update, customer_payment_methods/create, customer_payment_methods/revoke, customer_payment_methods/update, customers/create, customers/delete, customers/disable, customers/enable, customers/update, customers_marketing_consent/update, disputes/create, disputes/update, domains/create, domains/destroy, domains/update, draft_orders/create, draft_orders/delete, draft_orders/update, fulfillment_events/create, fulfillment_events/delete, fulfillments/create, fulfillments/update, inventory_items/create, inventory_items/delete, inventory_items/update, inventory_levels/connect, inventory_levels/disconnect, inventory_levels/update, locales/create, locales/update, locations/create, locations/delete, locations/update, order_transactions/create, orders/cancelled, orders/create, orders/delete, orders/edited, orders/fulfilled, orders/paid, orders/partially_fulfilled, orders/updated, product_listings/add, product_listings/remove, product_listings/update, products/create, products/delete, products/update, profiles/create, profiles/delete, profiles/update, refunds/create, selling_plan_groups/create, selling_plan_groups/delete, selling_plan_groups/update, shop/update, subscription_billing_attempts/challenged, subscription_billing_attempts/failure, subscription_billing_attempts/success, subscription_contracts/create, subscription_contracts/update, tender_transactions/create, themes/create, themes/delete, themes/publish, themes/update  */
+  /** Event that triggers the webhook. Valid values are: app/uninstalled, bulk_operations/finish, carts/create, carts/update, checkouts/create, checkouts/delete, checkouts/update, collection_listings/add, collection_listings/remove, collection_listings/update, collections/create, collections/delete, collections/update, customer_groups/create, customer_groups/delete, customer_groups/update, customer_payment_methods/create, customer_payment_methods/revoke, customer_payment_methods/update, customers/create, customers/delete, customers/disable, customers/enable, customers/update, customers_marketing_consent/update, disputes/create, disputes/update, domains/create, domains/destroy, domains/update, draft_orders/create, draft_orders/delete, draft_orders/update, fulfillment_events/create, fulfillment_events/delete, fulfillments/create, fulfillments/update, inventory_items/create, inventory_items/delete, inventory_items/update, inventory_levels/connect, inventory_levels/disconnect, inventory_levels/update, locales/create, locales/update, locations/create, locations/delete, locations/update, order_transactions/create, orders/cancelled, orders/create, orders/delete, orders/edited, orders/fulfilled, orders/paid, orders/partially_fulfilled, orders/updated, product_listings/add, product_listings/remove, product_listings/update, products/create, products/delete, products/update, profiles/create, profiles/delete, profiles/update, refunds/create, scheduled_product_listings/add, scheduled_product_listings/remove, scheduled_product_listings/update, selling_plan_groups/create, selling_plan_groups/delete, selling_plan_groups/update, shop/update, subscription_billing_attempts/challenged, subscription_billing_attempts/failure, subscription_billing_attempts/success, subscription_contracts/create, subscription_contracts/update, tender_transactions/create, themes/create, themes/delete, themes/publish, themes/update  */
   topic?: string;
   /** Date and time when the webhook subscription was created. The API returns this value in ISO 8601 format.  */
   created_at?: Date;
@@ -1446,7 +1446,7 @@ export type Customer = {
   key (required): An identifier for the metafield (maximum of 30 characters).
   namespace(required): A container for a set of metadata (maximum of 20 characters). Namespaces help distinguish between metadata that you created and metadata created by another individual with a similar namespace.
   value (required): Information to be stored as metadata.
-  value_type (required): The value type. Valid values: string and integer.
+  type (required): The type. See the full list of types.
   description (optional): Additional information about the metafield.  */
   metafield?: Metafield;
 };
@@ -1855,6 +1855,8 @@ export type Province = {
 export type Metafield = {
   /** The name of the metafield. Minimum length: 3 characters. Maximum length: 30 characters.  */
   key?: string;
+  /** The metafield's information type. See the full list of types.  */
+  type?: string;
   /** The information to be stored as metadata. Maximum length: 512 characters when metafield namespace is equal to tags and key is equal to alt.
   When using type, see this list of validations.
   When using the deprecated value_type, the maximum length of value varies:
@@ -1866,12 +1868,12 @@ export type Metafield = {
   for your metafields to distinguish them from the metafields used by other apps. Minimum length: 2 characters.
   Maximum length: 20 characters.  */
   namespace?: string;
+  /** The unique ID of the metafield.  */
+  id?: number;
   /** Caution
   value_type is deprecated and replaced by type in API version 2021-07.
   The metafield's information type. Valid values: string, integer, json_string.  */
   value_type?: string;
-  /** The unique ID of the metafield.  */
-  id?: number;
   /** A description of the information that the metafield contains.  */
   description?: string;
   /** The unique ID of the resource that the metafield is attached to.  */
@@ -1882,8 +1884,6 @@ export type Metafield = {
   updated_at?: Date;
   /** The type of resource that the metafield is attached to.  */
   owner_resource?: string;
-  /** The metafield's information type. See the full list of types.  */
-  type?: string;
   admin_graphql_api_id?: string;
 };
 
@@ -2570,6 +2570,15 @@ export type Transaction = {
   amount_out?: string;
   amount_rounding?: string;
   transaction_group_id?: number;
+  type?: string;
+  payout_id?: number;
+  payout_status?: string;
+  fee?: string;
+  net?: string;
+  source_id?: number;
+  source_type?: string;
+  source_order_id?: number;
+  source_order_transaction_id?: number;
   /** The attributes associated with a Shopify Payments refund. It has the following attributes:
   status: The current status of the refund. Valid values: pending, failure, success, and error.
   acquirer_reference_number: A unique number associated with the transaction that can be used to track the refund. This property has a value only for transactions completed with Visa or Mastercard.
@@ -3592,55 +3601,6 @@ export type MobilePlatformApplication = {
   enabled_universal_or_app_links?: boolean;
   /** Whether the application supports iOS shared web credentials.  */
   enabled_shared_webcredentials?: boolean;
-};
-
-export type ShopifyPaymentTransaction = {
-  /** The unique identifier of the transaction.  */
-  id?: number;
-  /** The type of the balance transaction. The value will be one of the following:
-  charge
-  refund
-  dispute
-  reserve
-  adjustment
-  credit
-  debit
-  payout
-  payout_failure
-  payout_cancellation  */
-  type?: string;
-  /** If the transaction was created for a test mode Order or payment.  */
-  test?: boolean;
-  /** The id of the payout the transaction was paid out in.  */
-  payout_id?: number;
-  /** The status of the payout the transaction was paid out in, or `pending`
-  if the transaction has not yet been included in a payout.  */
-  payout_status?: string;
-  /** The ISO 4217 currency code of the transaction.  */
-  currency?: string;
-  /** The gross amount of the transaction, in a decimal formatted string.  */
-  amount?: string;
-  /** The total amount of fees deducted from the transaction amount.  */
-  fee?: string;
-  /** The net amount of the transaction.  */
-  net?: string;
-  /** The id of the resource leading to the transaction.  */
-  source_id?: number;
-  /** The type of the resource leading to the transaction.
-  charge
-  refund
-  dispute
-  reserve
-  adjustment
-  payout  */
-  source_type?: string;
-  /** The id of the Order that this transaction ultimately originated from.  */
-  source_order_id?: number;
-  /** The id of the Order Transaction
-  that resulted in this balance transaction.  */
-  source_order_transaction_id?: number;
-  /** The time the transaction was processed.  */
-  processed_at?: Date;
 };
 
 export type RecurringApplicationCharge = {

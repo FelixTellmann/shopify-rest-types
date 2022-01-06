@@ -1,5 +1,3 @@
-import { TaxExemption, VariantId } from "types/2021-10/root-types";
-
 export const fixShopifyApiErrors = (masterTypes: any) => {
   if (masterTypes?.Checkout?.discount_code?.type) {
     masterTypes["Checkout"]["discount_code"]["type"] = "string";

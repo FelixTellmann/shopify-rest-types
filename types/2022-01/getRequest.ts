@@ -2004,26 +2004,6 @@ export type GetPaths =
       };
     }
   | {
-      /** Retrieves a list of all balance transactions ordered by processing
-      time, with the most recent being first.
-      Note: As of version 2019-10, this endpoint implements pagination by using links that are provided in the response header. Sending the page parameter will return an error. To learn more, see Making requests to paginated REST Admin API endpoints.  */
-      path: `shopify_payments/balance/transactions?payout_id=623721858`;
-      query: {
-        /** Filter response to transactions exclusively before the specified ID */
-        last_id?: string;
-        /** Filter response to transactions paid out in the specified payout. */
-        payout_id?: string;
-        /** Filter response to transactions with the specified payout status */
-        payout_status?: string;
-        /** Filter response to transactions exclusively after the specified ID. */
-        since_id?: string;
-        /** Filter response to transactions placed in test mode. */
-        test?: string;
-      };
-      response: {
-      };
-    }
-  | {
       /** Retrieves a count of countries.  */
       path: `countries/count`;
       response: {

@@ -11,10 +11,10 @@ import { getApiRoute } from "_server/get-api-route";
 import { stripHtml } from "_utils/string-manipulation";
 import { SHOPIFY } from "config/shopify";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { fixShopifyApiErrors } from "../../_server/generate-types/fix-shopify-api-errors";
-import { jsonTypesToStrArray } from "../../_server/generate-types/json-types-to-str-array";
-import { nameToSnakeCase } from "../../_server/generate-types/name-to-snake-case";
-import { writeTypesToFile } from "../../_utils/json-to-ts";
+import { fixShopifyApiErrors } from "_server/generate-types/fix-shopify-api-errors";
+import { jsonTypesToStrArray } from "_server/generate-types/json-types-to-str-array";
+import { nameToSnakeCase } from "_server/generate-types/name-to-snake-case";
+import { writeTypesToFile } from "_utils/json-to-ts";
 
 type ReadShopifyDevFunction = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
