@@ -24,7 +24,8 @@
     "node-forge": "^0.10.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-icons": "^4.3.1"
+    "react-icons": "^4.3.1",
+    "shopify-typed-node-api": "^2.0.2"
   },
   "devDependencies": {
     "@tailwindcss/jit": "^0.1.18",

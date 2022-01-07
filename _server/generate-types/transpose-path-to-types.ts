@@ -196,6 +196,7 @@ export const transposePathToTypes = (
       /*= =============== OPENING ================ */
       apiPath.push(`  export type ${snakeToPascal(method)} = {\n`);
       apiPath.push(`    path: \`${pathStr.split("?")[0]}\`;\n`);
+      apiPath.push(`    method: Method.${snakeToPascal(action)};\n`);
 
       /*= =============== QUERY ================ */
       if (query.length) {
